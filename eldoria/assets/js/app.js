@@ -4,9 +4,11 @@ import AOS from 'aos'
 import 'aos/dist/aos.css'
 import { initAnimations } from './animations.js'
 import { initParticles } from './particles.js'
+import { customizerComponent } from './customizer.js'
 
 window.Alpine = Alpine
 Alpine.plugin(persist)
+Alpine.data('customizer', customizerComponent)
 Alpine.start()
 
 document.addEventListener('DOMContentLoaded', () => {
