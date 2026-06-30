@@ -1,0 +1,40 @@
+{
+    "settings": [
+        {
+            "name": "color_accent",
+            "default": "#C9A84C"
+        },
+        {
+            "name": "color_accent_secondary",
+            "default": "#7B3F2E"
+        },
+        {
+            "name": "hero_slogan",
+            "default": "Bienvenue dans le royaume de..."
+        },
+        {
+            "name": "hero_image",
+            "default": ""
+        },
+        {
+            "name": "show_section_shop",
+            "default": "1"
+        },
+        {
+            "name": "show_section_vote",
+            "default": "1"
+        },
+        {
+            "name": "show_section_forum",
+            "default": "1"
+        },
+        {
+            "name": "footer_discord",
+            "default": ""
+        },
+        {
+            "name": "footer_twitter",
+            "default": ""
+        }
+    ]
+}
