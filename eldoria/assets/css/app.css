@@ -39,8 +39,12 @@
     }
 
     .card-eldoria {
-        @apply bg-bg-secondary border border-accent/20 rounded-sm
-               hover:border-accent/60 transition-all duration-300;
+        @apply bg-bg-secondary rounded-sm transition-all duration-300;
+        border: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent);
+    }
+
+    .card-eldoria:hover {
+        border-color: color-mix(in srgb, var(--color-accent) 60%, transparent);
     }
 
     .section-title {
