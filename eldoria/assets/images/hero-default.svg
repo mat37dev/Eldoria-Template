@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#080610;stop-opacity:1" />
+      <stop offset="40%" style="stop-color:#1A0E2E;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#2C1A1A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0F0D0A;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="moonGlow" cx="75%" cy="20%" r="20%">
+      <stop offset="0%" style="stop-color:#C9A84C;stop-opacity:0.15" />
+      <stop offset="100%" style="stop-color:#C9A84C;stop-opacity:0" />
+    </radialGradient>
+    <filter id="blur">
+      <feGaussianBlur stdDeviation="2" />
+    </filter>
+  </defs>
+
+  <!-- Sky background -->
+  <rect width="1920" height="1080" fill="url(#skyGrad)" />
+
+  <!-- Moon glow -->
+  <ellipse cx="1440" cy="216" rx="384" ry="216" fill="url(#moonGlow)" />
+
+  <!-- Moon -->
+  <circle cx="1440" cy="160" r="48" fill="#E8DCC8" opacity="0.9" />
+  <circle cx="1424" cy="152" r="44" fill="#1A0E2E" opacity="0.3" />
+
+  <!-- Stars -->
+  <g fill="#E8DCC8" opacity="0.6">
+    <circle cx="120" cy="80" r="1.5" /><circle cx="280" cy="40" r="1" /><circle cx="400" cy="120" r="1.5" />
+    <circle cx="560" cy="60" r="1" /><circle cx="700" cy="100" r="2" /><circle cx="850" cy="30" r="1" />
+    <circle cx="1000" cy="90" r="1.5" /><circle cx="1160" cy="50" r="1" /><circle cx="1300" cy="80" r="1.5" />
+    <circle cx="1600" cy="40" r="1" /><circle cx="1720" cy="100" r="2" /><circle cx="1850" cy="60" r="1" />
+    <circle cx="200" cy="200" r="1" /><circle cx="450" cy="180" r="1.5" /><circle cx="620" cy="220" r="1" />
+    <circle cx="780" cy="160" r="2" /><circle cx="940" cy="200" r="1" /><circle cx="1100" cy="140" r="1.5" />
+    <circle cx="1250" cy="190" r="1" /><circle cx="1550" cy="170" r="1.5" /><circle cx="1680" cy="210" r="1" />
+    <circle cx="80" cy="300" r="1" /><circle cx="340" cy="260" r="1.5" /><circle cx="490" cy="310" r="1" />
+    <circle cx="1380" cy="250" r="1.5" /><circle cx="1520" cy="290" r="1" /><circle cx="1800" cy="260" r="2" />
+  </g>
+
+  <!-- Distant mountains (dark) -->
+  <polygon points="0,800 200,400 400,600 600,350 800,550 1000,300 1200,500 1400,380 1600,520 1800,420 1920,480 1920,1080 0,1080"
+           fill="#0D0B18" opacity="0.9" />
+
+  <!-- Mid mountains -->
+  <polygon points="0,900 300,600 500,700 700,550 900,680 1100,500 1300,650 1500,560 1700,700 1920,620 1920,1080 0,1080"
+           fill="#12101C" opacity="0.95" />
+
+  <!-- Foreground hills -->
+  <polygon points="0,1000 400,800 700,880 1000,820 1300,900 1600,840 1920,920 1920,1080 0,1080"
+           fill="#0F0D0A" />
+
+  <!-- Accent glow on horizon -->
+  <ellipse cx="960" cy="620" rx="500" ry="60" fill="#C9A84C" opacity="0.04" />
+  <ellipse cx="960" cy="640" rx="300" ry="30" fill="#7B3F2E" opacity="0.06" />
+
+  <!-- Atmospheric haze -->
+  <rect x="0" y="580" width="1920" height="200" fill="url(#skyGrad)" opacity="0.3" />
+</svg>
