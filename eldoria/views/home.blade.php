@@ -9,7 +9,7 @@
 
     {{-- Background image --}}
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" id="hero-bg"
-         style="background-image: url('{{ theme_setting('hero_image') ?: asset('themes/eldoria/assets/images/hero-default.jpg') }}')">
+         style="background-image: url('{{ theme_setting('hero_image') ?: asset('themes/eldoria/assets/images/hero-default.svg') }}')">
     </div>
 
     {{-- Overlay dégradé --}}
