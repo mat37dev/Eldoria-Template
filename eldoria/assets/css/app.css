@@ -30,8 +30,12 @@
 @layer components {
     .btn-primary {
         @apply inline-flex items-center px-6 py-3 bg-accent text-bg-primary font-display font-semibold
-               rounded-sm border border-accent hover:bg-accent/90 transition-all duration-300
+               rounded-sm border border-accent transition-all duration-300
                tracking-wider uppercase text-sm;
+    }
+
+    .btn-primary:hover {
+        opacity: 0.9;
     }
 
     .card-eldoria {
