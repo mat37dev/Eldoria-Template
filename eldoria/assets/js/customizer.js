@@ -11,9 +11,10 @@ export function customizerComponent() {
         open: false,
         saving: false,
         saved: false,
+        saveError: false,
         activeTab: 'colors',
-        accent: document.documentElement.style.getPropertyValue('--color-accent').trim() || '#C9A84C',
-        accentSecondary: document.documentElement.style.getPropertyValue('--color-accent-secondary').trim() || '#7B3F2E',
+        accent: getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim() || '#C9A84C',
+        accentSecondary: getComputedStyle(document.documentElement).getPropertyValue('--color-accent-secondary').trim() || '#7B3F2E',
         palettes: PALETTES,
 
         applyColors(accent, secondary) {
@@ -57,6 +58,8 @@ export function customizerComponent() {
                 this.saved = true
                 setTimeout(() => { this.saved = false }, 3000)
             } catch (e) {
+                this.saveError = true
+                setTimeout(() => { this.saveError = false }, 4000)
                 console.error('Customizer save error:', e)
             } finally {
                 this.saving = false

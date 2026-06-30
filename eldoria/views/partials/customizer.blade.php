@@ -25,11 +25,11 @@
                 sm:right-0 sm:top-0 sm:bottom-0
                 max-sm:bottom-0 max-sm:left-0 max-sm:right-0 max-sm:top-auto max-sm:h-[80vh] max-sm:rounded-t-2xl"
          x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="translate-x-full max-sm:translate-x-0 max-sm:translate-y-full"
-         x-transition:enter-end="translate-x-0 max-sm:translate-y-0"
+         x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:translate-x-4"
+         x-transition:enter-end="opacity-100 translate-y-0 sm:translate-x-0"
          x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="translate-x-0 max-sm:translate-y-0"
-         x-transition:leave-end="translate-x-full max-sm:translate-x-0 max-sm:translate-y-full">
+         x-transition:leave-start="opacity-100 translate-y-0 sm:translate-x-0"
+         x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:translate-x-4"
 
         {{-- Header --}}
         <div class="flex items-center justify-between px-6 py-4 border-b border-accent/20">
@@ -146,9 +146,10 @@
                     :disabled="saving"
                     class="flex-1 py-2 bg-accent text-bg-primary font-display text-sm tracking-widest uppercase
                            rounded-sm hover:bg-accent/90 transition-all disabled:opacity-50">
-                <span x-show="!saving && !saved">Enregistrer</span>
+                <span x-show="!saving && !saved && !saveError">Enregistrer</span>
                 <span x-show="saving">Sauvegarde...</span>
                 <span x-show="saved">✓ Sauvegardé</span>
+                <span x-show="saveError" class="text-red-600">✕ Erreur</span>
             </button>
         </div>
     </div>
