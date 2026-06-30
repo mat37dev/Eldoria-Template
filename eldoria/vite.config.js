@@ -1,0 +1,14 @@
+import { defineConfig } from 'vite'
+import { resolve } from 'path'
+
+export default defineConfig({
+    build: {
+        outDir: 'assets/dist',
+        rollupOptions: {
+            input: {
+                app: resolve(__dirname, 'assets/js/app.js'),
+                style: resolve(__dirname, 'assets/css/app.css'),
+            },
+        },
+    },
+})

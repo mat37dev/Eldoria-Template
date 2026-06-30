@@ -1,0 +1,9 @@
+{
+    "id": "eldoria",
+    "name": "Eldoria",
+    "description": "Thème RPG médiéval premium pour serveurs Minecraft. Customizer live, animations immersives, mobile-first.",
+    "version": "1.0.0",
+    "url": "https://market.azuriom.com",
+    "authors": ["TonPseudo"],
+    "azuriom_api": "1.0"
+}
