@@ -46,7 +46,7 @@
             </div>
 
             {{-- Burger mobile --}}
-            <button @click="open = !open" class="md:hidden p-2 text-text-secondary hover:text-accent"
+            <button @click="open = !open" class="md:hidden p-3 text-text-secondary hover:text-accent"
                     aria-label="Menu">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -75,6 +75,12 @@
                 <a href="{{ route('profile.index') }}" class="block text-text-secondary hover:text-accent text-sm transition-colors">
                     {{ auth()->user()->name }}
                 </a>
+                <form method="POST" action="{{ route('logout') }}" class="inline">
+                    @csrf
+                    <button type="submit" class="block w-full text-left text-text-secondary hover:text-accent text-sm transition-colors py-1">
+                        {{ trans('auth.logout') }}
+                    </button>
+                </form>
             @else
                 <a href="{{ route('login') }}" class="block text-text-secondary hover:text-accent text-sm uppercase tracking-widest transition-colors">Connexion</a>
                 <a href="{{ route('register') }}" class="btn-primary text-xs py-2 px-4 inline-block">S'inscrire</a>
