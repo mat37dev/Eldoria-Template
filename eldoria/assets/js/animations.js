@@ -43,14 +43,14 @@ function initCounters() {
             start: 'top 90%',
             once: true,
             onEnter: () => {
-                gsap.fromTo(
-                    { val: 0 },
-                    { val: target, duration: 1.5, ease: 'power2.out',
-                      onUpdate: function() {
-                          counter.textContent = Math.round(this.targets()[0].val).toLocaleString()
-                      }
+                gsap.to({ val: 0 }, {
+                    val: target,
+                    duration: 1.5,
+                    ease: 'power2.out',
+                    onUpdate: function() {
+                        counter.textContent = Math.round(this.targets()[0].val).toLocaleString()
                     }
-                )
+                })
             }
         })
     })
