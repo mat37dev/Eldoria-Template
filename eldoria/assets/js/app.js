@@ -1,1 +1,26 @@
-// placeholder — full JS added in Task 3
+import Alpine from 'alpinejs'
+import persist from '@alpinejs/persist'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+import { initAnimations } from './animations.js'
+import { initParticles } from './particles.js'
+
+window.Alpine = Alpine
+Alpine.plugin(persist)
+Alpine.start()
+
+document.addEventListener('DOMContentLoaded', () => {
+    AOS.init({
+        duration: 700,
+        easing: 'ease-out-cubic',
+        once: true,
+        offset: 60,
+    })
+
+    const isMobile = window.innerWidth < 640
+    if (!isMobile) {
+        initParticles()
+    }
+
+    initAnimations()
+})
