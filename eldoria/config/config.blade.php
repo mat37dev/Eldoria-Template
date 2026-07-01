@@ -75,6 +75,32 @@
                         <label class="form-check-label" for="showSectionVoteInput">Vote</label>
                     </div>
 
+                    <h6 class="mb-3">Médias &amp; communauté</h6>
+
+                    <div class="mb-3">
+                        <label for="trailerUrlInput" class="form-label">Trailer YouTube (URL)</label>
+                        <input type="url" class="form-control @error('trailer_url') is-invalid @enderror"
+                               id="trailerUrlInput" name="trailer_url" placeholder="https://youtu.be/..."
+                               value="{{ old('trailer_url', theme_config('trailer_url')) }}">
+                        <small class="form-text text-muted">Affiché dans une section dédiée sur la page d'accueil.</small>
+                        @error('trailer_url')
+                        <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
+                        @enderror
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="discordServerIdInput" class="form-label">ID du serveur Discord (widget)</label>
+                        <input type="text" class="form-control @error('discord_server_id') is-invalid @enderror"
+                               id="discordServerIdInput" name="discord_server_id" placeholder="123456789012345678"
+                               value="{{ old('discord_server_id', theme_config('discord_server_id')) }}">
+                        <small class="form-text text-muted">
+                            Active d'abord le widget sur Discord : Paramètres du serveur → Widget, puis copie l'ID du serveur.
+                        </small>
+                        @error('discord_server_id')
+                        <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
+                        @enderror
+                    </div>
+
                     <h6 class="mb-3">Réseaux sociaux (footer)</h6>
 
                     <div class="mb-3">

@@ -10,7 +10,15 @@
 </button>
 
 {{-- Drawer customizer --}}
-<div x-data="customizer()"
+<div x-data="customizer({
+        slogan: @js(theme_config('hero_slogan', '')),
+        showShop: @js(theme_config('show_section_shop', '1') === '1'),
+        showVote: @js(theme_config('show_section_vote', '1') === '1'),
+        trailerUrl: @js(theme_config('trailer_url', '') ?? ''),
+        discordId: @js(theme_config('discord_server_id', '') ?? ''),
+        footerDiscord: @js(theme_config('footer_discord', '') ?? ''),
+        footerTwitter: @js(theme_config('footer_twitter', '') ?? ''),
+     })"
      data-save-url="{{ route('admin.themes.config', 'eldoria') }}"
      @open-customizer.window="open = true"
      class="fixed inset-0 z-[100]"
@@ -107,28 +115,63 @@
 
                 <div>
                     <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">Slogan hero</label>
-                    <textarea data-setting-slogan
+                    <textarea x-model="slogan" @input="liveSlogan()"
                               class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm
                                      focus:outline-none focus:border-accent/60 resize-none"
                               rows="3"
-                              placeholder="Bienvenue dans le royaume de...">{{ theme_config('hero_slogan', '') }}</textarea>
+                              placeholder="Bienvenue dans le royaume de..."></textarea>
                 </div>
 
                 <div>
                     <label class="block text-xs text-text-secondary uppercase tracking-widest mb-3">Sections visibles</label>
                     <div class="space-y-3">
-                        @foreach([
-                            ['key' => 'show_section_shop', 'label' => 'Boutique'],
-                            ['key' => 'show_section_vote', 'label' => 'Vote'],
-                        ] as $toggle)
                         <div class="flex items-center justify-between">
-                            <span class="text-text-primary text-sm">{{ $toggle['label'] }}</span>
-                            <input type="checkbox"
-                                   data-setting="{{ $toggle['key'] }}"
-                                   {{ theme_config($toggle['key'], '1') === '1' ? 'checked' : '' }}
+                            <span class="text-text-primary text-sm">Boutique</span>
+                            <input type="checkbox" x-model="showShop" @change="liveSection('shop', showShop)"
                                    class="w-4 h-4 accent-[var(--color-accent)]">
                         </div>
-                        @endforeach
+                        <div class="flex items-center justify-between">
+                            <span class="text-text-primary text-sm">Vote</span>
+                            <input type="checkbox" x-model="showVote" @change="liveSection('vote', showVote)"
+                                   class="w-4 h-4 accent-[var(--color-accent)]">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">Trailer YouTube</label>
+                    <input type="url" x-model="trailerUrl" @input.debounce.500ms="liveTrailer()"
+                           placeholder="https://youtu.be/..."
+                           class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm
+                                  focus:outline-none focus:border-accent/60 min-h-[40px]">
+                    <p class="text-text-secondary text-xs mt-1">Lien YouTube du trailer — affiché sur l'accueil.</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">Widget Discord</label>
+                    <input type="text" x-model="discordId" @input.debounce.500ms="liveDiscord()"
+                           placeholder="ID du serveur Discord"
+                           class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm
+                                  focus:outline-none focus:border-accent/60 min-h-[40px]">
+                    <p class="text-text-secondary text-xs mt-1">
+                        Active d'abord le widget sur Discord : Paramètres du serveur → Widget.
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">Lien Discord (footer)</label>
+                        <input type="url" x-model="footerDiscord" @input="liveFooterLink('footer_discord', footerDiscord)"
+                               placeholder="https://discord.gg/..."
+                               class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm
+                                      focus:outline-none focus:border-accent/60 min-h-[40px]">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">Lien Twitter/X (footer)</label>
+                        <input type="url" x-model="footerTwitter" @input="liveFooterLink('footer_twitter', footerTwitter)"
+                               placeholder="https://x.com/..."
+                               class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm
+                                      focus:outline-none focus:border-accent/60 min-h-[40px]">
                     </div>
                 </div>
 

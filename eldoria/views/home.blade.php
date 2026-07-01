@@ -28,7 +28,7 @@
             {{ site_name() }}
         </h1>
 
-        <p class="text-text-secondary text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+        <p class="text-text-secondary text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed" data-live="hero_slogan">
             {{ theme_config('hero_slogan', 'Bienvenue dans le royaume. Rejoignez l\'aventure.') }}
         </p>
 
@@ -100,9 +100,34 @@
     </div>
 </section>
 
+{{-- ======= TRAILER ======= --}}
+@php
+    // ID YouTube extrait côté serveur ; le customizer met l'iframe à jour côté client
+    preg_match('/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/',
+        theme_config('trailer_url', '') ?? '', $trailerMatch);
+    $trailerId = $trailerMatch[1] ?? null;
+@endphp
+<section class="py-24 px-4 max-w-5xl mx-auto {{ $trailerId ? '' : 'hidden' }}"
+         data-live-section="trailer" data-aos="fade-up">
+    <h2 class="section-title">Découvre le serveur</h2>
+    <p class="section-subtitle">Plonge dans l'univers avant de nous rejoindre</p>
+
+    <div class="card-eldoria overflow-hidden aspect-video">
+        <iframe data-trailer-iframe
+                src="{{ $trailerId ? 'https://www.youtube-nocookie.com/embed/'.$trailerId : '' }}"
+                title="Trailer du serveur"
+                class="w-full h-full"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                loading="lazy"></iframe>
+    </div>
+</section>
+
 {{-- ======= SHOP PREVIEW ======= --}}
-@if(theme_config('show_section_shop', '1') === '1' && class_exists('\Azuriom\Plugin\Shop\Models\Package'))
-<section class="py-24 px-4 max-w-7xl mx-auto" data-aos="fade-up">
+@if(class_exists('\Azuriom\Plugin\Shop\Models\Package'))
+<section class="py-24 px-4 max-w-7xl mx-auto {{ theme_config('show_section_shop', '1') === '1' ? '' : 'hidden' }}"
+         data-live-section="shop" data-aos="fade-up">
     <h2 class="section-title">Boutique</h2>
     <p class="section-subtitle">Soutiens le serveur et obtiens des avantages exclusifs</p>
 
@@ -138,8 +163,9 @@
 @endif
 
 {{-- ======= VOTE ======= --}}
-@if(theme_config('show_section_vote', '1') === '1' && class_exists('\Azuriom\Plugin\Vote\Models\Site'))
-<section class="py-24 bg-bg-secondary border-y border-accent/10" data-aos="fade-up">
+@if(class_exists('\Azuriom\Plugin\Vote\Models\Site'))
+<section class="py-24 bg-bg-secondary border-y border-accent/10 {{ theme_config('show_section_vote', '1') === '1' ? '' : 'hidden' }}"
+         data-live-section="vote" data-aos="fade-up">
     <div class="max-w-4xl mx-auto px-4">
         <h2 class="section-title">Soutiens-nous</h2>
         <p class="section-subtitle">Vote chaque jour pour nous aider à grandir — chaque vote compte</p>
@@ -167,5 +193,23 @@
     </div>
 </section>
 @endif
+
+{{-- ======= WIDGET DISCORD ======= --}}
+@php $discordServerId = theme_config('discord_server_id', '') ?? ''; @endphp
+<section class="py-24 px-4 {{ $discordServerId !== '' ? '' : 'hidden' }}"
+         data-live-section="discord" data-aos="fade-up">
+    <h2 class="section-title">Rejoins la communauté</h2>
+    <p class="section-subtitle">Discute avec les aventuriers du royaume sur Discord</p>
+
+    <div class="max-w-md mx-auto card-eldoria p-4">
+        <iframe data-discord-iframe
+                src="{{ $discordServerId !== '' ? 'https://discord.com/widget?id='.$discordServerId.'&theme=dark' : '' }}"
+                title="Widget Discord"
+                width="100%" height="420"
+                frameborder="0"
+                sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+                loading="lazy"></iframe>
+    </div>
+</section>
 
 @endsection
