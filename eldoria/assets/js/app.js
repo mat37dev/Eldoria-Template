@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         easing: 'ease-out-cubic',
         once: true,
         offset: 60,
+        disable: () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
     })
 
     const isMobile = window.innerWidth < 640
