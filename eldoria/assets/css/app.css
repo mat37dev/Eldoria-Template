@@ -4,6 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Masque les éléments Alpine avant initialisation (évite le flash du drawer) */
+[x-cloak] {
+    display: none !important;
+}
+
 :root {
     --color-bg-primary: #0F0D0A;
     --color-bg-secondary: #1A1612;

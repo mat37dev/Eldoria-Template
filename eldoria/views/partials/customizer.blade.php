@@ -1,5 +1,5 @@
-{{-- Bouton flottant --}}
-<button @click="$dispatch('open-customizer')"
+{{-- Bouton flottant (x-data requis : Alpine ignore les directives hors composant) --}}
+<button x-data @click="$dispatch('open-customizer')"
         class="fixed bottom-6 right-6 z-50 w-12 h-12 bg-accent text-bg-primary rounded-full
                flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
         title="Personnaliser le thème">
@@ -120,7 +120,6 @@
                         @foreach([
                             ['key' => 'show_section_shop', 'label' => 'Boutique'],
                             ['key' => 'show_section_vote', 'label' => 'Vote'],
-                            ['key' => 'show_section_forum', 'label' => 'Forum'],
                         ] as $toggle)
                         <div class="flex items-center justify-between">
                             <span class="text-text-primary text-sm">{{ $toggle['label'] }}</span>
