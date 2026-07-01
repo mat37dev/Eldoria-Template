@@ -1,3 +1,8 @@
+<?php
+    $navbarElements = \Azuriom\Models\NavbarElement::orderBy('position')->with('roles')->get()
+        ->filter(fn ($element) => $element->hasPermission())
+        ->whereNull('parent_id');
+?>
 <header class="fixed top-0 left-0 right-0 z-50 bg-bg-primary/90 backdrop-blur-sm border-b border-accent/10"
         x-data="{ open: false }">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -5,8 +10,8 @@
 
             {{-- Logo --}}
             <a href="{{ route('home') }}" class="font-display font-bold text-xl text-accent tracking-widest uppercase">
-                @if(config('app.logo'))
-                    <img src="{{ config('app.logo') }}" alt="{{ site_name() }}" class="h-8">
+                @if(setting('logo'))
+                    <img src="{{ site_logo() }}" alt="{{ site_name() }}" class="h-8">
                 @else
                     {{ site_name() }}
                 @endif
@@ -14,11 +19,13 @@
 
             {{-- Navigation desktop --}}
             <nav class="hidden md:flex items-center gap-8">
-                @foreach(navbar_elements() as $element)
-                    <a href="{{ $element->link() }}"
-                       class="text-text-secondary hover:text-accent text-sm tracking-widest uppercase font-medium transition-colors">
-                        {{ $element->name }}
-                    </a>
+                @foreach($navbarElements as $element)
+                    @if(!$element->isDropdown())
+                        <a href="{{ $element->getLink() }}"
+                           class="text-text-secondary hover:text-accent text-sm tracking-widest uppercase font-medium transition-colors">
+                            {{ $element->name }}
+                        </a>
+                    @endif
                 @endforeach
             </nav>
 
@@ -64,11 +71,13 @@
          x-transition:enter-start="opacity-0 -translate-y-2"
          x-transition:enter-end="opacity-100 translate-y-0"
          class="md:hidden bg-bg-secondary border-t border-accent/10 px-4 py-6 space-y-4">
-        @foreach(navbar_elements() as $element)
-            <a href="{{ $element->link() }}"
-               class="block text-text-secondary hover:text-accent text-sm tracking-widest uppercase py-2 transition-colors">
-                {{ $element->name }}
-            </a>
+        @foreach($navbarElements as $element)
+            @if(!$element->isDropdown())
+                <a href="{{ $element->getLink() }}"
+                   class="block text-text-secondary hover:text-accent text-sm tracking-widest uppercase py-2 transition-colors">
+                    {{ $element->name }}
+                </a>
+            @endif
         @endforeach
         <div class="pt-4 border-t border-accent/10 space-y-3">
             @auth
