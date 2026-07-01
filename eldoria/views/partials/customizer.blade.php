@@ -11,6 +11,7 @@
 
 {{-- Drawer customizer --}}
 <div x-data="customizer()"
+     data-save-url="{{ route('admin.themes.config', 'eldoria') }}"
      @open-customizer.window="open = true"
      class="fixed inset-0 z-[100]"
      x-show="open"
@@ -29,7 +30,7 @@
          x-transition:enter-end="opacity-100 translate-y-0 sm:translate-x-0"
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100 translate-y-0 sm:translate-x-0"
-         x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:translate-x-4"
+         x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:translate-x-4">
 
         {{-- Header --}}
         <div class="flex items-center justify-between px-6 py-4 border-b border-accent/20">
@@ -110,7 +111,7 @@
                               class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm
                                      focus:outline-none focus:border-accent/60 resize-none"
                               rows="3"
-                              placeholder="Bienvenue dans le royaume de...">{{ theme_setting('hero_slogan', '') }}</textarea>
+                              placeholder="Bienvenue dans le royaume de...">{{ theme_config('hero_slogan', '') }}</textarea>
                 </div>
 
                 <div>
@@ -125,7 +126,7 @@
                             <span class="text-text-primary text-sm">{{ $toggle['label'] }}</span>
                             <input type="checkbox"
                                    data-setting="{{ $toggle['key'] }}"
-                                   {{ theme_setting($toggle['key'], '1') === '1' ? 'checked' : '' }}
+                                   {{ theme_config($toggle['key'], '1') === '1' ? 'checked' : '' }}
                                    class="w-4 h-4 accent-[var(--color-accent)]">
                         </div>
                         @endforeach

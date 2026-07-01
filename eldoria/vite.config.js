@@ -9,6 +9,14 @@ export default defineConfig({
                 app: resolve(__dirname, 'assets/js/app.js'),
                 style: resolve(__dirname, 'assets/css/app.css'),
             },
+            output: {
+                // Fixed filenames (no content hash): Azuriom themes are not aware of
+                // Laravel's Vite manifest, so views reference these paths directly
+                // via theme_asset() instead of the @vite() directive.
+                entryFileNames: '[name].js',
+                chunkFileNames: '[name].js',
+                assetFileNames: '[name][extname]',
+            },
         },
     },
 })

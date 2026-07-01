@@ -9,12 +9,17 @@
     {{-- Injection des CSS custom properties depuis les settings sauvegardés --}}
     <style>
         :root {
-            --color-accent: {{ theme_setting('color_accent', '#C9A84C') }};
-            --color-accent-secondary: {{ theme_setting('color_accent_secondary', '#7B3F2E') }};
+            --color-accent: {{ theme_config('color_accent', '#C9A84C') }};
+            --color-accent-secondary: {{ theme_config('color_accent_secondary', '#7B3F2E') }};
         }
     </style>
 
-    @vite(['assets/js/app.js', 'assets/css/app.css'])
+    {{-- Le thème a son propre build Vite, indépendant de celui de l'application
+         (qui utilise public/build/manifest.json) : les assets sont donc servis
+         directement via theme_asset() plutôt que la directive @vite(). --}}
+    <link rel="stylesheet" href="{{ theme_asset('dist/style.css') }}">
+    <link rel="stylesheet" href="{{ theme_asset('dist/app.css') }}">
+    <script type="module" src="{{ theme_asset('dist/app.js') }}"></script>
 
     @stack('head')
 </head>

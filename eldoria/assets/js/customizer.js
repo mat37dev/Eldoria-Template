@@ -35,6 +35,10 @@ export function customizerComponent() {
                 formData.append('_token', document.querySelector('meta[name="csrf-token"]').content)
                 formData.append('color_accent', this.accent)
                 formData.append('color_accent_secondary', this.accentSecondary)
+                // Merge into the existing theme config instead of replacing it,
+                // since this drawer only edits a subset of the theme's settings
+                // (e.g. hero_image, footer_discord/twitter are untouched here).
+                formData.append('append', '1')
 
                 // Récupérer les valeurs des toggles de sections
                 const toggles = this.$root.querySelectorAll('[data-setting]')
@@ -48,8 +52,9 @@ export function customizerComponent() {
                     formData.append('hero_slogan', sloganInput.value)
                 }
 
-                const response = await fetch('/admin/settings/theme', {
+                const response = await fetch(this.$root.dataset.saveUrl, {
                     method: 'POST',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
                     body: formData,
                 })
 
