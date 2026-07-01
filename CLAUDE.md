@@ -45,7 +45,7 @@ eldoria/
 │   ├── layouts/app.blade.php   ← layout principal
 │   ├── partials/               ← navbar, footer, customizer, particles
 │   ├── home.blade.php          ← page d'accueil
-│   └── vendor/                 ← overrides plugins (shop/, vote/, forum/)
+│   └── vendor/                 ← overrides plugins (shop/, vote/)
 └── config/theme.json    ← settings exposés au customizer
 ```
 
@@ -85,11 +85,12 @@ Le customizer modifie uniquement `--color-accent` et `--color-accent-secondary`.
 
 ## Plugins supportés (v1)
 
-1. **Shop** (priorité 1) — catégories, produit, panier, checkout
+1. **Shop** (priorité 1) — catégories, produit, panier
 2. **Vote** (priorité 2) — liste sites, statut voté, top voteurs
-3. **Forum** (priorité 3) — catégories, sujets, discussion
 
 Hors scope v1 : Whitelist, News, Maintenance, autres jeux.
+
+> **Il n'existe pas de plugin "Forum" officiel chez Azuriom** (vérifié sur les dépôts GitHub officiels : Shop, Vote, Support, FAQ, Wiki, CloudflareSupport, DedipassPayment — pas de Forum). Le thème ne doit pas prétendre le supporter.
 
 ## Développement local
 
@@ -102,12 +103,14 @@ npm run build    # production
 
 Copier `eldoria/` dans `resources/themes/` de ton installation Azuriom locale pour tester.
 
-## Points d'attention (à vérifier dans la doc Azuriom)
+## Points vérifiés en conditions réelles (installation Azuriom locale + plugins)
 
-- Le helper exact pour lire les settings : `theme_setting()`, `setting()` ou `theme_config()` ?
-- La route AJAX pour sauvegarder les settings du thème depuis le front-end
-- Les variables Blade exactes injectées par les plugins Shop, Vote, Forum
-- Le chemin exact pour overrider les vues plugins (`views/vendor/{id}/` ?)
+- **Helper de config du thème** : `theme_config($key, $default)`, pas `theme_setting()`. Le fichier de defaults est `config.json` à la racine du thème (pas `config/theme.json`). Le formulaire admin est `config/config.blade.php` + `config/rules.php`, soumis en POST vers la route `admin.themes.config`.
+- **Assets du thème** : Azuriom ne connaît pas le manifest Vite de l'app — les vues chargent les fichiers buildés directement via `theme_asset('dist/...')`, pas via la directive `@vite()`. `vite.config.js` doit donc sortir des noms de fichiers fixes (pas de hash).
+- **Override des vues plugin** : le chemin doit être le miroir exact de la structure interne du plugin (`views/vendor/{id}/...`), pas une structure inventée. Pour Shop : `categories/index.blade.php`, `categories/show.blade.php`, `packages/show.blade.php`, `cart/index.blade.php` (pas de vue "checkout" séparée — le flux passe par `offers/select` puis `payments/pay`). Pour Vote : `index.blade.php` à la racine.
+- **Routes réelles** : `shop.home` (catalogue), `shop.categories.show`, `shop.packages.show`, `shop.cart.index` — pas de `shop.packages.index`. `vote.home`, `vote.vote` (POST, pas un lien direct), `vote.verify-user`, `vote.done`.
+- **Variables Vote** : le contrôleur passe `$sites`, `$votes` (classement des top voteurs, PAS une liste de sites déjà votés), `$goalEnabled`/`$goalTarget`/`$goalProgress`/`$goalPercentage` (pas `$monthlyVotes`/`$monthlyGoal`). Le statut voté/non-voté par site est calculé côté client en AJAX via `vote.verify-user`, pas côté serveur.
+- **Stats homepage** (joueurs en ligne, membres) : pas de helpers globaux — passer par les modèles directement (`Azuriom\Models\Server::where('home_display', true)->get()->sum(fn($s) => $s->getOnlinePlayers())`, `Azuriom\Models\User::count()`).
 
 ## Contexte marché
 
