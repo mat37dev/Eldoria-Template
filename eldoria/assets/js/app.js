@@ -5,6 +5,7 @@ import 'aos/dist/aos.css'
 import { initAnimations } from './animations.js'
 import { initParticles } from './particles.js'
 import { customizerComponent } from './customizer.js'
+import { initVotePage } from './vote.js'
 
 window.Alpine = Alpine
 Alpine.plugin(persist)
@@ -26,4 +27,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     initAnimations()
+    initVotePage()
 })
