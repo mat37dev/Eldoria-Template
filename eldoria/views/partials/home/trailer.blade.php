@@ -5,8 +5,8 @@
             @include('partials.home._reorder-toolbar')
         @endif
     @endauth
-    <h2 class="section-title">{{ $sectionData['title'] ?: __('theme::theme.home.trailer_title') }}</h2>
-    <p class="section-subtitle">{{ $sectionData['subtitle'] ?: __('theme::theme.home.trailer_subtitle') }}</p>
+    <h2 class="section-title" data-default-text="{{ __('theme::theme.home.trailer_title') }}">{{ $sectionData['title'] ?: __('theme::theme.home.trailer_title') }}</h2>
+    <p class="section-subtitle" data-default-text="{{ __('theme::theme.home.trailer_subtitle') }}">{{ $sectionData['subtitle'] ?: __('theme::theme.home.trailer_subtitle') }}</p>
 
     <div class="card-eldoria overflow-hidden aspect-video">
         <iframe data-trailer-iframe

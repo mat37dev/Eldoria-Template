@@ -27,6 +27,11 @@ export function customizerComponent(initial = {}) {
         palettes: PALETTES,
 
         // Contenu éditable — initialisé depuis la config serveur (voir customizer.blade.php)
+        editingSection: null,
+        sectionTextOverrides: initial.sectionTextOverrides ?? {
+            join_steps: { title: '', subtitle: '', steps: [{ title: '', text: '' }, { title: '', text: '' }, { title: '', text: '' }] },
+            trailer: { title: '', subtitle: '' },
+        },
         slogan: initial.slogan ?? '',
         heroImage: initial.heroImage ?? '',
         showShop: initial.showShop ?? true,
@@ -189,15 +194,59 @@ export function customizerComponent(initial = {}) {
 
             container.querySelectorAll('[data-section-key]').forEach((section) => {
                 const toggle = section.querySelector('.section-visibility-toggle')
-                if (!toggle || toggle.dataset.bound) return
-                toggle.dataset.bound = 'true'
+                if (toggle && !toggle.dataset.bound) {
+                    toggle.dataset.bound = 'true'
+                    toggle.addEventListener('click', () => {
+                        const isHidden = section.classList.toggle('section-manually-hidden')
+                        toggle.querySelector('.eye-visible').classList.toggle('hidden', isHidden)
+                        toggle.querySelector('.eye-hidden').classList.toggle('hidden', !isHidden)
+                    })
+                }
 
-                toggle.addEventListener('click', () => {
-                    const isHidden = section.classList.toggle('section-manually-hidden')
-                    toggle.querySelector('.eye-visible').classList.toggle('hidden', isHidden)
-                    toggle.querySelector('.eye-hidden').classList.toggle('hidden', !isHidden)
-                })
+                const editBtn = section.querySelector('.edit-text-toggle')
+                if (editBtn && !editBtn.dataset.bound) {
+                    editBtn.dataset.bound = 'true'
+                    editBtn.addEventListener('click', () => {
+                        this.editingSection = section.dataset.sectionKey
+                    })
+                }
             })
+        },
+
+        backToLayoutList() {
+            this.editingSection = null
+        },
+
+        liveJoinStepsText() {
+            const o = this.sectionTextOverrides.join_steps
+            const section = document.querySelector('[data-section-key="join_steps"]')
+            if (!section) return
+
+            const titleEl = section.querySelector('.section-title')
+            const subtitleEl = section.querySelector('.section-subtitle')
+            if (titleEl) titleEl.textContent = o.title || titleEl.dataset.defaultText
+            if (subtitleEl) subtitleEl.textContent = o.subtitle || subtitleEl.dataset.defaultText
+
+            const stepCards = section.querySelectorAll('.card-eldoria')
+            o.steps.forEach((step, i) => {
+                const card = stepCards[i]
+                if (!card) return
+                const stepTitleEl = card.querySelector('h3')
+                const stepTextEl = card.querySelector('p')
+                if (stepTitleEl) stepTitleEl.textContent = step.title || stepTitleEl.dataset.defaultText
+                if (stepTextEl) stepTextEl.textContent = step.text || stepTextEl.dataset.defaultText
+            })
+        },
+
+        liveTrailerSectionText() {
+            const o = this.sectionTextOverrides.trailer
+            const section = document.querySelector('[data-section-key="trailer"]')
+            if (!section) return
+
+            const titleEl = section.querySelector('.section-title')
+            const subtitleEl = section.querySelector('.section-subtitle')
+            if (titleEl) titleEl.textContent = o.title || titleEl.dataset.defaultText
+            if (subtitleEl) subtitleEl.textContent = o.subtitle || subtitleEl.dataset.defaultText
         },
 
         findSectionsContainer() {

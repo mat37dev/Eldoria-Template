@@ -10,7 +10,23 @@
 </button>
 
 {{-- Drawer customizer --}}
+<?php
+    $decodedHomeLayoutForJs = json_decode(theme_config('home_layout', '') ?? '', true);
+    $joinStepsData = collect($decodedHomeLayoutForJs ?? [])->firstWhere('key', 'join_steps');
+    $trailerSectionData = collect($decodedHomeLayoutForJs ?? [])->firstWhere('key', 'trailer');
+?>
 <div x-data="customizer({
+        sectionTextOverrides: {
+            join_steps: @js([
+                'title' => $joinStepsData['title'] ?? '',
+                'subtitle' => $joinStepsData['subtitle'] ?? '',
+                'steps' => $joinStepsData['steps'] ?? [['title' => '', 'text' => ''], ['title' => '', 'text' => ''], ['title' => '', 'text' => '']],
+            ]),
+            trailer: @js([
+                'title' => $trailerSectionData['title'] ?? '',
+                'subtitle' => $trailerSectionData['subtitle'] ?? '',
+            ]),
+        },
         slogan: @js(theme_config('hero_slogan', '')),
         heroImage: @js(theme_config('hero_image', '') ?? ''),
         heroVideoEnabled: @js(theme_config('hero_video_enabled', '0') === '1'),
@@ -209,10 +225,53 @@
             </div>
 
             {{-- TAB DISPOSITION --}}
-            <div x-show="activeTab === 'layout'" class="space-y-6">
+            <div x-show="activeTab === 'layout' && !editingSection" class="space-y-6">
                 <p class="text-text-secondary text-sm leading-relaxed">
                     {{ __('theme::theme.customizer.layout_instructions') }}
                 </p>
+            </div>
+
+            {{-- SOUS-PANNEAU ÉDITION : COMMENT NOUS REJOINDRE --}}
+            <div x-show="activeTab === 'layout' && editingSection === 'join_steps'" class="space-y-4">
+                <button @click="backToLayoutList()" class="text-accent text-xs uppercase tracking-widest mb-2">
+                    ← {{ __('theme::theme.customizer.layout_back') }}
+                </button>
+                <div>
+                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.layout_field_title') }}</label>
+                    <input type="text" x-model="sectionTextOverrides.join_steps.title" @input="liveJoinStepsText()"
+                           class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm min-h-[40px]">
+                </div>
+                <div>
+                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.layout_field_subtitle') }}</label>
+                    <input type="text" x-model="sectionTextOverrides.join_steps.subtitle" @input="liveJoinStepsText()"
+                           class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm min-h-[40px]">
+                </div>
+                <template x-for="(step, index) in sectionTextOverrides.join_steps.steps" :key="index">
+                    <div class="border-t border-accent/10 pt-4">
+                        <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2" x-text="'{{ __('theme::theme.customizer.layout_field_step') }} ' + (index + 1)"></label>
+                        <input type="text" x-model="step.title" @input="liveJoinStepsText()"
+                               class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm min-h-[40px] mb-2">
+                        <textarea x-model="step.text" @input="liveJoinStepsText()" rows="2"
+                                  class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm resize-none"></textarea>
+                    </div>
+                </template>
+            </div>
+
+            {{-- SOUS-PANNEAU ÉDITION : TRAILER --}}
+            <div x-show="activeTab === 'layout' && editingSection === 'trailer'" class="space-y-4">
+                <button @click="backToLayoutList()" class="text-accent text-xs uppercase tracking-widest mb-2">
+                    ← {{ __('theme::theme.customizer.layout_back') }}
+                </button>
+                <div>
+                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.layout_field_title') }}</label>
+                    <input type="text" x-model="sectionTextOverrides.trailer.title" @input="liveTrailerSectionText()"
+                           class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm min-h-[40px]">
+                </div>
+                <div>
+                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.layout_field_subtitle') }}</label>
+                    <input type="text" x-model="sectionTextOverrides.trailer.subtitle" @input="liveTrailerSectionText()"
+                           class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm min-h-[40px]">
+                </div>
             </div>
         </div>
 
