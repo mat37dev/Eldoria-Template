@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Accueil')
+@section('title', __('theme::theme.nav.home'))
 
 @section('content')
 
