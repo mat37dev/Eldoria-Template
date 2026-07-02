@@ -2,7 +2,7 @@
 <button x-data @click="$dispatch('open-customizer')"
         class="fixed bottom-6 right-6 z-50 w-12 h-12 bg-accent text-bg-primary rounded-full
                flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
-        title="Personnaliser le thème">
+        title="{{ __('theme::theme.customizer.button_title') }}">
     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
@@ -42,7 +42,7 @@
 
         {{-- Header --}}
         <div class="flex items-center justify-between px-6 py-4 border-b border-accent/20">
-            <h3 class="font-display text-accent tracking-widest uppercase text-sm">Personnaliser</h3>
+            <h3 class="font-display text-accent tracking-widest uppercase text-sm">{{ __('theme::theme.customizer.title') }}</h3>
             <button @click="open = false" class="text-text-secondary hover:text-text-primary transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -55,12 +55,12 @@
             <button @click="activeTab = 'colors'"
                     :class="activeTab === 'colors' ? 'border-b-2 border-accent text-accent' : 'text-text-secondary hover:text-text-primary'"
                     class="flex-1 py-3 text-xs font-display tracking-widest uppercase transition-colors">
-                Couleurs
+                {{ __('theme::theme.customizer.tab_colors') }}
             </button>
             <button @click="activeTab = 'content'"
                     :class="activeTab === 'content' ? 'border-b-2 border-accent text-accent' : 'text-text-secondary hover:text-text-primary'"
                     class="flex-1 py-3 text-xs font-display tracking-widest uppercase transition-colors">
-                Contenu
+                {{ __('theme::theme.customizer.tab_content') }}
             </button>
         </div>
 
@@ -72,7 +72,7 @@
 
                 {{-- Palettes prédéfinies --}}
                 <div>
-                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-3">Palettes</label>
+                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-3">{{ __('theme::theme.customizer.palettes') }}</label>
                     <div class="grid grid-cols-3 gap-3">
                         <template x-for="palette in palettes" :key="palette.name">
                             <button @click="applyPalette(palette)"
@@ -92,7 +92,7 @@
                 {{-- Pickers couleur libre --}}
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">Accent principal</label>
+                        <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.accent_primary') }}</label>
                         <div class="flex items-center gap-3">
                             <input type="color" x-model="accent" @input="applyColors(accent, accentSecondary)"
                                    class="w-10 h-10 rounded cursor-pointer border border-accent/20 bg-transparent">
@@ -100,7 +100,7 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">Accent secondaire</label>
+                        <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.accent_secondary') }}</label>
                         <div class="flex items-center gap-3">
                             <input type="color" x-model="accentSecondary" @input="applyColors(accent, accentSecondary)"
                                    class="w-10 h-10 rounded cursor-pointer border border-accent/20 bg-transparent">
@@ -114,24 +114,24 @@
             <div x-show="activeTab === 'content'" class="space-y-6">
 
                 <div>
-                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">Slogan hero</label>
+                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.hero_slogan') }}</label>
                     <textarea x-model="slogan" @input="liveSlogan()"
                               class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm
                                      focus:outline-none focus:border-accent/60 resize-none"
                               rows="3"
-                              placeholder="Bienvenue dans le royaume de..."></textarea>
+                              placeholder="{{ __('theme::theme.customizer.hero_slogan_placeholder') }}"></textarea>
                 </div>
 
                 <div>
-                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-3">Sections visibles</label>
+                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-3">{{ __('theme::theme.customizer.sections_visible') }}</label>
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
-                            <span class="text-text-primary text-sm">Boutique</span>
+                            <span class="text-text-primary text-sm">{{ __('theme::theme.customizer.section_shop') }}</span>
                             <input type="checkbox" x-model="showShop" @change="liveSection('shop', showShop)"
                                    class="w-4 h-4 accent-[var(--color-accent)]">
                         </div>
                         <div class="flex items-center justify-between">
-                            <span class="text-text-primary text-sm">Vote</span>
+                            <span class="text-text-primary text-sm">{{ __('theme::theme.customizer.section_vote') }}</span>
                             <input type="checkbox" x-model="showVote" @change="liveSection('vote', showVote)"
                                    class="w-4 h-4 accent-[var(--color-accent)]">
                         </div>
@@ -139,37 +139,37 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">Trailer YouTube</label>
+                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.trailer_label') }}</label>
                     <input type="url" x-model="trailerUrl" @input.debounce.500ms="liveTrailer()"
-                           placeholder="https://youtu.be/..."
+                           placeholder="{{ __('theme::theme.customizer.trailer_placeholder') }}"
                            class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm
                                   focus:outline-none focus:border-accent/60 min-h-[40px]">
-                    <p class="text-text-secondary text-xs mt-1">Lien YouTube du trailer — affiché sur l'accueil.</p>
+                    <p class="text-text-secondary text-xs mt-1">{{ __('theme::theme.customizer.trailer_help') }}</p>
                 </div>
 
                 <div>
-                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">Widget Discord</label>
+                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.discord_widget_label') }}</label>
                     <input type="text" x-model="discordId" @input.debounce.500ms="liveDiscord()"
-                           placeholder="ID du serveur Discord"
+                           placeholder="{{ __('theme::theme.customizer.discord_widget_placeholder') }}"
                            class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm
                                   focus:outline-none focus:border-accent/60 min-h-[40px]">
                     <p class="text-text-secondary text-xs mt-1">
-                        Active d'abord le widget sur Discord : Paramètres du serveur → Widget.
+                        {{ __('theme::theme.customizer.discord_widget_help') }}
                     </p>
                 </div>
 
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">Lien Discord (footer)</label>
+                        <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.footer_discord_label') }}</label>
                         <input type="url" x-model="footerDiscord" @input="liveFooterLink('footer_discord', footerDiscord)"
-                               placeholder="https://discord.gg/..."
+                               placeholder="{{ __('theme::theme.customizer.footer_discord_placeholder') }}"
                                class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm
                                       focus:outline-none focus:border-accent/60 min-h-[40px]">
                     </div>
                     <div>
-                        <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">Lien Twitter/X (footer)</label>
+                        <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.footer_twitter_label') }}</label>
                         <input type="url" x-model="footerTwitter" @input="liveFooterLink('footer_twitter', footerTwitter)"
-                               placeholder="https://x.com/..."
+                               placeholder="{{ __('theme::theme.customizer.footer_twitter_placeholder') }}"
                                class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm
                                       focus:outline-none focus:border-accent/60 min-h-[40px]">
                     </div>
@@ -183,16 +183,16 @@
             <button @click="cancel()"
                     class="flex-1 py-2 border border-accent/30 text-text-secondary hover:text-text-primary
                            text-sm font-display tracking-widest uppercase rounded-sm transition-colors">
-                Annuler
+                {{ __('theme::theme.customizer.cancel') }}
             </button>
             <button @click="save()"
                     :disabled="saving"
                     class="flex-1 py-2 bg-accent text-bg-primary font-display text-sm tracking-widest uppercase
                            rounded-sm hover:bg-accent/90 transition-all disabled:opacity-50">
-                <span x-show="!saving && !saved && !saveError">Enregistrer</span>
-                <span x-show="saving">Sauvegarde...</span>
-                <span x-show="saved">✓ Sauvegardé</span>
-                <span x-show="saveError" class="text-red-600">✕ Erreur</span>
+                <span x-show="!saving && !saved && !saveError">{{ __('theme::theme.customizer.save') }}</span>
+                <span x-show="saving">{{ __('theme::theme.customizer.saving') }}</span>
+                <span x-show="saved">{{ __('theme::theme.customizer.saved') }}</span>
+                <span x-show="saveError" class="text-red-600">{{ __('theme::theme.customizer.save_error') }}</span>
             </button>
         </div>
     </div>

@@ -44,17 +44,17 @@
                     </form>
                 @else
                     <a href="{{ route('login') }}" class="text-text-secondary hover:text-accent text-sm tracking-widest uppercase transition-colors">
-                        Connexion
+                        {{ __('theme::theme.nav.login') }}
                     </a>
                     <a href="{{ route('register') }}" class="btn-primary text-xs py-2 px-4">
-                        S'inscrire
+                        {{ __('theme::theme.nav.register') }}
                     </a>
                 @endauth
             </div>
 
             {{-- Burger mobile --}}
             <button @click="open = !open" class="md:hidden p-3 text-text-secondary hover:text-accent"
-                    aria-label="Menu">
+                    aria-label="{{ __('theme::theme.nav.menu') }}">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M4 6h16M4 12h16M4 18h16"/>
@@ -91,8 +91,8 @@
                     </button>
                 </form>
             @else
-                <a href="{{ route('login') }}" class="block text-text-secondary hover:text-accent text-sm uppercase tracking-widest transition-colors">Connexion</a>
-                <a href="{{ route('register') }}" class="btn-primary text-xs py-2 px-4 inline-block">S'inscrire</a>
+                <a href="{{ route('login') }}" class="block text-text-secondary hover:text-accent text-sm uppercase tracking-widest transition-colors">{{ __('theme::theme.nav.login') }}</a>
+                <a href="{{ route('register') }}" class="btn-primary text-xs py-2 px-4 inline-block">{{ __('theme::theme.nav.register') }}</a>
             @endauth
         </div>
     </div>
