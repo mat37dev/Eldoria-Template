@@ -36,4 +36,5 @@ return [
     'staff_8_name' => ['nullable', 'string', 'max:32'],
     'staff_8_role' => ['nullable', 'string', 'max:64'],
     'staff_8_link' => ['nullable', 'url', 'max:255'],
+    'home_layout' => ['nullable', 'json', 'max:5000'],
 ];
