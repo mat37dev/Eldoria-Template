@@ -1,5 +1,10 @@
 <section class="py-24 px-4 max-w-5xl mx-auto {{ ($trailerId && $sectionData['visible']) ? '' : 'hidden' }}"
          data-section-key="trailer" data-live-section="trailer" data-aos="fade-up">
+    @auth
+        @if(auth()->user()->isAdmin())
+            @include('partials.home._reorder-toolbar')
+        @endif
+    @endauth
     <h2 class="section-title">{{ $sectionData['title'] ?: __('theme::theme.home.trailer_title') }}</h2>
     <p class="section-subtitle">{{ $sectionData['subtitle'] ?: __('theme::theme.home.trailer_subtitle') }}</p>
 

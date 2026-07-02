@@ -2,6 +2,11 @@
 @if($latestPosts->isNotEmpty())
 <section class="py-24 px-4 max-w-7xl mx-auto {{ $sectionData['visible'] ? '' : 'hidden' }}"
          data-section-key="news" data-aos="fade-up">
+    @auth
+        @if(auth()->user()->isAdmin())
+            @include('partials.home._reorder-toolbar')
+        @endif
+    @endauth
     <h2 class="section-title">{{ __('theme::theme.home.news_title') }}</h2>
     <p class="section-subtitle">{{ __('theme::theme.home.news_subtitle') }}</p>
 

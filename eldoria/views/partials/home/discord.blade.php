@@ -1,6 +1,11 @@
 @php $discordServerId = theme_config('discord_server_id', '') ?? ''; @endphp
 <section class="py-24 px-4 {{ ($discordServerId !== '' && $sectionData['visible']) ? '' : 'hidden' }}"
          data-section-key="discord" data-live-section="discord" data-aos="fade-up">
+    @auth
+        @if(auth()->user()->isAdmin())
+            @include('partials.home._reorder-toolbar')
+        @endif
+    @endauth
     <h2 class="section-title">{{ __('theme::theme.home.discord_title') }}</h2>
     <p class="section-subtitle">{{ __('theme::theme.home.discord_subtitle') }}</p>
 

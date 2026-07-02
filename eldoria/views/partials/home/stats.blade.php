@@ -1,5 +1,10 @@
 <section class="relative z-10 bg-bg-secondary border-y border-accent/20 py-8 {{ $sectionData['visible'] ? '' : 'hidden' }}"
          data-section-key="stats" data-aos="fade-up">
+    @auth
+        @if(auth()->user()->isAdmin())
+            @include('partials.home._reorder-toolbar')
+        @endif
+    @endauth
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex flex-col sm:flex-row justify-center items-center gap-8 sm:gap-16">
 

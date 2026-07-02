@@ -1,3 +1,5 @@
+import Sortable from 'sortablejs'
+
 const PALETTES = [
     { name: 'Eldoria',       accent: '#C9A84C', secondary: '#7B3F2E' },
     { name: 'Forêt Sombre',  accent: '#4A7C59', secondary: '#2D4A1E' },
@@ -19,6 +21,7 @@ export function customizerComponent(initial = {}) {
         saveError: false,
         saveErrorMessage: '',
         activeTab: 'colors',
+        sortableInstance: null,
         accent: getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim() || '#C9A84C',
         accentSecondary: getComputedStyle(document.documentElement).getPropertyValue('--color-accent-secondary').trim() || '#7B3F2E',
         palettes: PALETTES,
@@ -153,6 +156,53 @@ export function customizerComponent(initial = {}) {
         cancel() {
             // Recharger la page pour revenir à l'état sauvegardé
             window.location.reload()
-        }
+        },
+
+        // ===== Mode réorganisation de la homepage (onglet Disposition) =====
+
+        init() {
+            // body.reorder-mode ne doit exister QUE pendant que l'onglet Disposition
+            // est actif ET le drawer ouvert — jamais laissé "collé" après un changement
+            // d'onglet ou une fermeture du drawer.
+            this.$watch('activeTab', (value) => {
+                document.body.classList.toggle('reorder-mode', value === 'layout')
+            })
+            this.$watch('open', (value) => {
+                if (!value) document.body.classList.remove('reorder-mode')
+            })
+        },
+
+        enterLayoutTab() {
+            this.activeTab = 'layout'
+            this.$nextTick(() => this.initSortable())
+        },
+
+        initSortable() {
+            const container = this.findSectionsContainer()
+            if (!container || this.sortableInstance) return
+
+            this.sortableInstance = Sortable.create(container, {
+                handle: '.drag-handle',
+                animation: 150,
+                onEnd: () => {},
+            })
+
+            container.querySelectorAll('[data-section-key]').forEach((section) => {
+                const toggle = section.querySelector('.section-visibility-toggle')
+                if (!toggle || toggle.dataset.bound) return
+                toggle.dataset.bound = 'true'
+
+                toggle.addEventListener('click', () => {
+                    const isHidden = section.classList.toggle('section-manually-hidden')
+                    toggle.querySelector('.eye-visible').classList.toggle('hidden', isHidden)
+                    toggle.querySelector('.eye-hidden').classList.toggle('hidden', !isHidden)
+                })
+            })
+        },
+
+        findSectionsContainer() {
+            const firstSection = document.querySelector('[data-section-key]')
+            return firstSection ? firstSection.parentElement : null
+        },
     }
 }

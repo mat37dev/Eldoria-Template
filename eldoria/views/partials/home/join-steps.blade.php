@@ -1,5 +1,10 @@
 <section class="py-24 px-4 max-w-5xl mx-auto {{ $sectionData['visible'] ? '' : 'hidden' }}"
          data-section-key="join_steps" data-aos="fade-up">
+    @auth
+        @if(auth()->user()->isAdmin())
+            @include('partials.home._reorder-toolbar')
+        @endif
+    @endauth
     <h2 class="section-title">{{ $sectionData['title'] ?: __('theme::theme.home.join_steps_title') }}</h2>
     <p class="section-subtitle">{{ $sectionData['subtitle'] ?: __('theme::theme.home.join_steps_subtitle') }}</p>
 

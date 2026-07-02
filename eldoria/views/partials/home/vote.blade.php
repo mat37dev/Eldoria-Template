@@ -1,6 +1,11 @@
 @if(class_exists('\Azuriom\Plugin\Vote\Models\Site'))
 <section class="py-24 bg-bg-secondary border-y border-accent/10 {{ $sectionData['visible'] ? '' : 'hidden' }}"
          data-section-key="vote" data-aos="fade-up">
+    @auth
+        @if(auth()->user()->isAdmin())
+            @include('partials.home._reorder-toolbar')
+        @endif
+    @endauth
     <div class="max-w-4xl mx-auto px-4">
         <h2 class="section-title">{{ __('theme::theme.home.vote_title') }}</h2>
         <p class="section-subtitle">{{ __('theme::theme.home.vote_subtitle') }}</p>

@@ -74,6 +74,11 @@
                     class="flex-1 py-3 text-xs font-display tracking-widest uppercase transition-colors">
                 {{ __('theme::theme.customizer.tab_content') }}
             </button>
+            <button @click="enterLayoutTab()"
+                    :class="activeTab === 'layout' ? 'border-b-2 border-accent text-accent' : 'text-text-secondary hover:text-text-primary'"
+                    class="flex-1 py-3 text-xs font-display tracking-widest uppercase transition-colors">
+                {{ __('theme::theme.customizer.tab_layout') }}
+            </button>
         </div>
 
         {{-- Body scrollable --}}
@@ -201,6 +206,13 @@
                     </div>
                 </div>
 
+            </div>
+
+            {{-- TAB DISPOSITION --}}
+            <div x-show="activeTab === 'layout'" class="space-y-6">
+                <p class="text-text-secondary text-sm leading-relaxed">
+                    {{ __('theme::theme.customizer.layout_instructions') }}
+                </p>
             </div>
         </div>
 

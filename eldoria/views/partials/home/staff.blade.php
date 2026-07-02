@@ -10,6 +10,11 @@
 @if($staffMembers->isNotEmpty())
 <section class="py-24 px-4 max-w-6xl mx-auto {{ $sectionData['visible'] ? '' : 'hidden' }}"
          data-section-key="staff" data-aos="fade-up">
+    @auth
+        @if(auth()->user()->isAdmin())
+            @include('partials.home._reorder-toolbar')
+        @endif
+    @endauth
     <h2 class="section-title">{{ __('theme::theme.home.staff_title') }}</h2>
     <p class="section-subtitle">{{ __('theme::theme.home.staff_subtitle') }}</p>
 

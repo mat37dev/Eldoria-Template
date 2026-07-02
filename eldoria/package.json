@@ -17,6 +17,7 @@
         "@alpinejs/persist": "^3.13.0",
         "alpinejs": "^3.13.0",
         "aos": "^2.3.4",
-        "gsap": "^3.12.0"
+        "gsap": "^3.12.0",
+        "sortablejs": "^1.15.2"
     }
 }
