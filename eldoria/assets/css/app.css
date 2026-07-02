@@ -21,6 +21,59 @@
     }
 }
 
+/* Mode réorganisation de la homepage (admin) — overlay affiché uniquement
+   quand body.reorder-mode est actif (voir customizer.js, onglet Disposition). */
+[data-section-key] {
+    position: relative;
+}
+
+.reorder-overlay {
+    display: none;
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 40;
+    gap: 0.5rem;
+}
+
+body.reorder-mode .reorder-overlay {
+    display: flex;
+}
+
+body.reorder-mode [data-section-key] {
+    outline: 1px dashed color-mix(in srgb, var(--color-accent) 40%, transparent);
+    outline-offset: 4px;
+}
+
+.reorder-overlay button {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-accent);
+    border-radius: 0.25rem;
+    color: var(--color-accent);
+    cursor: pointer;
+}
+
+.reorder-overlay .drag-handle {
+    cursor: grab;
+}
+
+.reorder-overlay .drag-handle:active {
+    cursor: grabbing;
+}
+
+.reorder-overlay button.section-hidden-indicator {
+    opacity: 0.5;
+}
+
+.sortable-ghost {
+    opacity: 0.4;
+}
+
 :root {
     --color-bg-primary: #0F0D0A;
     --color-bg-secondary: #1A1612;
@@ -95,58 +148,5 @@ body::before {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 1;
-    opacity: 0.4;
-}
-
-/* Mode réorganisation de la homepage (admin) — overlay affiché uniquement
-   quand body.reorder-mode est actif (voir customizer.js, onglet Disposition). */
-[data-section-key] {
-    position: relative;
-}
-
-.reorder-overlay {
-    display: none;
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    z-index: 40;
-    gap: 0.5rem;
-}
-
-body.reorder-mode .reorder-overlay {
-    display: flex;
-}
-
-body.reorder-mode [data-section-key] {
-    outline: 1px dashed color-mix(in srgb, var(--color-accent) 40%, transparent);
-    outline-offset: 4px;
-}
-
-.reorder-overlay button {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--color-bg-secondary);
-    border: 1px solid var(--color-accent);
-    border-radius: 0.25rem;
-    color: var(--color-accent);
-    cursor: pointer;
-}
-
-.reorder-overlay .drag-handle {
-    cursor: grab;
-}
-
-.reorder-overlay .drag-handle:active {
-    cursor: grabbing;
-}
-
-.reorder-overlay button.section-hidden-indicator {
-    opacity: 0.5;
-}
-
-.sortable-ghost {
     opacity: 0.4;
 }
