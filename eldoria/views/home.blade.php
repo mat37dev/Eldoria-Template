@@ -4,14 +4,34 @@
 
 @section('content')
 
-<?php $homeServer = \Azuriom\Models\Server::where('home_display', true)->first(); ?>
+<?php
+    $homeServer = \Azuriom\Models\Server::where('home_display', true)->first();
+
+    preg_match('/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/',
+        theme_config('trailer_url', '') ?? '', $trailerMatch);
+    $trailerId = $trailerMatch[1] ?? null;
+?>
 
 {{-- ======= HERO ======= --}}
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden" id="hero">
 
+    <?php
+        $heroVideoEnabled = theme_config('hero_video_enabled', '0') === '1' && $trailerId !== null;
+    ?>
+
     {{-- Background image --}}
-    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" id="hero-bg"
+    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat {{ $heroVideoEnabled ? 'hidden' : '' }}" id="hero-bg"
          style="background-image: url('{{ theme_config('hero_image') ?: theme_asset('images/hero-default.svg') }}')">
+    </div>
+
+    {{-- Fond vidéo (trailer YouTube, autoplay muet en boucle) --}}
+    <div id="hero-video-container" class="absolute inset-0 overflow-hidden pointer-events-none {{ $heroVideoEnabled ? '' : 'hidden' }}">
+        <iframe src="{{ $heroVideoEnabled ? 'https://www.youtube-nocookie.com/embed/'.$trailerId.'?autoplay=1&mute=1&loop=1&controls=0&playlist='.$trailerId.'&modestbranding=1&playsinline=1' : '' }}"
+                title="{{ __('theme::theme.home.trailer_iframe_title') }}"
+                class="absolute top-1/2 left-1/2 w-[177.78vh] min-w-full h-[56.25vw] min-h-full -translate-x-1/2 -translate-y-1/2"
+                frameborder="0"
+                allow="autoplay; encrypted-media"
+                loading="lazy"></iframe>
     </div>
 
     {{-- Overlay dégradé --}}
@@ -132,12 +152,6 @@
 </section>
 
 {{-- ======= TRAILER ======= --}}
-@php
-    // ID YouTube extrait côté serveur ; le customizer met l'iframe à jour côté client
-    preg_match('/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/',
-        theme_config('trailer_url', '') ?? '', $trailerMatch);
-    $trailerId = $trailerMatch[1] ?? null;
-@endphp
 <section class="py-24 px-4 max-w-5xl mx-auto {{ $trailerId ? '' : 'hidden' }}"
          data-live-section="trailer" data-aos="fade-up">
     <h2 class="section-title">{{ __('theme::theme.home.trailer_title') }}</h2>

@@ -27,6 +27,7 @@ export function customizerComponent(initial = {}) {
         showShop: initial.showShop ?? true,
         showVote: initial.showVote ?? true,
         trailerUrl: initial.trailerUrl ?? '',
+        heroVideoEnabled: initial.heroVideoEnabled ?? false,
         discordId: initial.discordId ?? '',
         footerDiscord: initial.footerDiscord ?? '',
         footerTwitter: initial.footerTwitter ?? '',
@@ -61,6 +62,25 @@ export function customizerComponent(initial = {}) {
             this.liveSection('trailer', id !== null)
         },
 
+        liveHeroVideo() {
+            const heroBg = document.getElementById('hero-bg')
+            const heroVideoContainer = document.getElementById('hero-video-container')
+            if (!heroBg || !heroVideoContainer) return
+
+            const id = ytVideoId(this.trailerUrl)
+            const shouldShowVideo = this.heroVideoEnabled && id !== null
+
+            heroBg.classList.toggle('hidden', shouldShowVideo)
+            heroVideoContainer.classList.toggle('hidden', !shouldShowVideo)
+
+            if (shouldShowVideo) {
+                const iframe = heroVideoContainer.querySelector('iframe')
+                if (iframe) {
+                    iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&loop=1&controls=0&playlist=${id}&modestbranding=1&playsinline=1`
+                }
+            }
+        },
+
         liveDiscord() {
             const id = (this.discordId || '').trim()
             document.querySelectorAll('[data-discord-iframe]')
@@ -90,6 +110,7 @@ export function customizerComponent(initial = {}) {
                 formData.append('show_section_shop', this.showShop ? '1' : '0')
                 formData.append('show_section_vote', this.showVote ? '1' : '0')
                 formData.append('trailer_url', this.trailerUrl)
+                formData.append('hero_video_enabled', this.heroVideoEnabled ? '1' : '0')
                 formData.append('discord_server_id', this.discordId)
                 formData.append('footer_discord', this.footerDiscord)
                 formData.append('footer_twitter', this.footerTwitter)

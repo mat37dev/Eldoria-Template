@@ -114,6 +114,14 @@
                         @enderror
                     </div>
 
+                    <div class="form-check form-switch mb-4">
+                        <input type="hidden" name="hero_video_enabled" value="0">
+                        <input type="checkbox" class="form-check-input" role="switch"
+                               id="heroVideoEnabledInput" name="hero_video_enabled" value="1"
+                               {{ old('hero_video_enabled', theme_config('hero_video_enabled')) === '1' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="heroVideoEnabledInput">Utiliser le trailer en fond du hero</label>
+                    </div>
+
                     <div class="mb-4">
                         <label for="discordServerIdInput" class="form-label">ID du serveur Discord (widget)</label>
                         <input type="text" class="form-control @error('discord_server_id') is-invalid @enderror"

@@ -35,6 +35,7 @@ return [
         'trailer_label' => 'YouTube trailer',
         'trailer_placeholder' => 'https://youtu.be/...',
         'trailer_help' => 'YouTube link for the trailer — shown on the homepage.',
+        'hero_video_toggle' => 'Use the trailer as hero background',
         'discord_widget_label' => 'Discord widget',
         'discord_widget_placeholder' => 'Discord server ID',
         'discord_widget_help' => 'Enable the widget on Discord first: Server Settings → Widget.',

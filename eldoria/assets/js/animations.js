@@ -16,6 +16,9 @@ export function initAnimations() {
 function initParallax() {
     if (isMobile) return
 
+    const heroVideoContainer = document.getElementById('hero-video-container')
+    if (heroVideoContainer && !heroVideoContainer.classList.contains('hidden')) return
+
     const heroBg = document.getElementById('hero-bg')
     if (!heroBg) return
 
