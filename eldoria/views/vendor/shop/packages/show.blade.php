@@ -7,7 +7,7 @@
 
     <div class="mb-8">
         <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">
-            {{ $package->category->name ?? 'Boutique' }}
+            {{ $package->category->name ?? __('theme::theme.shop.category_fallback') }}
         </p>
         <h1 class="font-display text-3xl md:text-4xl font-bold text-text-primary">{{ $package->name }}</h1>
     </div>
@@ -31,27 +31,27 @@
             </span>
 
             @if($shopUser === null)
-                <a href="{{ route('shop.login') }}" class="btn-primary min-h-[48px]">Se connecter pour acheter</a>
+                <a href="{{ route('shop.login') }}" class="btn-primary min-h-[48px]">{{ __('theme::theme.shop.login_to_buy') }}</a>
             @elseif($package->isSubscription())
                 @if($package->isUserSubscribed($shopUser))
-                    <a href="{{ route('shop.profile') }}" class="btn-primary min-h-[48px]">Gérer mon abonnement</a>
+                    <a href="{{ route('shop.profile') }}" class="btn-primary min-h-[48px]">{{ __('theme::theme.shop.manage_subscription') }}</a>
                 @else
                     <form action="{{ route('shop.subscriptions.select', $package) }}" method="POST">
                         @csrf
-                        <button type="submit" class="btn-primary min-h-[48px]">S'abonner</button>
+                        <button type="submit" class="btn-primary min-h-[48px]">{{ __('theme::theme.shop.subscribe') }}</button>
                     </form>
                 @endif
             @elseif($package->isInCart())
                 <form action="{{ route('shop.cart.remove', $package) }}" method="POST">
                     @csrf
-                    <button type="submit" class="btn-primary min-h-[48px]">Retirer du panier</button>
+                    <button type="submit" class="btn-primary min-h-[48px]">{{ __('theme::theme.shop.remove_from_cart') }}</button>
                 </form>
             @elseif($package->global_limit === 0)
-                <span class="text-text-secondary text-sm">Indisponible</span>
+                <span class="text-text-secondary text-sm">{{ __('theme::theme.shop.unavailable') }}</span>
             @elseif($package->getMaxQuantity() < 1)
-                <span class="text-text-secondary text-sm">Limite atteinte</span>
+                <span class="text-text-secondary text-sm">{{ __('theme::theme.shop.limit_reached') }}</span>
             @elseif(! $package->hasBoughtRequirements())
-                <span class="text-text-secondary text-sm">Achat préalable requis</span>
+                <span class="text-text-secondary text-sm">{{ __('theme::theme.shop.requirements_needed') }}</span>
             @else
                 <form action="{{ route('shop.packages.buy', $package) }}" method="POST" class="flex items-center gap-3">
                     @csrf
@@ -67,7 +67,7 @@
                                class="w-20 bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm min-h-[48px]">
                     @endif
 
-                    <button type="submit" class="btn-primary min-h-[48px]">Ajouter au panier</button>
+                    <button type="submit" class="btn-primary min-h-[48px]">{{ __('theme::theme.shop.add_to_cart') }}</button>
                 </form>
             @endif
         </div>

@@ -6,7 +6,7 @@
             <a href="{{ route('shop.home') }}"
                class="block px-4 py-3 text-sm border-b border-accent/10 last:border-b-0 transition-colors
                       {{ $category === null ? 'bg-accent/10 text-accent font-semibold' : 'text-text-secondary hover:text-text-primary' }}">
-                Accueil boutique
+                {{ __('theme::theme.shop.sidebar_home') }}
             </a>
         @endif
 
@@ -48,45 +48,45 @@
 
             @if(use_site_money())
                 <a href="{{ route('shop.offers.select') }}" class="btn-primary w-full justify-center text-xs py-2">
-                    Recharger le solde
+                    {{ __('theme::theme.shop.sidebar_recharge') }}
                 </a>
             @endif
 
             <a href="{{ route('shop.cart.index') }}"
                class="block text-center py-2 border border-accent/30 text-text-secondary hover:text-text-primary
                       text-xs font-display tracking-widest uppercase rounded-sm transition-colors">
-                Mon panier
+                {{ __('theme::theme.shop.sidebar_cart') }}
             </a>
 
             @if($userHasPayments)
                 <a href="{{ route('shop.profile') }}"
                    class="block text-center py-2 border border-accent/30 text-text-secondary hover:text-text-primary
                           text-xs font-display tracking-widest uppercase rounded-sm transition-colors">
-                    Mes achats
+                    {{ __('theme::theme.shop.sidebar_purchases') }}
                 </a>
             @endif
         </div>
     @else
         <a href="{{ route('shop.login') }}" class="btn-primary w-full justify-center block text-center">
-            Se connecter pour acheter
+            {{ __('theme::theme.shop.sidebar_login') }}
         </a>
     @endif
 
     {{-- Objectif du mois --}}
     @if($goal >= 0)
         <div class="card-eldoria p-4">
-            <div class="text-accent text-xs font-display tracking-widest uppercase mb-3">Objectif du mois</div>
+            <div class="text-accent text-xs font-display tracking-widest uppercase mb-3">{{ __('theme::theme.shop.sidebar_goal') }}</div>
             <div class="w-full bg-bg-primary rounded-full h-2 overflow-hidden mb-2">
                 <div class="h-full bg-accent rounded-full" style="width: {{ min($goal, 100) }}%"></div>
             </div>
-            <p class="text-text-secondary text-xs text-center">{{ $goal }}% atteint</p>
+            <p class="text-text-secondary text-xs text-center">{{ __('theme::theme.shop.sidebar_goal_progress', ['percent' => $goal]) }}</p>
         </div>
     @endif
 
     {{-- Meilleur acheteur --}}
     @if($topCustomer !== null)
         <div class="card-eldoria p-4">
-            <div class="text-accent text-xs font-display tracking-widest uppercase mb-3">Meilleur acheteur</div>
+            <div class="text-accent text-xs font-display tracking-widest uppercase mb-3">{{ __('theme::theme.shop.sidebar_top_customer') }}</div>
             <div class="flex items-center gap-3">
                 <img src="{{ $topCustomer->user->getAvatar(48) }}" alt="{{ $topCustomer->user->name }}" class="w-10 h-10 rounded-sm">
                 <div>
@@ -102,7 +102,7 @@
     {{-- Achats récents --}}
     @if($recentPayments !== null)
         <div class="card-eldoria overflow-hidden">
-            <div class="text-accent text-xs font-display tracking-widest uppercase px-4 pt-4 pb-2">Achats récents</div>
+            <div class="text-accent text-xs font-display tracking-widest uppercase px-4 pt-4 pb-2">{{ __('theme::theme.shop.sidebar_recent_purchases') }}</div>
             @forelse($recentPayments as $payment)
                 <div class="flex items-center gap-3 px-4 py-2 border-t border-accent/10">
                     <img src="{{ $payment->user->getAvatar(32) }}" alt="{{ $payment->user->name }}" class="w-6 h-6 rounded-sm">
@@ -114,7 +114,7 @@
                     </div>
                 </div>
             @empty
-                <div class="px-4 py-3 text-xs text-text-secondary border-t border-accent/10">Aucun achat récent.</div>
+                <div class="px-4 py-3 text-xs text-text-secondary border-t border-accent/10">{{ __('theme::theme.shop.sidebar_no_recent') }}</div>
             @endforelse
         </div>
     @endif

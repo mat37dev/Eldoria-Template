@@ -1,20 +1,20 @@
 @extends('layouts.app')
 
-@section('title', 'Panier')
+@section('title', __('theme::theme.shop.cart_title'))
 
 @section('content')
 <div class="pt-24 pb-16 max-w-3xl mx-auto px-4">
 
     <div class="text-center py-12">
-        <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">✦ Boutique ✦</p>
-        <h1 class="section-title">Mon panier</h1>
+        <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">✦ {{ __('theme::theme.shop.hero_eyebrow') }} ✦</p>
+        <h1 class="section-title">{{ __('theme::theme.shop.cart_title') }}</h1>
     </div>
 
     @if($cart->isEmpty())
         <div class="card-eldoria p-8 text-center text-text-secondary">
-            Ton panier est vide.
+            {{ __('theme::theme.shop.cart_empty') }}
             <div class="mt-4">
-                <a href="{{ route('shop.home') }}" class="btn-primary">Retourner à la boutique</a>
+                <a href="{{ route('shop.home') }}" class="btn-primary">{{ __('theme::theme.shop.back_to_shop') }}</a>
             </div>
         </div>
     @else
@@ -38,34 +38,34 @@
 
                     <a href="{{ route('shop.cart.remove', $cartItem->id) }}"
                        class="min-w-[48px] min-h-[48px] flex items-center justify-center text-text-secondary hover:text-red-400 transition-colors"
-                       title="Retirer">
+                       title="{{ __('theme::theme.shop.cart_remove_title') }}">
                         ✕
                     </a>
                 </div>
             @endforeach
 
             <div class="flex justify-end">
-                <button type="submit" class="btn-primary text-xs py-2 px-4">Mettre à jour</button>
+                <button type="submit" class="btn-primary text-xs py-2 px-4">{{ __('theme::theme.shop.cart_update') }}</button>
             </div>
         </form>
 
         <form method="POST" action="{{ route('shop.cart.clear') }}" class="text-right mb-8">
             @csrf
             <button type="submit" class="text-text-secondary hover:text-red-400 text-xs uppercase tracking-widest transition-colors">
-                Vider le panier
+                {{ __('theme::theme.shop.cart_clear') }}
             </button>
         </form>
 
         {{-- Coupons --}}
         <div class="card-eldoria p-6 mb-8">
-            <h3 class="font-display text-accent text-sm tracking-widest uppercase mb-4">Code promo</h3>
+            <h3 class="font-display text-accent text-sm tracking-widest uppercase mb-4">{{ __('theme::theme.shop.coupon_title') }}</h3>
 
             <form action="{{ route('shop.cart.coupons.add') }}" method="POST" class="flex gap-3 mb-4">
                 @csrf
-                <input type="text" name="coupon" value="{{ old('coupon') }}" placeholder="Code"
+                <input type="text" name="coupon" value="{{ old('coupon') }}" placeholder="{{ __('theme::theme.shop.coupon_placeholder') }}"
                        required
                        class="flex-1 bg-bg-primary border border-accent/20 rounded-sm px-4 py-3 text-text-primary text-sm min-h-[48px]">
-                <button type="submit" class="btn-primary min-h-[48px]">Appliquer</button>
+                <button type="submit" class="btn-primary min-h-[48px]">{{ __('theme::theme.shop.coupon_apply') }}</button>
             </form>
             @error('coupon')
                 <p class="text-red-400 text-xs">{{ $message }}</p>
@@ -81,7 +81,7 @@
                             </span>
                             <form action="{{ route('shop.cart.coupons.remove', $coupon) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="text-text-secondary hover:text-red-400 text-xs">Retirer</button>
+                                <button type="submit" class="text-text-secondary hover:text-red-400 text-xs">{{ __('theme::theme.shop.coupon_remove') }}</button>
                             </form>
                         </div>
                     @endforeach
@@ -92,12 +92,12 @@
         {{-- Total --}}
         <div class="card-eldoria p-6 mb-8 space-y-2">
             <div class="flex justify-between text-text-secondary text-sm">
-                <span>Total</span>
+                <span>{{ __('theme::theme.shop.total') }}</span>
                 <span>{{ shop_format_amount($cart->total()) }}</span>
             </div>
             @if($cart->total() !== $cart->payableTotal())
                 <div class="flex justify-between text-accent font-display font-bold">
-                    <span>À payer</span>
+                    <span>{{ __('theme::theme.shop.total_payable') }}</span>
                     <span>{{ shop_format_amount($cart->payableTotal()) }}</span>
                 </div>
             @endif
@@ -120,15 +120,15 @@
 
                 <div class="flex items-center justify-between">
                     <a href="{{ route('shop.home') }}" class="text-text-secondary hover:text-text-primary text-sm">
-                        ← Retour à la boutique
+                        {{ __('theme::theme.shop.checkout_back') }}
                     </a>
-                    <button type="submit" class="btn-primary min-h-[48px]">Valider l'achat</button>
+                    <button type="submit" class="btn-primary min-h-[48px]">{{ __('theme::theme.shop.checkout_validate') }}</button>
                 </div>
             </form>
         @else
             <form action="{{ route('shop.payments.payment') }}" method="GET" class="space-y-4">
                 @if($emailRequired)
-                    <input type="email" name="email" value="{{ old('email') }}" placeholder="Email" required
+                    <input type="email" name="email" value="{{ old('email') }}" placeholder="{{ __('theme::theme.shop.email_placeholder') }}" required
                            class="w-full bg-bg-primary border border-accent/20 rounded-sm px-4 py-3 text-text-primary text-sm min-h-[48px]">
                     @error('email')
                         <p class="text-red-400 text-xs">{{ $message }}</p>
@@ -147,9 +147,9 @@
 
                 <div class="flex items-center justify-between">
                     <a href="{{ route('shop.home') }}" class="text-text-secondary hover:text-text-primary text-sm">
-                        ← Retour à la boutique
+                        {{ __('theme::theme.shop.checkout_back') }}
                     </a>
-                    <button type="submit" class="btn-primary min-h-[48px]">Passer au paiement</button>
+                    <button type="submit" class="btn-primary min-h-[48px]">{{ __('theme::theme.shop.checkout_pay') }}</button>
                 </div>
             </form>
         @endif

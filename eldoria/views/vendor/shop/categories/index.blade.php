@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Boutique')
+@section('title', __('theme::theme.shop.title'))
 
 @section('content')
 <div class="pt-24 pb-16">
     <div class="text-center py-16 px-4">
-        <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">✦ Boutique ✦</p>
-        <h1 class="section-title">Soutiens le serveur</h1>
-        <p class="section-subtitle">Obtiens des avantages exclusifs et aide-nous à grandir</p>
+        <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">✦ {{ __('theme::theme.shop.hero_eyebrow') }} ✦</p>
+        <h1 class="section-title">{{ __('theme::theme.shop.title') }}</h1>
+        <p class="section-subtitle">{{ __('theme::theme.shop.subtitle') }}</p>
     </div>
 
     <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-4 gap-8">
