@@ -73,6 +73,16 @@ return [
         'news_title' => 'Actus',
         'news_subtitle' => 'Les dernières nouvelles du royaume',
         'news_see_all' => 'Voir toutes les actus',
+        'join_steps_title' => 'Comment nous rejoindre',
+        'join_steps_subtitle' => "3 étapes pour commencer l'aventure",
+        'join_step1_title' => "Copie l'IP",
+        'join_step1_text' => 'Clique sur le bouton ou sur l\'IP pour la copier dans le presse-papier.',
+        'join_step2_title' => 'Lance Minecraft',
+        'join_step2_text' => 'Ouvre le jeu et va dans Multijoueur > Ajouter un serveur.',
+        'join_step3_title' => "Rejoins l'aventure",
+        'join_step3_text' => "Colle l'IP, valide, et retrouve-nous en jeu !",
+        'staff_title' => 'Notre équipe',
+        'staff_subtitle' => 'Les aventuriers qui veillent sur le royaume',
     ],
 
     'shop' => [

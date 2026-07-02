@@ -100,6 +100,30 @@
     </div>
 </section>
 
+{{-- ======= COMMENT NOUS REJOINDRE ======= --}}
+<section class="py-24 px-4 max-w-5xl mx-auto" data-aos="fade-up">
+    <h2 class="section-title">{{ __('theme::theme.home.join_steps_title') }}</h2>
+    <p class="section-subtitle">{{ __('theme::theme.home.join_steps_subtitle') }}</p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div class="card-eldoria p-6 text-center" data-aos="fade-up" data-aos-delay="0">
+            <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center font-display text-accent font-bold">1</div>
+            <h3 class="font-display text-text-primary font-semibold mb-2">{{ __('theme::theme.home.join_step1_title') }}</h3>
+            <p class="text-text-secondary text-sm">{{ __('theme::theme.home.join_step1_text') }}</p>
+        </div>
+        <div class="card-eldoria p-6 text-center" data-aos="fade-up" data-aos-delay="100">
+            <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center font-display text-accent font-bold">2</div>
+            <h3 class="font-display text-text-primary font-semibold mb-2">{{ __('theme::theme.home.join_step2_title') }}</h3>
+            <p class="text-text-secondary text-sm">{{ __('theme::theme.home.join_step2_text') }}</p>
+        </div>
+        <div class="card-eldoria p-6 text-center" data-aos="fade-up" data-aos-delay="200">
+            <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center font-display text-accent font-bold">3</div>
+            <h3 class="font-display text-text-primary font-semibold mb-2">{{ __('theme::theme.home.join_step3_title') }}</h3>
+            <p class="text-text-secondary text-sm">{{ __('theme::theme.home.join_step3_text') }}</p>
+        </div>
+    </div>
+</section>
+
 {{-- ======= TRAILER ======= --}}
 @php
     // ID YouTube extrait côté serveur ; le customizer met l'iframe à jour côté client
@@ -224,6 +248,36 @@
             </div>
             @endforeach
         </div>
+    </div>
+</section>
+@endif
+
+{{-- ======= ÉQUIPE ======= --}}
+@php
+    $staffMembers = collect(range(1, 8))
+        ->map(fn ($i) => [
+            'name' => theme_config("staff_{$i}_name", ''),
+            'role' => theme_config("staff_{$i}_role", ''),
+        ])
+        ->filter(fn ($member) => trim($member['name']) !== '');
+@endphp
+@if($staffMembers->isNotEmpty())
+<section class="py-24 px-4 max-w-6xl mx-auto" data-aos="fade-up">
+    <h2 class="section-title">{{ __('theme::theme.home.staff_title') }}</h2>
+    <p class="section-subtitle">{{ __('theme::theme.home.staff_subtitle') }}</p>
+
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        @foreach($staffMembers as $member)
+        <div class="card-eldoria p-4 text-center" data-aos="fade-up" data-aos-delay="{{ $loop->index * 75 }}">
+            <img src="https://minotar.net/avatar/{{ urlencode($member['name']) }}/128"
+                 alt="{{ $member['name'] }}"
+                 class="w-16 h-16 mx-auto rounded-sm mb-3">
+            <div class="font-display text-text-primary text-sm font-semibold">{{ $member['name'] }}</div>
+            @if($member['role'] !== '')
+                <div class="text-accent text-xs uppercase tracking-widest mt-1">{{ $member['role'] }}</div>
+            @endif
+        </div>
+        @endforeach
     </div>
 </section>
 @endif

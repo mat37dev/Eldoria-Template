@@ -73,6 +73,16 @@ return [
         'news_title' => 'News',
         'news_subtitle' => 'The latest news from the realm',
         'news_see_all' => 'See all the news',
+        'join_steps_title' => 'How to join us',
+        'join_steps_subtitle' => 'Start the adventure in 3 steps',
+        'join_step1_title' => 'Copy the IP',
+        'join_step1_text' => 'Click the button or the IP to copy it to your clipboard.',
+        'join_step2_title' => 'Launch Minecraft',
+        'join_step2_text' => 'Open the game and go to Multiplayer > Add server.',
+        'join_step3_title' => 'Join the adventure',
+        'join_step3_text' => 'Paste the IP, confirm, and see you in-game!',
+        'staff_title' => 'Our team',
+        'staff_subtitle' => 'The adventurers watching over the realm',
     ],
 
     'shop' => [
