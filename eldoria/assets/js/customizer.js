@@ -34,8 +34,6 @@ export function customizerComponent(initial = {}) {
         },
         slogan: initial.slogan ?? '',
         heroImage: initial.heroImage ?? '',
-        showShop: initial.showShop ?? true,
-        showVote: initial.showVote ?? true,
         trailerUrl: initial.trailerUrl ?? '',
         heroVideoEnabled: initial.heroVideoEnabled ?? false,
         discordId: initial.discordId ?? '',
@@ -111,6 +109,30 @@ export function customizerComponent(initial = {}) {
             })
         },
 
+        buildHomeLayoutPayload() {
+            const container = this.findSectionsContainer()
+            if (!container) return null
+
+            return Array.from(container.querySelectorAll('[data-section-key]')).map((section) => {
+                const key = section.dataset.sectionKey
+                const visible = !section.classList.contains('section-manually-hidden')
+                const entry = { key, visible }
+
+                if (key === 'join_steps') {
+                    entry.title = this.sectionTextOverrides.join_steps.title
+                    entry.subtitle = this.sectionTextOverrides.join_steps.subtitle
+                    entry.steps = this.sectionTextOverrides.join_steps.steps
+                }
+
+                if (key === 'trailer') {
+                    entry.title = this.sectionTextOverrides.trailer.title
+                    entry.subtitle = this.sectionTextOverrides.trailer.subtitle
+                }
+
+                return entry
+            })
+        },
+
         async save() {
             this.saving = true
             try {
@@ -124,13 +146,16 @@ export function customizerComponent(initial = {}) {
                 formData.append('color_accent_secondary', this.accentSecondary)
                 formData.append('hero_slogan', this.slogan)
                 formData.append('hero_image', this.heroImage)
-                formData.append('show_section_shop', this.showShop ? '1' : '0')
-                formData.append('show_section_vote', this.showVote ? '1' : '0')
                 formData.append('trailer_url', this.trailerUrl)
                 formData.append('hero_video_enabled', this.heroVideoEnabled ? '1' : '0')
                 formData.append('discord_server_id', this.discordId)
                 formData.append('footer_discord', this.footerDiscord)
                 formData.append('footer_twitter', this.footerTwitter)
+
+                const homeLayoutPayload = this.buildHomeLayoutPayload()
+                if (homeLayoutPayload !== null) {
+                    formData.append('home_layout', JSON.stringify(homeLayoutPayload))
+                }
 
                 const response = await fetch(this.$root.dataset.saveUrl, {
                     method: 'POST',

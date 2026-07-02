@@ -30,8 +30,6 @@
         slogan: @js(theme_config('hero_slogan', '')),
         heroImage: @js(theme_config('hero_image', '') ?? ''),
         heroVideoEnabled: @js(theme_config('hero_video_enabled', '0') === '1'),
-        showShop: @js(theme_config('show_section_shop', '1') === '1'),
-        showVote: @js(theme_config('show_section_vote', '1') === '1'),
         trailerUrl: @js(theme_config('trailer_url', '') ?? ''),
         discordId: @js(theme_config('discord_server_id', '') ?? ''),
         footerDiscord: @js(theme_config('footer_discord', '') ?? ''),
@@ -162,22 +160,6 @@
                            class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm
                                   focus:outline-none focus:border-accent/60 min-h-[40px]">
                     <p class="text-text-secondary text-xs mt-1">{{ __('theme::theme.customizer.hero_image_help') }}</p>
-                </div>
-
-                <div>
-                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-3">{{ __('theme::theme.customizer.sections_visible') }}</label>
-                    <div class="space-y-3">
-                        <div class="flex items-center justify-between">
-                            <span class="text-text-primary text-sm">{{ __('theme::theme.customizer.section_shop') }}</span>
-                            <input type="checkbox" x-model="showShop" @change="liveSection('shop', showShop)"
-                                   class="w-4 h-4 accent-[var(--color-accent)]">
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="text-text-primary text-sm">{{ __('theme::theme.customizer.section_vote') }}</span>
-                            <input type="checkbox" x-model="showVote" @change="liveSection('vote', showVote)"
-                                   class="w-4 h-4 accent-[var(--color-accent)]">
-                        </div>
-                    </div>
                 </div>
 
                 <div>
