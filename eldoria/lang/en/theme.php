@@ -29,6 +29,9 @@ return [
         'accent_secondary' => 'Secondary accent',
         'hero_slogan' => 'Hero slogan',
         'hero_slogan_placeholder' => 'Welcome to the realm of...',
+        'hero_image_label' => 'Hero background image (URL)',
+        'hero_image_placeholder' => 'https://...',
+        'hero_image_help' => 'Leave empty to use the theme\'s default image.',
         'sections_visible' => 'Visible sections',
         'section_shop' => 'Shop',
         'section_vote' => 'Vote',
@@ -48,6 +51,7 @@ return [
         'saving' => 'Saving...',
         'saved' => '✓ Saved',
         'save_error' => '✕ Error',
+        'admin_link' => 'Go to admin panel',
     ],
 
     'home' => [

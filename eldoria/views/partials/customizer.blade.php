@@ -12,6 +12,7 @@
 {{-- Drawer customizer --}}
 <div x-data="customizer({
         slogan: @js(theme_config('hero_slogan', '')),
+        heroImage: @js(theme_config('hero_image', '') ?? ''),
         heroVideoEnabled: @js(theme_config('hero_video_enabled', '0') === '1'),
         showShop: @js(theme_config('show_section_shop', '1') === '1'),
         showVote: @js(theme_config('show_section_vote', '1') === '1'),
@@ -44,11 +45,21 @@
         {{-- Header --}}
         <div class="flex items-center justify-between px-6 py-4 border-b border-accent/20">
             <h3 class="font-display text-accent tracking-widest uppercase text-sm">{{ __('theme::theme.customizer.title') }}</h3>
-            <button @click="open = false" class="text-text-secondary hover:text-text-primary transition-colors">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-            </button>
+            <div class="flex items-center gap-4">
+                <a href="{{ route('admin.themes.config', 'eldoria') }}" target="_blank" rel="noopener"
+                   class="text-text-secondary hover:text-accent transition-colors"
+                   title="{{ __('theme::theme.customizer.admin_link') }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                </a>
+                <button @click="open = false" class="text-text-secondary hover:text-text-primary transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
         </div>
 
         {{-- Tabs --}}
@@ -124,6 +135,15 @@
                 </div>
 
                 <div>
+                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.hero_image_label') }}</label>
+                    <input type="url" x-model="heroImage" @input.debounce.500ms="liveHeroImage()"
+                           placeholder="{{ __('theme::theme.customizer.hero_image_placeholder') }}"
+                           class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm
+                                  focus:outline-none focus:border-accent/60 min-h-[40px]">
+                    <p class="text-text-secondary text-xs mt-1">{{ __('theme::theme.customizer.hero_image_help') }}</p>
+                </div>
+
+                <div>
                     <label class="block text-xs text-text-secondary uppercase tracking-widest mb-3">{{ __('theme::theme.customizer.sections_visible') }}</label>
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
@@ -185,21 +205,24 @@
         </div>
 
         {{-- Footer actions --}}
-        <div class="px-6 py-4 border-t border-accent/20 flex gap-3">
-            <button @click="cancel()"
-                    class="flex-1 py-2 border border-accent/30 text-text-secondary hover:text-text-primary
-                           text-sm font-display tracking-widest uppercase rounded-sm transition-colors">
-                {{ __('theme::theme.customizer.cancel') }}
-            </button>
-            <button @click="save()"
-                    :disabled="saving"
-                    class="flex-1 py-2 bg-accent text-bg-primary font-display text-sm tracking-widest uppercase
-                           rounded-sm hover:bg-accent/90 transition-all disabled:opacity-50">
-                <span x-show="!saving && !saved && !saveError">{{ __('theme::theme.customizer.save') }}</span>
-                <span x-show="saving">{{ __('theme::theme.customizer.saving') }}</span>
-                <span x-show="saved">{{ __('theme::theme.customizer.saved') }}</span>
-                <span x-show="saveError" class="text-red-600">{{ __('theme::theme.customizer.save_error') }}</span>
-            </button>
+        <div class="px-6 py-4 border-t border-accent/20">
+            <p x-show="saveError" x-cloak class="text-red-400 text-xs mb-3" x-text="saveErrorMessage"></p>
+            <div class="flex gap-3">
+                <button @click="cancel()"
+                        class="flex-1 py-2 border border-accent/30 text-text-secondary hover:text-text-primary
+                               text-sm font-display tracking-widest uppercase rounded-sm transition-colors">
+                    {{ __('theme::theme.customizer.cancel') }}
+                </button>
+                <button @click="save()"
+                        :disabled="saving"
+                        class="flex-1 py-2 bg-accent text-bg-primary font-display text-sm tracking-widest uppercase
+                               rounded-sm hover:bg-accent/90 transition-all disabled:opacity-50">
+                    <span x-show="!saving && !saved && !saveError">{{ __('theme::theme.customizer.save') }}</span>
+                    <span x-show="saving">{{ __('theme::theme.customizer.saving') }}</span>
+                    <span x-show="saved">{{ __('theme::theme.customizer.saved') }}</span>
+                    <span x-show="saveError" class="text-red-600">{{ __('theme::theme.customizer.save_error') }}</span>
+                </button>
+            </div>
         </div>
     </div>
 </div>

@@ -21,6 +21,7 @@
 
     {{-- Background image --}}
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat {{ $heroVideoEnabled ? 'hidden' : '' }}" id="hero-bg"
+         data-default-image="{{ theme_asset('images/hero-default.svg') }}"
          style="background-image: url('{{ theme_config('hero_image') ?: theme_asset('images/hero-default.svg') }}')">
     </div>
 

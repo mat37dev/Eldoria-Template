@@ -17,6 +17,7 @@ export function customizerComponent(initial = {}) {
         saving: false,
         saved: false,
         saveError: false,
+        saveErrorMessage: '',
         activeTab: 'colors',
         accent: getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim() || '#C9A84C',
         accentSecondary: getComputedStyle(document.documentElement).getPropertyValue('--color-accent-secondary').trim() || '#7B3F2E',
@@ -24,6 +25,7 @@ export function customizerComponent(initial = {}) {
 
         // Contenu éditable — initialisé depuis la config serveur (voir customizer.blade.php)
         slogan: initial.slogan ?? '',
+        heroImage: initial.heroImage ?? '',
         showShop: initial.showShop ?? true,
         showVote: initial.showVote ?? true,
         trailerUrl: initial.trailerUrl ?? '',
@@ -48,6 +50,12 @@ export function customizerComponent(initial = {}) {
         liveSlogan() {
             document.querySelectorAll('[data-live="hero_slogan"]')
                 .forEach(el => { el.textContent = this.slogan })
+        },
+
+        liveHeroImage() {
+            const heroBg = document.getElementById('hero-bg')
+            if (!heroBg) return
+            heroBg.style.backgroundImage = `url('${this.heroImage || heroBg.dataset.defaultImage}')`
         },
 
         liveSection(key, visible) {
@@ -107,6 +115,7 @@ export function customizerComponent(initial = {}) {
                 formData.append('color_accent', this.accent)
                 formData.append('color_accent_secondary', this.accentSecondary)
                 formData.append('hero_slogan', this.slogan)
+                formData.append('hero_image', this.heroImage)
                 formData.append('show_section_shop', this.showShop ? '1' : '0')
                 formData.append('show_section_vote', this.showVote ? '1' : '0')
                 formData.append('trailer_url', this.trailerUrl)
@@ -117,17 +126,24 @@ export function customizerComponent(initial = {}) {
 
                 const response = await fetch(this.$root.dataset.saveUrl, {
                     method: 'POST',
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    headers: { 'X-Requested-With': 'XMLHttpRequest', Accept: 'application/json' },
                     body: formData,
                 })
 
-                if (!response.ok) throw new Error('Save failed')
+                if (!response.ok) {
+                    // Laravel renvoie le détail de la validation en JSON (422) — on
+                    // l'affiche tel quel plutôt qu'un "Erreur" générique sans piste.
+                    const data = await response.json().catch(() => null)
+                    const firstError = data?.errors ? Object.values(data.errors)[0]?.[0] : null
+                    throw new Error(firstError || data?.message || `Échec de la sauvegarde (${response.status})`)
+                }
 
                 this.saved = true
                 setTimeout(() => { this.saved = false }, 3000)
             } catch (e) {
                 this.saveError = true
-                setTimeout(() => { this.saveError = false }, 4000)
+                this.saveErrorMessage = e.message || 'Erreur inconnue'
+                setTimeout(() => { this.saveError = false }, 6000)
                 console.error('Customizer save error:', e)
             } finally {
                 this.saving = false

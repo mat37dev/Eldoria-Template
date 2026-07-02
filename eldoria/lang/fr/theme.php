@@ -29,6 +29,9 @@ return [
         'accent_secondary' => 'Accent secondaire',
         'hero_slogan' => 'Slogan hero',
         'hero_slogan_placeholder' => 'Bienvenue dans le royaume de...',
+        'hero_image_label' => 'Image de fond du hero (URL)',
+        'hero_image_placeholder' => 'https://...',
+        'hero_image_help' => "Laisser vide pour utiliser l'image par défaut du thème.",
         'sections_visible' => 'Sections visibles',
         'section_shop' => 'Boutique',
         'section_vote' => 'Vote',
@@ -48,6 +51,7 @@ return [
         'saving' => 'Sauvegarde...',
         'saved' => '✓ Sauvegardé',
         'save_error' => '✕ Erreur',
+        'admin_link' => "Aller à l'admin",
     ],
 
     'home' => [
