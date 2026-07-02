@@ -83,6 +83,8 @@ return [
         'join_step3_text' => 'Paste the IP, confirm, and see you in-game!',
         'staff_title' => 'Our team',
         'staff_subtitle' => 'The adventurers watching over the realm',
+        'server_online' => 'Online',
+        'server_offline' => 'Offline',
     ],
 
     'shop' => [

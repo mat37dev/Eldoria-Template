@@ -35,12 +35,19 @@
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
             {{-- Bouton Rejoindre avec pulse --}}
             @if($homeServer)
-                <button onclick="navigator.clipboard.writeText('{{ $homeServer->fullAddress() }}')"
-                        class="btn-primary relative group min-w-[180px] min-h-[48px]" id="btn-join">
-                    <span class="absolute inset-0 rounded-sm animate-ping opacity-30 bg-accent"></span>
-                    <span class="relative">{{ __('theme::theme.home.join') }}</span>
-                    <span class="relative ml-2 text-xs font-mono opacity-70">{{ $homeServer->fullAddress() }}</span>
-                </button>
+                <div class="flex items-center gap-2">
+                    <span id="server-status-dot"
+                          data-online-label="{{ __('theme::theme.home.server_online') }}"
+                          data-offline-label="{{ __('theme::theme.home.server_offline') }}"
+                          title="{{ __('theme::theme.home.server_online') }}"
+                          class="w-3 h-3 rounded-full bg-green-500 flex-shrink-0"></span>
+                    <button onclick="navigator.clipboard.writeText('{{ $homeServer->fullAddress() }}')"
+                            class="btn-primary relative group min-w-[180px] min-h-[48px]" id="btn-join">
+                        <span class="absolute inset-0 rounded-sm animate-ping opacity-30 bg-accent"></span>
+                        <span class="relative">{{ __('theme::theme.home.join') }}</span>
+                        <span class="relative ml-2 text-xs font-mono opacity-70">{{ $homeServer->fullAddress() }}</span>
+                    </button>
+                </div>
             @endif
 
             <a href="{{ route('register') }}"

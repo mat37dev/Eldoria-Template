@@ -7,6 +7,7 @@ import { initParticles } from './particles.js'
 import { customizerComponent } from './customizer.js'
 import { initVotePage } from './vote.js'
 import { initPosts } from './posts.js'
+import { initServerStatus } from './server-status.js'
 
 window.Alpine = Alpine
 Alpine.plugin(persist)
@@ -30,4 +31,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initAnimations()
     initVotePage()
     initPosts()
+    initServerStatus()
 })
