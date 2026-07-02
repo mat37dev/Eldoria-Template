@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Profil')
+@section('title', __('theme::theme.profile.title'))
 
 @section('content')
 <div class="min-h-screen px-4 py-24">
     <div class="max-w-2xl mx-auto">
 
         <div class="text-center mb-8">
-            <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">✦ Compte ✦</p>
-            <h1 class="font-display text-3xl font-bold text-text-primary">Mon Profil</h1>
+            <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">✦ {{ __('theme::theme.profile.eyebrow') }} ✦</p>
+            <h1 class="font-display text-3xl font-bold text-text-primary">{{ __('theme::theme.profile.title') }}</h1>
         </div>
 
         <div class="card-eldoria p-8">
@@ -24,7 +24,7 @@
 
             <div class="space-y-4 text-sm">
                 <div class="flex items-center justify-between">
-                    <span class="text-text-secondary uppercase tracking-widest text-xs">Membre depuis</span>
+                    <span class="text-text-secondary uppercase tracking-widest text-xs">{{ __('theme::theme.profile.member_since') }}</span>
                     <span class="text-text-primary">{{ auth()->user()->created_at->format('d/m/Y') }}</span>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                    class="flex-1 text-center py-3 border border-accent/30 text-text-secondary hover:text-text-primary
                           text-sm font-display tracking-widest uppercase rounded-sm transition-colors min-h-[48px]
                           flex items-center justify-center">
-                    Changer le mot de passe
+                    {{ __('theme::theme.profile.change_password') }}
                 </a>
                 @endif
                 <form method="POST" action="{{ route('logout') }}" class="flex-1">
@@ -43,7 +43,7 @@
                     <button type="submit"
                             class="w-full py-3 bg-accent text-bg-primary font-display text-sm tracking-widest uppercase
                                    rounded-sm hover:bg-accent/90 transition-all min-h-[48px]">
-                        Se déconnecter
+                        {{ __('theme::theme.profile.logout') }}
                     </button>
                 </form>
             </div>

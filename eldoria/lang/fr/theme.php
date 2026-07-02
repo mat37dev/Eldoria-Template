@@ -134,4 +134,43 @@ return [
         'rewards_title' => 'Récompenses possibles',
     ],
 
+    'auth' => [
+        'login_eyebrow' => 'Portail',
+        'login_title' => 'Connexion',
+        'username_or_email' => "Nom d'utilisateur ou email",
+        'email_placeholder' => 'votre@email.com',
+        'password' => 'Mot de passe',
+        'remember_me' => 'Se souvenir de moi',
+        'forgot_password' => 'Mot de passe oublié ?',
+        'login_submit' => 'Se connecter',
+        'no_account' => 'Pas encore de compte ?',
+        'register_link' => "S'inscrire",
+        'register_eyebrow' => 'Rejoins-nous',
+        'register_title' => 'Créer un compte',
+        'username' => "Nom d'utilisateur",
+        'email' => 'Email',
+        'password_confirm' => 'Confirmer le mot de passe',
+        'register_submit' => 'Créer mon compte',
+        'already_registered' => 'Déjà inscrit ?',
+        'login_link' => 'Se connecter',
+    ],
+
+    'profile' => [
+        'eyebrow' => 'Compte',
+        'title' => 'Mon Profil',
+        'member_since' => 'Membre depuis',
+        'change_password' => 'Changer le mot de passe',
+        'logout' => 'Se déconnecter',
+    ],
+
+    'errors' => [
+        '404_title' => "Cette page n'existe pas",
+        '404_text' => "La page que tu cherches s'est perdue dans les brumes du royaume.",
+        '403_title' => 'Accès refusé',
+        '403_text' => "Tu n'as pas les permissions pour accéder à cette zone.",
+        '500_title' => 'Erreur du serveur',
+        '500_text' => "Quelque chose s'est mal passé de notre côté. Réessaie dans quelques instants.",
+        'back_home' => "Retourner à l'accueil",
+    ],
+
 ];

@@ -134,4 +134,43 @@ return [
         'rewards_title' => 'Possible rewards',
     ],
 
+    'auth' => [
+        'login_eyebrow' => 'Portal',
+        'login_title' => 'Login',
+        'username_or_email' => 'Username or email',
+        'email_placeholder' => 'you@email.com',
+        'password' => 'Password',
+        'remember_me' => 'Remember me',
+        'forgot_password' => 'Forgot your password?',
+        'login_submit' => 'Log in',
+        'no_account' => "Don't have an account yet?",
+        'register_link' => 'Register',
+        'register_eyebrow' => 'Join us',
+        'register_title' => 'Create an account',
+        'username' => 'Username',
+        'email' => 'Email',
+        'password_confirm' => 'Confirm password',
+        'register_submit' => 'Create my account',
+        'already_registered' => 'Already registered?',
+        'login_link' => 'Log in',
+    ],
+
+    'profile' => [
+        'eyebrow' => 'Account',
+        'title' => 'My Profile',
+        'member_since' => 'Member since',
+        'change_password' => 'Change password',
+        'logout' => 'Log out',
+    ],
+
+    'errors' => [
+        '404_title' => "This page doesn't exist",
+        '404_text' => 'The page you are looking for got lost in the mists of the realm.',
+        '403_title' => 'Access denied',
+        '403_text' => "You don't have permission to access this area.",
+        '500_title' => 'Server error',
+        '500_text' => 'Something went wrong on our end. Please try again in a moment.',
+        'back_home' => 'Back to home',
+    ],
+
 ];
