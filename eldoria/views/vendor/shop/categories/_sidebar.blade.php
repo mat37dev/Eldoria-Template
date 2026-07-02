@@ -86,7 +86,7 @@
     {{-- Meilleur acheteur --}}
     @if($topCustomer !== null)
         <div class="card-eldoria p-4">
-            <div class="text-accent text-xs font-display tracking-widest uppercase mb-3">{{ __('theme::theme.shop.sidebar_top_customer') }}</div>
+            <div class="text-accent text-xs font-display tracking-widest uppercase mb-3">🏆 {{ __('theme::theme.shop.sidebar_top_customer') }}</div>
             <div class="flex items-center gap-3">
                 <img src="{{ $topCustomer->user->getAvatar(48) }}" alt="{{ $topCustomer->user->name }}" class="w-10 h-10 rounded-sm">
                 <div>

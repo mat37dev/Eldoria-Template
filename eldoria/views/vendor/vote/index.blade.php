@@ -97,7 +97,14 @@
                     @foreach($votes as $vote)
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-3">
-                                <span class="font-display text-text-secondary text-sm w-5">{{ $loop->iteration }}.</span>
+                                <span class="font-display text-text-secondary text-sm w-5">
+                                    @switch($loop->index)
+                                        @case(0) 🥇 @break
+                                        @case(1) 🥈 @break
+                                        @case(2) 🥉 @break
+                                        @default {{ $loop->iteration }}.
+                                    @endswitch
+                                </span>
                                 <span class="text-text-primary text-sm">{{ $vote->user->name ?? __('theme::theme.vote.unknown_user') }}</span>
                             </div>
                             <span class="text-accent font-display font-bold text-sm">{{ $vote->votes }} {{ __('theme::theme.vote.votes_suffix') }}</span>

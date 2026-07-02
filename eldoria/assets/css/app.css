@@ -46,14 +46,16 @@
 
 @layer components {
     .btn-primary {
-        @apply inline-flex items-center px-6 py-3 bg-accent text-bg-primary font-display font-semibold
+        @apply inline-flex items-center px-6 py-3 text-bg-primary font-display font-semibold
                rounded-sm border border-accent transition-all duration-300
                tracking-wider uppercase text-sm;
+        background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-secondary) 100%);
     }
 
     .btn-primary:hover {
         opacity: 0.9;
     }
+
 
     .card-eldoria {
         @apply bg-bg-secondary rounded-sm transition-all duration-300;
@@ -66,7 +68,18 @@
 
     .section-title {
         @apply font-display text-3xl font-bold text-accent tracking-widest uppercase
-               text-center mb-2;
+               text-center mb-2 relative pb-4;
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4rem;
+        height: 3px;
+        background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-accent-secondary) 100%);
     }
 
     .section-subtitle {

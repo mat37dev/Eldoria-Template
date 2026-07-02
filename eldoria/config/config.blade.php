@@ -98,6 +98,15 @@
                             <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
                             @enderror
                         </div>
+                        <div class="col-12 mt-2">
+                            <label for="staff{{ $i }}LinkInput" class="form-label">Lien (Discord, Twitter/X...) #{{ $i }} — optionnel</label>
+                            <input type="url" class="form-control @error("staff_{$i}_link") is-invalid @enderror"
+                                   id="staff{{ $i }}LinkInput" name="staff_{{ $i }}_link" placeholder="https://..."
+                                   value="{{ old("staff_{$i}_link", theme_config("staff_{$i}_link")) }}">
+                            @error("staff_{$i}_link")
+                            <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
+                            @enderror
+                        </div>
                     </div>
                     @endfor
 

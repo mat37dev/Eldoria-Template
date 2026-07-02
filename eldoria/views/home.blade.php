@@ -179,9 +179,12 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
         @foreach($latestPosts as $post)
-        <div class="card-eldoria overflow-hidden flex flex-col" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+        <div class="card-eldoria overflow-hidden flex flex-col group" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
             @if($post->hasImage())
-                <img src="{{ $post->imageUrl() }}" alt="{{ $post->title }}" class="w-full h-32 object-cover">
+                <div class="overflow-hidden">
+                    <img src="{{ $post->imageUrl() }}" alt="{{ $post->title }}"
+                         class="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-300">
+                </div>
             @endif
             <div class="p-6 flex flex-col flex-1">
                 <h3 class="font-display text-text-primary font-semibold mb-2">
@@ -262,11 +265,23 @@
                         <div class="text-text-secondary text-xs">{{ __('theme::theme.home.vote_reward_generic') }}</div>
                     </div>
                 </div>
-                {{-- Le vrai flux de vote (redirection + vérification) est géré sur la page /vote --}}
-                <a href="{{ route('vote.home') }}"
-                   class="btn-primary text-xs py-2 px-4 whitespace-nowrap min-h-[40px]">
-                    ✦ {{ __('theme::theme.home.vote_cta') }}
-                </a>
+                @auth
+                    {{-- Connecté : même flux AJAX que /vote (minuteur de cooldown, vote en un clic) --}}
+                    <a href="{{ $site->url }}" target="_blank" rel="noopener noreferrer"
+                       data-vote-id="{{ $site->id }}"
+                       data-vote-url="{{ route('vote.vote', $site) }}"
+                       data-vote-time="{{ $site->getNextVoteTime(auth()->user(), request())?->valueOf() }}"
+                       class="btn-primary text-xs py-2 px-4 whitespace-nowrap min-h-[40px] flex items-center gap-1.5">
+                        ✦ {{ __('theme::theme.home.vote_cta') }}
+                        <span class="vote-timer font-mono"></span>
+                    </a>
+                @else
+                    {{-- Invité : le flux d'identification par pseudo se fait sur la page /vote --}}
+                    <a href="{{ route('vote.home') }}"
+                       class="btn-primary text-xs py-2 px-4 whitespace-nowrap min-h-[40px]">
+                        ✦ {{ __('theme::theme.home.vote_cta') }}
+                    </a>
+                @endauth
             </div>
             @endforeach
         </div>
@@ -280,6 +295,7 @@
         ->map(fn ($i) => [
             'name' => theme_config("staff_{$i}_name", ''),
             'role' => theme_config("staff_{$i}_role", ''),
+            'link' => theme_config("staff_{$i}_link", ''),
         ])
         ->filter(fn ($member) => trim($member['name']) !== '');
 @endphp
@@ -290,11 +306,25 @@
 
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
         @foreach($staffMembers as $member)
-        <div class="card-eldoria p-4 text-center" data-aos="fade-up" data-aos-delay="{{ $loop->index * 75 }}">
-            <img src="https://minotar.net/avatar/{{ urlencode($member['name']) }}/128"
-                 alt="{{ $member['name'] }}"
-                 class="w-16 h-16 mx-auto rounded-sm mb-3">
-            <div class="font-display text-text-primary text-sm font-semibold">{{ $member['name'] }}</div>
+        <div class="card-eldoria p-4 text-center group" data-aos="fade-up" data-aos-delay="{{ $loop->index * 75 }}">
+            <div class="w-16 h-16 mx-auto mb-3 overflow-hidden rounded-sm">
+                <img src="https://minotar.net/avatar/{{ urlencode($member['name']) }}/128"
+                     alt="{{ $member['name'] }}"
+                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+            </div>
+            <div class="font-display text-text-primary text-sm font-semibold flex items-center justify-center gap-1.5">
+                {{ $member['name'] }}
+                @if($member['link'] !== '')
+                    <a href="{{ $member['link'] }}" target="_blank" rel="noopener"
+                       class="text-accent/60 hover:text-accent transition-colors"
+                       title="{{ __('theme::theme.home.staff_link_title', ['name' => $member['name']]) }}">
+                        <svg class="w-3.5 h-3.5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                        </svg>
+                    </a>
+                @endif
+            </div>
             @if($member['role'] !== '')
                 <div class="text-accent text-xs uppercase tracking-widest mt-1">{{ $member['role'] }}</div>
             @endif
@@ -321,5 +351,9 @@
                 loading="lazy"></iframe>
     </div>
 </section>
+
+@auth
+<script>window.eldoriaVoteUsername = @json(auth()->user()->name);</script>
+@endauth
 
 @endsection

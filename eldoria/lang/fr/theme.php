@@ -88,6 +88,7 @@ return [
         'join_step3_text' => "Colle l'IP, valide, et retrouve-nous en jeu !",
         'staff_title' => 'Notre équipe',
         'staff_subtitle' => 'Les aventuriers qui veillent sur le royaume',
+        'staff_link_title' => 'Voir le profil de :name',
         'server_online' => 'En ligne',
         'server_offline' => 'Hors ligne',
     ],
