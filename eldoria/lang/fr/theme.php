@@ -70,6 +70,9 @@ return [
         'discord_title' => 'Rejoins la communauté',
         'discord_subtitle' => 'Discute avec les aventuriers du royaume sur Discord',
         'discord_iframe_title' => 'Widget Discord',
+        'news_title' => 'Actus',
+        'news_subtitle' => 'Les dernières nouvelles du royaume',
+        'news_see_all' => 'Voir toutes les actus',
     ],
 
     'shop' => [
@@ -171,6 +174,23 @@ return [
         '500_title' => 'Erreur du serveur',
         '500_text' => "Quelque chose s'est mal passé de notre côté. Réessaie dans quelques instants.",
         'back_home' => "Retourner à l'accueil",
+    ],
+
+    'posts' => [
+        'index_title' => 'Actualités',
+        'search_placeholder' => 'Rechercher...',
+        'read_more' => 'Lire la suite',
+        'posted_by' => 'Par :user, le :date',
+        'like' => "J'aime",
+        'comments_title' => 'Commentaires',
+        'comment_form_title' => 'Laisser un commentaire',
+        'comment_content_label' => 'Votre commentaire',
+        'comment_submit' => 'Publier',
+        'comment_guest' => 'Connecte-toi pour laisser un commentaire.',
+        'comment_delete' => 'Supprimer',
+        'comment_delete_confirm' => 'Supprimer ce commentaire ?',
+        'no_posts' => 'Aucun article pour le moment.',
+        'unpublished_notice' => "Cet article n'est pas encore publié.",
     ],
 
 ];

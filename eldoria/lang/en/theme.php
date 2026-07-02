@@ -70,6 +70,9 @@ return [
         'discord_title' => 'Join the community',
         'discord_subtitle' => 'Chat with the realm\'s adventurers on Discord',
         'discord_iframe_title' => 'Discord widget',
+        'news_title' => 'News',
+        'news_subtitle' => 'The latest news from the realm',
+        'news_see_all' => 'See all the news',
     ],
 
     'shop' => [
@@ -171,6 +174,23 @@ return [
         '500_title' => 'Server error',
         '500_text' => 'Something went wrong on our end. Please try again in a moment.',
         'back_home' => 'Back to home',
+    ],
+
+    'posts' => [
+        'index_title' => 'News',
+        'search_placeholder' => 'Search...',
+        'read_more' => 'Read more',
+        'posted_by' => 'By :user, on :date',
+        'like' => 'Like',
+        'comments_title' => 'Comments',
+        'comment_form_title' => 'Leave a comment',
+        'comment_content_label' => 'Your comment',
+        'comment_submit' => 'Post',
+        'comment_guest' => 'Log in to leave a comment.',
+        'comment_delete' => 'Delete',
+        'comment_delete_confirm' => 'Delete this comment?',
+        'no_posts' => 'No article yet.',
+        'unpublished_notice' => 'This article is not published yet.',
     ],
 
 ];

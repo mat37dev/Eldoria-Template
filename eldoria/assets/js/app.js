@@ -6,6 +6,7 @@ import { initAnimations } from './animations.js'
 import { initParticles } from './particles.js'
 import { customizerComponent } from './customizer.js'
 import { initVotePage } from './vote.js'
+import { initPosts } from './posts.js'
 
 window.Alpine = Alpine
 Alpine.plugin(persist)
@@ -28,4 +29,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initAnimations()
     initVotePage()
+    initPosts()
 })
