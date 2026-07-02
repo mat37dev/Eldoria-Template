@@ -75,6 +75,32 @@
                         <label class="form-check-label" for="showSectionVoteInput">Vote</label>
                     </div>
 
+                    <h6 class="mb-3">Équipe / Staff</h6>
+                    <p class="text-muted small mb-3">Jusqu'à 8 membres. Le pseudo doit être un pseudo Minecraft valide (avatar via minotar.net).</p>
+
+                    @for ($i = 1; $i <= 8; $i++)
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <label for="staff{{ $i }}NameInput" class="form-label">Pseudo #{{ $i }}</label>
+                            <input type="text" class="form-control @error("staff_{$i}_name") is-invalid @enderror"
+                                   id="staff{{ $i }}NameInput" name="staff_{{ $i }}_name" placeholder="Pseudo Minecraft"
+                                   value="{{ old("staff_{$i}_name", theme_config("staff_{$i}_name")) }}">
+                            @error("staff_{$i}_name")
+                            <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
+                            @enderror
+                        </div>
+                        <div class="col-6">
+                            <label for="staff{{ $i }}RoleInput" class="form-label">Rôle #{{ $i }}</label>
+                            <input type="text" class="form-control @error("staff_{$i}_role") is-invalid @enderror"
+                                   id="staff{{ $i }}RoleInput" name="staff_{{ $i }}_role" placeholder="Ex: Fondateur"
+                                   value="{{ old("staff_{$i}_role", theme_config("staff_{$i}_role")) }}">
+                            @error("staff_{$i}_role")
+                            <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
+                            @enderror
+                        </div>
+                    </div>
+                    @endfor
+
                     <h6 class="mb-3">Médias &amp; communauté</h6>
 
                     <div class="mb-3">
@@ -86,6 +112,14 @@
                         @error('trailer_url')
                         <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
                         @enderror
+                    </div>
+
+                    <div class="form-check form-switch mb-4">
+                        <input type="hidden" name="hero_video_enabled" value="0">
+                        <input type="checkbox" class="form-check-input" role="switch"
+                               id="heroVideoEnabledInput" name="hero_video_enabled" value="1"
+                               {{ old('hero_video_enabled', theme_config('hero_video_enabled')) === '1' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="heroVideoEnabledInput">Utiliser le trailer en fond du hero</label>
                     </div>
 
                     <div class="mb-4">

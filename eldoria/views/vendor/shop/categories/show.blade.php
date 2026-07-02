@@ -5,7 +5,7 @@
 @section('content')
 <div class="pt-24 pb-16">
     <div class="text-center py-16 px-4">
-        <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">✦ Boutique ✦</p>
+        <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">✦ {{ __('theme::theme.shop.hero_eyebrow') }} ✦</p>
         <h1 class="section-title">{{ $category->name }}</h1>
     </div>
 
@@ -44,13 +44,13 @@
                                 {{ shop_format_amount($package->getPrice()) }}
                             </span>
                             <a href="{{ route('shop.packages.show', $package) }}" class="btn-primary text-xs py-2 px-4">
-                                Voir
+                                {{ __('theme::theme.shop.view') }}
                             </a>
                         </div>
                     </div>
                 @empty
                     <div class="sm:col-span-2 text-center py-12 text-text-secondary">
-                        Aucun produit disponible dans cette catégorie pour le moment.
+                        {{ __('theme::theme.shop.no_products') }}
                     </div>
                 @endforelse
             </div>

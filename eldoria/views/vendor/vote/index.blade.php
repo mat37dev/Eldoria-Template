@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Voter')
+@section('title', __('theme::theme.vote.title'))
 
 @section('content')
 <div class="pt-24 pb-16">
     <div class="text-center py-16 px-4">
-        <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">✦ Soutiens-nous ✦</p>
-        <h1 class="section-title">Votes</h1>
-        <p class="section-subtitle">Chaque vote aide le serveur à grandir — merci pour ton soutien !</p>
+        <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">✦ {{ __('theme::theme.vote.hero_eyebrow') }} ✦</p>
+        <h1 class="section-title">{{ __('theme::theme.vote.title') }}</h1>
+        <p class="section-subtitle">{{ __('theme::theme.vote.subtitle') }}</p>
     </div>
 
     <div class="max-w-3xl mx-auto px-4 space-y-6">
@@ -20,18 +20,18 @@
             <div class="{{ auth()->check() ? 'hidden' : '' }}" data-vote-step="1">
                 @if($authRequired)
                     <div class="text-center py-6">
-                        <p class="text-text-secondary text-sm mb-4">Tu dois être connecté pour voter.</p>
-                        <a href="{{ route('login') }}" class="btn-primary">Se connecter</a>
+                        <p class="text-text-secondary text-sm mb-4">{{ __('theme::theme.vote.auth_required') }}</p>
+                        <a href="{{ route('login') }}" class="btn-primary">{{ __('theme::theme.vote.login') }}</a>
                     </div>
                 @else
                     <form id="voteNameForm"
                           data-verify-url-template="{{ route('vote.verify-user', ['user' => '__USER__']) }}"
                           class="flex flex-col sm:flex-row items-center justify-center gap-3">
                         <input type="text" id="stepNameInput" name="name" value="{{ $name }}" required
-                               placeholder="Ton pseudo Minecraft"
+                               placeholder="{{ __('theme::theme.vote.username_placeholder') }}"
                                class="w-full sm:w-64 bg-bg-primary border border-accent/20 rounded-sm px-4 py-3 text-text-primary text-sm min-h-[48px]">
                         <button type="submit" class="btn-primary min-h-[48px] whitespace-nowrap">
-                            Continuer
+                            {{ __('theme::theme.vote.continue') }}
                             <span class="hidden vote-load-spinner ml-2">…</span>
                         </button>
                     </form>
@@ -56,7 +56,7 @@
                     </a>
                 @empty
                     <div class="text-center py-8 text-text-secondary">
-                        Aucun site de vote disponible pour le moment.
+                        {{ __('theme::theme.vote.no_sites') }}
                     </div>
                 @endforelse
             </div>
@@ -66,7 +66,7 @@
 
             {{-- Étape "choix du serveur" (votes multi-serveurs) --}}
             <div class="hidden" data-vote-step="server">
-                <p class="text-text-secondary text-sm text-center mb-4">Sur quel serveur veux-tu recevoir ta récompense ?</p>
+                <p class="text-text-secondary text-sm text-center mb-4">{{ __('theme::theme.vote.server_select_prompt') }}</p>
                 <div id="vote-server-select" class="space-y-2"></div>
             </div>
         </div>
@@ -75,32 +75,32 @@
         @if($goalEnabled)
         <div class="card-eldoria p-6" id="vote-goal" data-aos="fade-up">
             <div class="flex justify-between items-center mb-3">
-                <span class="font-display text-text-primary text-sm tracking-widest uppercase">Objectif du mois</span>
+                <span class="font-display text-text-primary text-sm tracking-widest uppercase">{{ __('theme::theme.vote.goal_title') }}</span>
                 <span class="text-accent font-display font-bold text-xl">{{ $goalProgress }} / {{ $goalTarget }}</span>
             </div>
             <div class="w-full bg-bg-primary rounded-full h-2 overflow-hidden">
                 <div class="h-full bg-accent rounded-full transition-all duration-1000 ease-out"
                      data-goal-bar style="width: {{ min($goalPercentage, 100) }}%"></div>
             </div>
-            <p class="text-text-secondary text-xs mt-2 text-right" id="vote-goal-text">{{ $goalProgress }} / {{ $goalTarget }} votes</p>
+            <p class="text-text-secondary text-xs mt-2 text-right" id="vote-goal-text">{{ $goalProgress }} / {{ $goalTarget }} {{ __('theme::theme.vote.votes_suffix') }}</p>
         </div>
         @endif
 
         {{-- ======= TOP VOTEURS ======= --}}
         <div class="card-eldoria p-6" data-aos="fade-up">
-            <h2 class="font-display text-accent text-sm tracking-widest uppercase mb-6">Top Voteurs du Mois</h2>
+            <h2 class="font-display text-accent text-sm tracking-widest uppercase mb-6">{{ __('theme::theme.vote.top_voters_title') }}</h2>
 
             @if($votes->isEmpty())
-                <p class="text-text-secondary text-sm">Personne n'a encore voté ce mois-ci — sois le premier !</p>
+                <p class="text-text-secondary text-sm">{{ __('theme::theme.vote.no_votes_yet') }}</p>
             @else
                 <div class="space-y-3">
                     @foreach($votes as $vote)
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-3">
                                 <span class="font-display text-text-secondary text-sm w-5">{{ $loop->iteration }}.</span>
-                                <span class="text-text-primary text-sm">{{ $vote->user->name ?? 'Inconnu' }}</span>
+                                <span class="text-text-primary text-sm">{{ $vote->user->name ?? __('theme::theme.vote.unknown_user') }}</span>
                             </div>
-                            <span class="text-accent font-display font-bold text-sm">{{ $vote->votes }} votes</span>
+                            <span class="text-accent font-display font-bold text-sm">{{ $vote->votes }} {{ __('theme::theme.vote.votes_suffix') }}</span>
                         </div>
                     @endforeach
                 </div>
@@ -109,7 +109,7 @@
             @auth
                 @if($userVotes >= 0)
                     <p class="text-text-secondary text-xs mt-6 pt-6 border-t border-accent/10">
-                        Tu as voté {{ $userVotes }} fois ce mois-ci.
+                        {{ __('theme::theme.vote.user_votes_count', ['count' => $userVotes]) }}
                     </p>
                 @endif
             @endauth
@@ -118,7 +118,7 @@
         {{-- ======= RÉCOMPENSES ======= --}}
         @if($displayRewards && $rewards->isNotEmpty())
         <div class="card-eldoria p-6" data-aos="fade-up">
-            <h2 class="font-display text-accent text-sm tracking-widest uppercase mb-6">Récompenses possibles</h2>
+            <h2 class="font-display text-accent text-sm tracking-widest uppercase mb-6">{{ __('theme::theme.vote.rewards_title') }}</h2>
             <div class="space-y-3">
                 @foreach($rewards as $reward)
                     <div class="flex items-center justify-between gap-4">

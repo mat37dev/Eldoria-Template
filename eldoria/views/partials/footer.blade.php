@@ -19,10 +19,10 @@
                 {{-- IP serveur --}}
                 @if($homeServer)
                     <div class="mt-4 flex items-center gap-2">
-                        <span class="text-text-secondary text-xs uppercase tracking-wider">IP :</span>
+                        <span class="text-text-secondary text-xs uppercase tracking-wider">{{ __('theme::theme.footer.ip_label') }}</span>
                         <button onclick="navigator.clipboard.writeText('{{ $homeServer->fullAddress() }}')"
                                 class="text-accent font-mono text-sm hover:text-accent/80 transition-colors"
-                                title="Copier l'IP">
+                                title="{{ __('theme::theme.footer.copy_ip') }}">
                             {{ $homeServer->fullAddress() }}
                         </button>
                     </div>
@@ -31,7 +31,7 @@
 
             {{-- Navigation --}}
             <div>
-                <h4 class="font-display text-text-primary text-sm tracking-widest uppercase mb-4">Navigation</h4>
+                <h4 class="font-display text-text-primary text-sm tracking-widest uppercase mb-4">{{ __('theme::theme.footer.navigation') }}</h4>
                 <nav class="space-y-2">
                     @foreach($navbarElements as $element)
                         @if(!$element->isDropdown())
@@ -46,7 +46,7 @@
 
             {{-- Réseaux sociaux --}}
             <div>
-                <h4 class="font-display text-text-primary text-sm tracking-widest uppercase mb-4">Communauté</h4>
+                <h4 class="font-display text-text-primary text-sm tracking-widest uppercase mb-4">{{ __('theme::theme.footer.community') }}</h4>
                 <div class="flex gap-4">
                     {{-- Toujours rendus (masqués si vides) pour permettre la mise à jour live du customizer --}}
                         <a href="{{ theme_config('footer_discord') ?: '#' }}" target="_blank" rel="noopener"
@@ -71,11 +71,11 @@
 
         <div class="mt-12 pt-8 border-t border-accent/10 flex flex-col md:flex-row justify-between items-center gap-4">
             <p class="text-text-secondary text-xs">
-                &copy; {{ date('Y') }} {{ site_name() }}. Tous droits réservés.
+                &copy; {{ date('Y') }} {{ site_name() }}. {{ __('theme::theme.footer.rights') }}
             </p>
             <p class="text-text-secondary text-xs">
-                Propulsé par <a href="https://azuriom.com" class="text-accent/70 hover:text-accent transition-colors">Azuriom</a>
-                · Thème <span class="text-accent/70">Eldoria</span>
+                {{ __('theme::theme.footer.powered_by') }} <a href="https://azuriom.com" class="text-accent/70 hover:text-accent transition-colors">Azuriom</a>
+                · {{ __('theme::theme.footer.theme_label') }} <span class="text-accent/70">Eldoria</span>
             </p>
         </div>
     </div>

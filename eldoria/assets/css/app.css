@@ -9,6 +9,18 @@
     display: none !important;
 }
 
+/* Le hero vidéo (autoplay) retombe sur l'image statique si l'utilisateur
+   préfère moins de mouvement, quel que soit le réglage hero_video_enabled. */
+@media (prefers-reduced-motion: reduce) {
+    #hero-video-container {
+        display: none !important;
+    }
+
+    #hero-bg {
+        display: block !important;
+    }
+}
+
 :root {
     --color-bg-primary: #0F0D0A;
     --color-bg-secondary: #1A1612;

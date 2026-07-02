@@ -16,6 +16,9 @@ export function initAnimations() {
 function initParallax() {
     if (isMobile) return
 
+    const heroVideoContainer = document.getElementById('hero-video-container')
+    if (heroVideoContainer && !heroVideoContainer.classList.contains('hidden')) return
+
     const heroBg = document.getElementById('hero-bg')
     if (!heroBg) return
 
@@ -36,19 +39,25 @@ function initCounters() {
     if (!counters.length) return
 
     counters.forEach(counter => {
-        const target = parseInt(counter.dataset.target) || 0
-
         ScrollTrigger.create({
             trigger: counter,
             start: 'top 90%',
             once: true,
             onEnter: () => {
+                // Lu ici (pas capturé plus haut) pour refléter une éventuelle
+                // mise à jour déjà appliquée par server-status.js avant que
+                // l'utilisateur n'atteigne cette section au scroll.
+                const target = parseInt(counter.dataset.target) || 0
+
                 gsap.to({ val: 0 }, {
                     val: target,
                     duration: 1.5,
                     ease: 'power2.out',
                     onUpdate: function() {
                         counter.textContent = Math.round(this.targets()[0].val).toLocaleString()
+                    },
+                    onComplete: () => {
+                        counter.dataset.animated = 'true'
                     }
                 })
             }

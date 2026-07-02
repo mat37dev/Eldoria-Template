@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ site_name() }} — @yield('title', 'Accueil') </title>
+    <title>{{ site_name() }} — @yield('title', __('theme::theme.nav.home')) </title>
 
     {{-- Injection des CSS custom properties depuis les settings sauvegardés --}}
     <style>
