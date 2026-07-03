@@ -476,7 +476,7 @@ git commit -m "feat(eldoria): bouton copie IP dédié avec combo façon League o
 - [ ] **Step 1 : Créer `eldoria/views/partials/_toggle-switch.blade.php`**
 
 ```blade
-<label class="flex items-center justify-between cursor-pointer">
+<label class="flex items-center justify-between gap-3 cursor-pointer min-h-[48px]">
     <span class="text-text-primary text-sm">{{ $label }}</span>
     <span class="relative inline-flex items-center flex-shrink-0">
         <input type="checkbox" class="peer sr-only" x-model="{{ $model }}"
