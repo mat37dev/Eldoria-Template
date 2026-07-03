@@ -211,11 +211,9 @@
                            class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm
                                   focus:outline-none focus:border-accent/60 min-h-[40px]">
                     <p class="text-text-secondary text-xs mt-1">{{ __('theme::theme.customizer.trailer_help') }}</p>
-                    <label class="flex items-center justify-between mt-3 cursor-pointer" x-show="trailerUrl">
-                        <span class="text-text-primary text-sm">{{ __('theme::theme.customizer.hero_video_toggle') }}</span>
-                        <input type="checkbox" x-model="heroVideoEnabled" @change="liveHeroVideo()"
-                               class="w-4 h-4 accent-[var(--color-accent)]">
-                    </label>
+                    <div class="mt-3" x-show="trailerUrl">
+                        @include('partials._toggle-switch', ['model' => 'heroVideoEnabled', 'label' => __('theme::theme.customizer.hero_video_toggle'), 'onChange' => 'liveHeroVideo()'])
+                    </div>
                 </div>
 
                 <div>
