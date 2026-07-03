@@ -11,11 +11,43 @@
 
 {{-- Drawer customizer --}}
 <?php
+    // Même logique de repli que home.blade.php : on ne fait jamais confiance à
+    // un home_layout dont la forme ne correspond pas exactement aux 8 clés
+    // attendues (JSON absent/corrompu, ou thème mis à jour depuis).
+    $defaultHomeLayoutForJs = [
+        ['key' => 'stats', 'visible' => true],
+        ['key' => 'join_steps', 'visible' => true, 'title' => '', 'subtitle' => '', 'steps' => [
+            ['title' => '', 'text' => ''],
+            ['title' => '', 'text' => ''],
+            ['title' => '', 'text' => ''],
+        ]],
+        ['key' => 'trailer', 'visible' => true, 'title' => '', 'subtitle' => ''],
+        ['key' => 'news', 'visible' => true],
+        ['key' => 'shop', 'visible' => true],
+        ['key' => 'vote', 'visible' => true],
+        ['key' => 'staff', 'visible' => true],
+        ['key' => 'discord', 'visible' => true],
+    ];
+
+    $expectedLayoutKeys = ['stats', 'join_steps', 'trailer', 'news', 'shop', 'vote', 'staff', 'discord'];
     $decodedHomeLayoutForJs = json_decode(theme_config('home_layout', '') ?? '', true);
-    $joinStepsData = collect($decodedHomeLayoutForJs ?? [])->firstWhere('key', 'join_steps');
-    $trailerSectionData = collect($decodedHomeLayoutForJs ?? [])->firstWhere('key', 'trailer');
+
+    $homeLayoutForJs = $defaultHomeLayoutForJs;
+    if (is_array($decodedHomeLayoutForJs)) {
+        $decodedLayoutKeys = array_column($decodedHomeLayoutForJs, 'key');
+        sort($decodedLayoutKeys);
+        $sortedExpectedLayoutKeys = $expectedLayoutKeys;
+        sort($sortedExpectedLayoutKeys);
+        if ($decodedLayoutKeys === $sortedExpectedLayoutKeys) {
+            $homeLayoutForJs = $decodedHomeLayoutForJs;
+        }
+    }
+
+    $joinStepsData = collect($homeLayoutForJs)->firstWhere('key', 'join_steps');
+    $trailerSectionData = collect($homeLayoutForJs)->firstWhere('key', 'trailer');
 ?>
 <div x-data="customizer({
+        homeLayout: @js($homeLayoutForJs),
         sectionTextOverrides: {
             join_steps: @js([
                 'title' => $joinStepsData['title'] ?? '',
@@ -41,8 +73,8 @@
      x-show="open"
      x-cloak>
 
-    {{-- Overlay --}}
-    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="open = false"></div>
+    {{-- Overlay — masqué en mode Disposition pour laisser la page interactive derrière le drawer --}}
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="open = false" x-show="activeTab !== 'layout'"></div>
 
     {{-- Panel (desktop: côté droit | mobile: bas) --}}
     <div class="absolute right-0 top-0 bottom-0 w-full sm:w-96 bg-bg-secondary border-l border-accent/20

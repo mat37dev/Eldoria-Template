@@ -45,6 +45,16 @@ body.reorder-mode [data-section-key] {
     outline-offset: 4px;
 }
 
+/* Retour visuel instantané au clic sur l'œil : la section se grise, mais sa
+   barre d'outils reste pleinement visible/cliquable pour pouvoir la rétablir. */
+body.reorder-mode [data-section-key].section-manually-hidden {
+    opacity: 0.35;
+}
+
+body.reorder-mode [data-section-key].section-manually-hidden .reorder-overlay {
+    opacity: 1;
+}
+
 .reorder-overlay button {
     width: 48px;
     height: 48px;
@@ -72,6 +82,22 @@ body.reorder-mode [data-section-key] {
 
 .sortable-ghost {
     opacity: 0.4;
+}
+
+/* Le drawer reste ouvert et visible pendant le mode réorganisation (backdrop
+   masqué juste au-dessus) — on réserve donc l'espace qu'il occupe pour que
+   les sections (et leurs poignées ancrées à droite) ne se retrouvent pas
+   masquées derrière le panneau. */
+@media (min-width: 640px) {
+    body.reorder-mode {
+        padding-right: 24rem;
+    }
+}
+
+@media (max-width: 639px) {
+    body.reorder-mode {
+        padding-bottom: 80vh;
+    }
 }
 
 :root {

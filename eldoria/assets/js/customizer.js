@@ -27,6 +27,7 @@ export function customizerComponent(initial = {}) {
         palettes: PALETTES,
 
         // Contenu éditable — initialisé depuis la config serveur (voir customizer.blade.php)
+        homeLayout: initial.homeLayout ?? [],
         editingSection: null,
         sectionTextOverrides: initial.sectionTextOverrides ?? {
             join_steps: { title: '', subtitle: '', steps: [{ title: '', text: '' }, { title: '', text: '' }, { title: '', text: '' }] },
@@ -113,7 +114,7 @@ export function customizerComponent(initial = {}) {
             const container = this.findSectionsContainer()
             if (!container) return null
 
-            return Array.from(container.querySelectorAll('[data-section-key]')).map((section) => {
+            const domEntries = Array.from(container.querySelectorAll('[data-section-key]')).map((section) => {
                 const key = section.dataset.sectionKey
                 const visible = !section.classList.contains('section-manually-hidden')
                 const entry = { key, visible }
@@ -131,6 +132,16 @@ export function customizerComponent(initial = {}) {
 
                 return entry
             })
+
+            // Une section sans contenu (ex: "staff" sans membre configuré, "news"
+            // sans article) n'apparaît pas dans le DOM et serait sinon absente du
+            // JSON envoyé — le repli de home.blade.php exige les 8 clés et
+            // rejetterait alors TOUT le home_layout. On complète avec le dernier
+            // état connu de ces sections, ajouté à la fin.
+            const domKeys = domEntries.map((entry) => entry.key)
+            const missingEntries = this.homeLayout.filter((entry) => !domKeys.includes(entry.key))
+
+            return [...domEntries, ...missingEntries]
         },
 
         async save() {
