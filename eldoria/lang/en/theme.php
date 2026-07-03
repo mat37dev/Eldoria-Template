@@ -25,7 +25,7 @@ return [
         'tab_colors' => 'Colors',
         'tab_content' => 'Content',
         'tab_layout' => 'Layout',
-        'layout_instructions' => 'Drag a section using the handle to reorder it, or click the eye to show/hide it on the homepage.',
+        'layout_instructions' => 'Drag a section using the handle to reorder it, click the eye to show/hide it, or the pencil (available on some sections) to edit its text.',
         'layout_drag_title' => 'Move this section',
         'layout_toggle_title' => 'Show/hide this section',
         'layout_edit_title' => 'Edit this section\'s text',

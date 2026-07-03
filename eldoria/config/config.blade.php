@@ -57,24 +57,6 @@
                         @enderror
                     </div>
 
-                    <h6 class="mb-3">Sections visibles sur la page d'accueil</h6>
-
-                    <div class="form-check form-switch mb-2">
-                        <input type="hidden" name="show_section_shop" value="0">
-                        <input type="checkbox" class="form-check-input" role="switch"
-                               id="showSectionShopInput" name="show_section_shop" value="1"
-                               {{ old('show_section_shop', theme_config('show_section_shop')) === '1' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="showSectionShopInput">Boutique</label>
-                    </div>
-
-                    <div class="form-check form-switch mb-4">
-                        <input type="hidden" name="show_section_vote" value="0">
-                        <input type="checkbox" class="form-check-input" role="switch"
-                               id="showSectionVoteInput" name="show_section_vote" value="1"
-                               {{ old('show_section_vote', theme_config('show_section_vote')) === '1' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="showSectionVoteInput">Vote</label>
-                    </div>
-
                     <h6 class="mb-3">Équipe / Staff</h6>
                     <p class="text-muted small mb-3">Jusqu'à 8 membres. Le pseudo doit être un pseudo Minecraft valide (avatar via minotar.net).</p>
 

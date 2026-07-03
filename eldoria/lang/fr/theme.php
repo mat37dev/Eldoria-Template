@@ -25,7 +25,7 @@ return [
         'tab_colors' => 'Couleurs',
         'tab_content' => 'Contenu',
         'tab_layout' => 'Disposition',
-        'layout_instructions' => 'Glissez une section grâce à la poignée pour la réordonner, ou cliquez sur l\'œil pour la masquer/afficher sur la page d\'accueil.',
+        'layout_instructions' => 'Glissez une section grâce à la poignée pour la réordonner, cliquez sur l\'œil pour la masquer/afficher, ou sur le crayon (disponible sur certaines sections) pour éditer son texte.',
         'layout_drag_title' => 'Déplacer cette section',
         'layout_toggle_title' => 'Afficher/masquer cette section',
         'layout_edit_title' => 'Éditer le texte de cette section',
