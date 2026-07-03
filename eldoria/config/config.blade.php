@@ -35,6 +35,8 @@
                         @enderror
                     </div>
 
+                    <hr class="my-4">
+
                     <h6 class="mb-3">Contenu</h6>
 
                     <div class="mb-3">
@@ -56,6 +58,26 @@
                         <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
                         @enderror
                     </div>
+
+                    <hr class="my-4">
+
+                    <h6 class="mb-3">Serveur</h6>
+
+                    <div class="mb-4">
+                        <label for="serverIpDisplayInput" class="form-label">Adresse IP à afficher</label>
+                        <input type="text" class="form-control @error('server_ip_display') is-invalid @enderror"
+                               id="serverIpDisplayInput" name="server_ip_display" placeholder="play.eldoria.fr"
+                               value="{{ old('server_ip_display', theme_config('server_ip_display')) }}">
+                        <div class="form-text">
+                            Utilisée par le bouton de copie rapide et le bouton "Rejoindre" du hero. Laisser vide
+                            pour utiliser l'adresse du serveur configuré dans Azuriom (Serveurs → Afficher sur l'accueil).
+                        </div>
+                        @error('server_ip_display')
+                        <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
+                        @enderror
+                    </div>
+
+                    <hr class="my-4">
 
                     <h6 class="mb-3">Équipe / Staff</h6>
                     <p class="text-muted small mb-3">Jusqu'à 8 membres. Le pseudo doit être un pseudo Minecraft valide (avatar via minotar.net).</p>
@@ -92,6 +114,8 @@
                     </div>
                     @endfor
 
+                    <hr class="my-4">
+
                     <h6 class="mb-3">Médias &amp; communauté</h6>
 
                     <div class="mb-3">
@@ -125,6 +149,8 @@
                         <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
                         @enderror
                     </div>
+
+                    <hr class="my-4">
 
                     <h6 class="mb-3">Réseaux sociaux (footer)</h6>
 
