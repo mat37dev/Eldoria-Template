@@ -36,6 +36,7 @@ export function customizerComponent(initial = {}) {
         slogan: initial.slogan ?? '',
         heroImage: initial.heroImage ?? '',
         trailerUrl: initial.trailerUrl ?? '',
+        serverIpDisplay: initial.serverIpDisplay ?? '',
         heroVideoEnabled: initial.heroVideoEnabled ?? false,
         discordId: initial.discordId ?? '',
         footerDiscord: initial.footerDiscord ?? '',
@@ -57,6 +58,19 @@ export function customizerComponent(initial = {}) {
         liveSlogan() {
             document.querySelectorAll('[data-live="hero_slogan"]')
                 .forEach(el => { el.textContent = this.slogan })
+        },
+
+        liveServerIp() {
+            const joinBtn = document.getElementById('btn-join')
+            if (!joinBtn) return
+
+            const effectiveIp = this.serverIpDisplay || joinBtn.dataset.defaultIp
+            joinBtn.dataset.ip = effectiveIp
+
+            const label = joinBtn.querySelector('[data-ip-label]')
+            if (label) label.textContent = effectiveIp
+
+            document.dispatchEvent(new CustomEvent('eldoria:ip-updated', { detail: { ip: effectiveIp } }))
         },
 
         liveHeroImage() {
@@ -158,6 +172,7 @@ export function customizerComponent(initial = {}) {
                 formData.append('hero_slogan', this.slogan)
                 formData.append('hero_image', this.heroImage)
                 formData.append('trailer_url', this.trailerUrl)
+                formData.append('server_ip_display', this.serverIpDisplay)
                 formData.append('hero_video_enabled', this.heroVideoEnabled ? '1' : '0')
                 formData.append('discord_server_id', this.discordId)
                 formData.append('footer_discord', this.footerDiscord)

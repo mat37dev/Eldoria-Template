@@ -8,6 +8,7 @@ import { customizerComponent } from './customizer.js'
 import { initVotePage } from './vote.js'
 import { initPosts } from './posts.js'
 import { initServerStatus } from './server-status.js'
+import { initIpCopy } from './ip-copy.js'
 
 window.Alpine = Alpine
 Alpine.plugin(persist)
@@ -32,4 +33,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initVotePage()
     initPosts()
     initServerStatus()
+    initIpCopy()
 })

@@ -46,6 +46,7 @@
 
     <?php
         $heroVideoEnabled = theme_config('hero_video_enabled', '0') === '1' && $trailerId !== null;
+        $displayIp = theme_config('server_ip_display', '') ?: ($homeServer ? $homeServer->fullAddress() : '');
     ?>
 
     {{-- Background image --}}
@@ -91,11 +92,12 @@
                           data-offline-label="{{ __('theme::theme.home.server_offline') }}"
                           title="{{ __('theme::theme.home.server_online') }}"
                           class="w-3 h-3 rounded-full bg-green-500 flex-shrink-0"></span>
-                    <button onclick="navigator.clipboard.writeText('{{ $homeServer->fullAddress() }}')"
-                            class="btn-primary relative group min-w-[180px] min-h-[48px]" id="btn-join">
+                    <button type="button" id="btn-join"
+                            data-ip="{{ $displayIp }}" data-default-ip="{{ $homeServer->fullAddress() }}"
+                            class="btn-primary relative group min-w-[180px] min-h-[48px]">
                         <span class="absolute inset-0 rounded-sm animate-ping opacity-30 bg-accent"></span>
                         <span class="relative">{{ __('theme::theme.home.join') }}</span>
-                        <span class="relative ml-2 text-xs font-mono opacity-70">{{ $homeServer->fullAddress() }}</span>
+                        <span class="relative ml-2 text-xs font-mono opacity-70" data-ip-label>{{ $displayIp }}</span>
                     </button>
                 </div>
             @endif

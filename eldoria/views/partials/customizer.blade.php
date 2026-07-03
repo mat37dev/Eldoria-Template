@@ -63,6 +63,7 @@
         heroImage: @js(theme_config('hero_image', '') ?? ''),
         heroVideoEnabled: @js(theme_config('hero_video_enabled', '0') === '1'),
         trailerUrl: @js(theme_config('trailer_url', '') ?? ''),
+        serverIpDisplay: @js(theme_config('server_ip_display', '') ?? ''),
         discordId: @js(theme_config('discord_server_id', '') ?? ''),
         footerDiscord: @js(theme_config('footer_discord', '') ?? ''),
         footerTwitter: @js(theme_config('footer_twitter', '') ?? ''),
@@ -192,6 +193,15 @@
                            class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm
                                   focus:outline-none focus:border-accent/60 min-h-[40px]">
                     <p class="text-text-secondary text-xs mt-1">{{ __('theme::theme.customizer.hero_image_help') }}</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.server_ip_label') }}</label>
+                    <input type="text" x-model="serverIpDisplay" @input="liveServerIp()"
+                           placeholder="{{ __('theme::theme.customizer.server_ip_placeholder') }}"
+                           class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm
+                                  focus:outline-none focus:border-accent/60 min-h-[40px]">
+                    <p class="text-text-secondary text-xs mt-1">{{ __('theme::theme.customizer.server_ip_help') }}</p>
                 </div>
 
                 <div>
