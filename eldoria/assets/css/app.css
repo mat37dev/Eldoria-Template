@@ -176,3 +176,30 @@ body::before {
     z-index: 1;
     opacity: 0.4;
 }
+
+/* Légère pulsation d'attention sur le bouton copie IP du hero, désactivée si
+   l'utilisateur préfère moins de mouvement. */
+@media not (prefers-reduced-motion: reduce) {
+    #btn-ip-copy {
+        animation: ip-copy-glow 2.4s ease-in-out infinite;
+    }
+}
+
+@keyframes ip-copy-glow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 35%, transparent);
+    }
+    50% {
+        box-shadow: 0 0 0 8px color-mix(in srgb, var(--color-accent) 0%, transparent);
+    }
+}
+
+#ip-copy-tooltip {
+    transition: opacity 200ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #ip-copy-tooltip {
+        transition: none;
+    }
+}

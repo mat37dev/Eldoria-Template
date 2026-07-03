@@ -100,6 +100,15 @@ return [
         'staff_link_title' => "View :name's profile",
         'server_online' => 'Online',
         'server_offline' => 'Offline',
+        'ip_copy_button' => 'Copy the server address',
+        'ip_copy_1' => 'IP copied!',
+        'ip_copy_2' => 'Double copy!',
+        'ip_copy_3' => 'Triple copy!',
+        'ip_copy_4' => 'Quadra copy!',
+        'ip_copy_5' => 'PENTA COPY!',
+        'ip_copy_combo_1' => 'Dominating!',
+        'ip_copy_combo_2' => 'Rampage!',
+        'ip_copy_combo_3' => 'Legendary!',
     ],
 
     'shop' => [

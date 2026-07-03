@@ -70,6 +70,31 @@
 
     {{-- Contenu hero --}}
     <div class="relative z-10 text-center px-4 max-w-4xl mx-auto pt-16">
+        <div class="relative flex justify-center mb-6 {{ $displayIp !== '' ? '' : 'hidden' }}" data-live-section="ip-copy-badge">
+            <button type="button" id="btn-ip-copy"
+                    data-ip="{{ $displayIp }}"
+                    data-msg1="{{ __('theme::theme.home.ip_copy_1') }}"
+                    data-msg2="{{ __('theme::theme.home.ip_copy_2') }}"
+                    data-msg3="{{ __('theme::theme.home.ip_copy_3') }}"
+                    data-msg4="{{ __('theme::theme.home.ip_copy_4') }}"
+                    data-msg5="{{ __('theme::theme.home.ip_copy_5') }}"
+                    data-msg-combo="{{ __('theme::theme.home.ip_copy_combo_1') }}|{{ __('theme::theme.home.ip_copy_combo_2') }}|{{ __('theme::theme.home.ip_copy_combo_3') }}"
+                    title="{{ __('theme::theme.home.ip_copy_button') }}"
+                    class="relative inline-flex items-center gap-2 px-4 py-2 min-h-[48px] rounded-full
+                           bg-bg-secondary/80 border border-accent/40 text-text-primary text-sm font-mono
+                           hover:border-accent transition-colors">
+                <svg class="w-4 h-4 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+                <span id="ip-copy-value">{{ $displayIp }}</span>
+                <span id="ip-copy-tooltip"
+                      class="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap
+                             px-3 py-1.5 rounded-sm bg-accent text-bg-primary text-xs font-display tracking-wide uppercase
+                             opacity-0"></span>
+            </button>
+        </div>
+
         <p class="text-accent text-sm font-display tracking-[0.4em] uppercase mb-4 opacity-80">
             ✦ {{ __('theme::theme.home.hero_eyebrow') }} ✦
         </p>
