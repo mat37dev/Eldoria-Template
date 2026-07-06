@@ -204,6 +204,7 @@ return [
         'email_unverified' => 'Email address not verified',
         'change_password' => 'Change password',
         'logout' => 'Log out',
+        'skin_3d_title' => '3D Skin',
     ],
 
     'errors' => [

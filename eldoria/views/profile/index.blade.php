@@ -67,6 +67,21 @@
             </div>
         </div>
 
+        <div class="card-eldoria p-8">
+            <h2 class="font-display text-accent text-sm tracking-widest uppercase mb-6 text-center">
+                {{ __('theme::theme.profile.skin_3d_title') }}
+            </h2>
+            <div class="flex justify-center">
+                <canvas id="skin-viewer-canvas"
+                        data-skin-url="https://mc-heads.net/skin/{{ auth()->user()->game_id ?? 'c06f8906-4c8a-4911-9c29-ea1dbd1aab82' }}"
+                        width="300" height="400"></canvas>
+            </div>
+        </div>
+
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script type="module" src="{{ theme_asset('dist/profile.js') }}" defer></script>
+@endpush

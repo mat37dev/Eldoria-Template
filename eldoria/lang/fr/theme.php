@@ -204,6 +204,7 @@ return [
         'email_unverified' => 'Adresse e-mail non vérifiée',
         'change_password' => 'Changer le mot de passe',
         'logout' => 'Se déconnecter',
+        'skin_3d_title' => 'Skin 3D',
     ],
 
     'errors' => [
