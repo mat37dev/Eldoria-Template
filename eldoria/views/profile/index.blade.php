@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="min-h-screen px-4 py-24">
-    <div class="max-w-2xl mx-auto">
+    <div class="max-w-3xl mx-auto space-y-6">
 
         <div class="text-center mb-8">
             <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">✦ {{ __('theme::theme.profile.eyebrow') }} ✦</p>
@@ -13,19 +13,37 @@
 
         <div class="card-eldoria p-8">
             <div class="flex items-center gap-4 mb-8 pb-8 border-b border-accent/10">
-                <div class="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center font-display text-accent font-bold text-2xl flex-shrink-0">
-                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                </div>
+                <img src="{{ auth()->user()->getAvatar(64) }}" alt="{{ auth()->user()->name }}"
+                     class="w-16 h-16 rounded-sm flex-shrink-0">
                 <div>
-                    <div class="font-display text-text-primary text-lg font-semibold">{{ auth()->user()->name }}</div>
+                    <div class="font-display text-text-primary text-lg font-semibold flex items-center gap-2 flex-wrap">
+                        {{ auth()->user()->name }}
+                        @if(auth()->user()->role)
+                            <span class="px-2 py-0.5 rounded-sm text-xs font-display uppercase tracking-wide"
+                                  style="{{ auth()->user()->role->getBadgeStyle() }}">
+                                {{ auth()->user()->role->name }}
+                            </span>
+                        @endif
+                    </div>
                     <div class="text-text-secondary text-sm">{{ auth()->user()->email }}</div>
+                    @if(auth()->user()->email_verified_at === null)
+                        <div class="text-red-400 text-xs mt-1">{{ __('theme::theme.profile.email_unverified') }}</div>
+                    @endif
                 </div>
             </div>
 
-            <div class="space-y-4 text-sm">
-                <div class="flex items-center justify-between">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+                <div class="flex items-center justify-between sm:flex-col sm:items-start gap-1 p-3 bg-bg-primary/40 rounded-sm">
                     <span class="text-text-secondary uppercase tracking-widest text-xs">{{ __('theme::theme.profile.member_since') }}</span>
                     <span class="text-text-primary">{{ auth()->user()->created_at->format('d/m/Y') }}</span>
+                </div>
+                <div class="flex items-center justify-between sm:flex-col sm:items-start gap-1 p-3 bg-bg-primary/40 rounded-sm">
+                    <span class="text-text-secondary uppercase tracking-widest text-xs">{{ __('theme::theme.profile.last_login_label') }}</span>
+                    <span class="text-text-primary">{{ auth()->user()->last_login_at ? auth()->user()->last_login_at->format('d/m/Y à H:i') : __('theme::theme.profile.last_login_never') }}</span>
+                </div>
+                <div class="flex items-center justify-between sm:flex-col sm:items-start gap-1 p-3 bg-bg-primary/40 rounded-sm">
+                    <span class="text-text-secondary uppercase tracking-widest text-xs">{{ __('theme::theme.profile.balance_label') }}</span>
+                    <span class="text-accent font-display font-bold">{{ format_money(auth()->user()->money) }}</span>
                 </div>
             </div>
 
@@ -48,6 +66,7 @@
                 </form>
             </div>
         </div>
+
     </div>
 </div>
 @endsection

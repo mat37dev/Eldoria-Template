@@ -33,7 +33,9 @@
             <div class="hidden md:flex items-center gap-4">
                 @auth
                     <a href="{{ route('profile.index') }}"
-                       class="text-text-secondary hover:text-accent text-sm transition-colors">
+                       class="flex items-center gap-2 text-text-secondary hover:text-accent text-sm transition-colors">
+                        <img src="{{ auth()->user()->getAvatar(32) }}" alt="{{ auth()->user()->name }}"
+                             class="w-6 h-6 rounded-sm flex-shrink-0">
                         {{ auth()->user()->name }}
                     </a>
                     <form method="POST" action="{{ route('logout') }}" class="inline">
@@ -81,7 +83,9 @@
         @endforeach
         <div class="pt-4 border-t border-accent/10 space-y-3">
             @auth
-                <a href="{{ route('profile.index') }}" class="block text-text-secondary hover:text-accent text-sm transition-colors">
+                <a href="{{ route('profile.index') }}" class="flex items-center gap-2 text-text-secondary hover:text-accent text-sm transition-colors">
+                    <img src="{{ auth()->user()->getAvatar(32) }}" alt="{{ auth()->user()->name }}"
+                         class="w-6 h-6 rounded-sm flex-shrink-0">
                     {{ auth()->user()->name }}
                 </a>
                 <form method="POST" action="{{ route('logout') }}" class="inline">
