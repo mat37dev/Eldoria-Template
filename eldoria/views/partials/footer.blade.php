@@ -21,10 +21,11 @@
                 @if($homeServer)
                     <div class="mt-4 flex items-center gap-2">
                         <span class="text-text-secondary text-xs uppercase tracking-wider">{{ __('theme::theme.footer.ip_label') }}</span>
-                        <button onclick="navigator.clipboard.writeText('{{ $displayIp }}')"
+                        <button type="button" id="footer-ip-copy"
+                                data-ip="{{ $displayIp }}"
                                 class="text-accent font-mono text-sm hover:text-accent/80 transition-colors"
                                 title="{{ __('theme::theme.footer.copy_ip') }}">
-                            {{ $displayIp }}
+                            <span data-ip-label>{{ $displayIp }}</span>
                         </button>
                     </div>
                 @endif

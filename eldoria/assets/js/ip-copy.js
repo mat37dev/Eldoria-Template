@@ -46,6 +46,21 @@ function initIpCopyBadge() {
     })
 }
 
+function initFooterIpCopy() {
+    const btn = document.getElementById('footer-ip-copy')
+    if (!btn) return
+
+    btn.addEventListener('click', () => {
+        navigator.clipboard.writeText(btn.dataset.ip || '')
+    })
+
+    document.addEventListener('eldoria:ip-updated', (event) => {
+        btn.dataset.ip = event.detail.ip
+        const label = btn.querySelector('[data-ip-label]')
+        if (label) label.textContent = event.detail.ip
+    })
+}
+
 export function initIpCopy() {
     const joinBtn = document.getElementById('btn-join')
     if (joinBtn) {
@@ -55,4 +70,5 @@ export function initIpCopy() {
     }
 
     initIpCopyBadge()
+    initFooterIpCopy()
 }
