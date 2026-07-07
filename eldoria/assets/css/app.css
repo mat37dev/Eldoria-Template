@@ -55,6 +55,20 @@ body.reorder-mode [data-section-key].section-manually-hidden .reorder-overlay {
     opacity: 1;
 }
 
+/* En mode réorganisation, une section rendue `hidden` par le serveur
+   (visible: false persisté) doit rester affichée — grisée — pour pouvoir
+   être ré-affichée à l'œil. Sans ça elle serait invisible ET immodifiable. */
+body.reorder-mode [data-section-key].hidden {
+    display: block;
+}
+
+/* Hors mode réorganisation, une section masquée à l'œil disparaît
+   immédiatement — cohérent avec ce que le serveur rendra après sauvegarde,
+   sans attendre un rechargement de page. */
+body:not(.reorder-mode) [data-section-key].section-manually-hidden {
+    display: none;
+}
+
 .reorder-overlay button {
     width: 48px;
     height: 48px;

@@ -217,25 +217,45 @@ export function customizerComponent(initial = {}) {
         // ===== Mode réorganisation de la homepage (onglet Disposition) =====
 
         init() {
-            // body.reorder-mode ne doit exister QUE pendant que l'onglet Disposition
-            // est actif ET le drawer ouvert — jamais laissé "collé" après un changement
-            // d'onglet ou une fermeture du drawer.
-            this.$watch('activeTab', (value) => {
-                document.body.classList.toggle('reorder-mode', value === 'layout')
-            })
-            this.$watch('open', (value) => {
-                if (!value) document.body.classList.remove('reorder-mode')
-            })
+            // body.reorder-mode dérive d'un seul prédicat (drawer ouvert ET onglet
+            // Disposition) surveillé sur les deux propriétés — un watcher par champ
+            // laissait un angle mort : rouvrir le drawer avec l'onglet Disposition
+            // déjà actif ne re-déclenchait jamais le watcher d'activeTab (valeur
+            // inchangée), et le mode restait éteint sans moyen de le rallumer.
+            this.$watch('activeTab', () => this.syncReorderMode())
+            this.$watch('open', () => this.syncReorderMode())
+        },
+
+        syncReorderMode() {
+            document.body.classList.toggle('reorder-mode', this.open && this.activeTab === 'layout')
         },
 
         enterLayoutTab() {
             this.activeTab = 'layout'
+            this.syncReorderMode()
             this.$nextTick(() => this.initSortable())
         },
 
         initSortable() {
             const container = this.findSectionsContainer()
             if (!container || this.sortableInstance) return
+
+            // L'état persisté "visible: false" arrive du serveur via la classe
+            // `hidden`, mais l'éditeur (œil + sauvegarde) travaille sur
+            // `section-manually-hidden`. Sans cette synchro à la première entrée,
+            // une section masquée puis rechargée serait relue comme visible et
+            // ré-affichée silencieusement à la prochaine sauvegarde.
+            this.homeLayout.forEach((entry) => {
+                if (entry.visible !== false) return
+                const section = container.querySelector(`[data-section-key="${entry.key}"]`)
+                if (!section) return
+                section.classList.add('section-manually-hidden')
+                const toggle = section.querySelector('.section-visibility-toggle')
+                if (toggle) {
+                    toggle.querySelector('.eye-visible').classList.add('hidden')
+                    toggle.querySelector('.eye-hidden').classList.remove('hidden')
+                }
+            })
 
             this.sortableInstance = Sortable.create(container, {
                 handle: '.drag-handle',
