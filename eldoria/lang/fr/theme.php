@@ -67,6 +67,7 @@ return [
         'hero_eyebrow' => 'Serveur Minecraft',
         'join' => 'Rejoindre',
         'register' => "S'inscrire",
+        'my_profile' => 'Mon profil',
         'stats_online' => 'Joueurs en ligne',
         'stats_votes' => 'Votes ce mois',
         'stats_members' => 'Membres',

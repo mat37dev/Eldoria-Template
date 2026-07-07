@@ -24,10 +24,10 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 @forelse($category->packages as $package)
                     <div class="card-eldoria p-6 group flex flex-col hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/10 transition-all duration-300" data-aos="fade-up">
-                        <div class="relative w-full h-40 rounded-sm overflow-hidden mb-4">
+                        <div class="relative w-full h-40 rounded-sm overflow-hidden mb-4 bg-bg-primary/30 flex items-center justify-center">
                             @if($package->hasImage())
                                 <img src="{{ $package->imageUrl() }}" alt="{{ $package->name }}"
-                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                     class="w-full h-full object-contain p-6 group-hover:scale-105 transition-transform duration-300">
                             @else
                                 <div class="w-full h-full bg-gradient-to-br from-accent/10 to-accent-secondary/10 flex items-center justify-center">
                                     <span class="text-accent/40 text-4xl font-display">✦</span>

@@ -127,12 +127,21 @@
                 </div>
             @endif
 
-            <a href="{{ route('register') }}"
-               class="inline-flex items-center justify-center px-6 py-3 min-h-[48px] border border-accent/40
-                      text-text-primary font-display text-sm tracking-widest uppercase
-                      hover:border-accent hover:text-accent transition-all duration-300 rounded-sm">
-                {{ __('theme::theme.home.register') }}
-            </a>
+            @guest
+                <a href="{{ route('register') }}"
+                   class="inline-flex items-center justify-center px-6 py-3 min-h-[48px] border border-accent/40
+                          text-text-primary font-display text-sm tracking-widest uppercase
+                          hover:border-accent hover:text-accent transition-all duration-300 rounded-sm">
+                    {{ __('theme::theme.home.register') }}
+                </a>
+            @else
+                <a href="{{ route('profile.index') }}"
+                   class="inline-flex items-center justify-center px-6 py-3 min-h-[48px] border border-accent/40
+                          text-text-primary font-display text-sm tracking-widest uppercase
+                          hover:border-accent hover:text-accent transition-all duration-300 rounded-sm">
+                    {{ __('theme::theme.home.my_profile') }}
+                </a>
+            @endguest
         </div>
     </div>
 

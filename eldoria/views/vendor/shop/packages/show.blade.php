@@ -14,8 +14,8 @@
 
     <div class="card-eldoria p-8">
         @if($package->hasImage())
-            <div class="w-full h-56 rounded-sm overflow-hidden mb-6 border border-accent/10">
-                <img src="{{ $package->imageUrl() }}" alt="{{ $package->name }}" class="w-full h-full object-cover">
+            <div class="w-full h-56 rounded-sm overflow-hidden mb-6 border border-accent/10 bg-bg-primary/30 flex items-center justify-center">
+                <img src="{{ $package->imageUrl() }}" alt="{{ $package->name }}" class="w-full h-full object-contain p-8">
             </div>
         @endif
 

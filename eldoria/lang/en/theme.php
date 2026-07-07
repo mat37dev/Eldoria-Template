@@ -67,6 +67,7 @@ return [
         'hero_eyebrow' => 'Minecraft Server',
         'join' => 'Join',
         'register' => 'Register',
+        'my_profile' => 'My profile',
         'stats_online' => 'Players online',
         'stats_votes' => 'Votes this month',
         'stats_members' => 'Members',

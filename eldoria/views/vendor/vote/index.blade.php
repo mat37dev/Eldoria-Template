@@ -146,6 +146,10 @@
                                         @default {{ $loop->iteration }}.
                                     @endswitch
                                 </span>
+                                @if($vote->user)
+                                    <img src="{{ $vote->user->getAvatar(24) }}" alt="{{ $vote->user->name }}"
+                                         class="w-6 h-6 rounded-sm flex-shrink-0">
+                                @endif
                                 <span class="text-text-primary text-sm">{{ $vote->user->name ?? __('theme::theme.vote.unknown_user') }}</span>
                             </div>
                             <span class="text-accent font-display font-bold text-sm">{{ $vote->votes }} {{ __('theme::theme.vote.votes_suffix') }}</span>
