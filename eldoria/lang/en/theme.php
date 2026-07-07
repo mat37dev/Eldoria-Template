@@ -175,6 +175,11 @@ return [
         'rewards_title' => 'Possible rewards',
     ],
 
+    'faq' => [
+        'eyebrow' => 'Help',
+        'title' => 'Frequently Asked Questions',
+    ],
+
     'auth' => [
         'login_eyebrow' => 'Portal',
         'login_title' => 'Login',
