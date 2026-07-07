@@ -180,6 +180,11 @@ return [
         'title' => 'Foire aux questions',
     ],
 
+    'wiki' => [
+        'eyebrow' => 'Documentation',
+        'search_placeholder' => 'Rechercher dans le wiki...',
+    ],
+
     'auth' => [
         'login_eyebrow' => 'Portail',
         'login_title' => 'Connexion',

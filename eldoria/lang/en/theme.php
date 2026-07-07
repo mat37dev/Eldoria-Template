@@ -180,6 +180,11 @@ return [
         'title' => 'Frequently Asked Questions',
     ],
 
+    'wiki' => [
+        'eyebrow' => 'Documentation',
+        'search_placeholder' => 'Search the wiki...',
+    ],
+
     'auth' => [
         'login_eyebrow' => 'Portal',
         'login_title' => 'Login',
