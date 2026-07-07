@@ -71,6 +71,11 @@
      data-save-url="{{ route('admin.themes.config', 'eldoria') }}"
      @open-customizer.window="open = true"
      class="fixed inset-0 z-[100]"
+     {{-- En mode Disposition, le conteneur plein écran ne doit plus intercepter la souris :
+          sans ça, les barres d'outils des sections (drag/œil/crayon) sont inertes même
+          backdrop masqué — le parent fixed inset-0 z-[100] capte tout. Le panneau réactive
+          ses propres événements via pointer-events-auto. --}}
+     :class="activeTab === 'layout' ? 'pointer-events-none' : ''"
      x-show="open"
      x-cloak>
 
@@ -79,7 +84,7 @@
 
     {{-- Panel (desktop: côté droit | mobile: bas) --}}
     <div class="absolute right-0 top-0 bottom-0 w-full sm:w-96 bg-bg-secondary border-l border-accent/20
-                flex flex-col overflow-hidden
+                flex flex-col overflow-hidden pointer-events-auto
                 sm:right-0 sm:top-0 sm:bottom-0
                 max-sm:bottom-0 max-sm:left-0 max-sm:right-0 max-sm:top-auto max-sm:h-[80vh] max-sm:rounded-t-2xl"
          x-transition:enter="transition ease-out duration-300"
