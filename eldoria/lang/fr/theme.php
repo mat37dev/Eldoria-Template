@@ -165,6 +165,7 @@ return [
         'no_sites' => 'Aucun site de vote disponible pour le moment.',
         'server_select_prompt' => 'Sur quel serveur veux-tu recevoir ta récompense ?',
         'goal_title' => 'Objectif du mois',
+        'podium_title' => 'Le podium du mois',
         'top_voters_title' => 'Top Voteurs du Mois',
         'no_votes_yet' => "Personne n'a encore voté ce mois-ci — sois le premier !",
         'unknown_user' => 'Inconnu',

@@ -86,6 +86,47 @@
         </div>
         @endif
 
+        {{-- ======= PODIUM DES 3 MEILLEURS VOTANTS ======= --}}
+        <?php
+            $podiumFallbackSkin = theme_asset('images/skin-placeholder.png');
+            $podiumEntries = [
+                1 => $votes->get(1),
+                2 => $votes->get(2),
+                3 => $votes->get(3),
+            ];
+        ?>
+        <div class="card-eldoria p-6 sm:p-8" data-aos="fade-up">
+            <h2 class="font-display text-accent text-sm tracking-widest uppercase mb-8 text-center">{{ __('theme::theme.vote.podium_title') }}</h2>
+
+            <div class="flex flex-col sm:flex-row sm:items-end justify-center gap-6 sm:gap-8">
+                @foreach($podiumEntries as $position => $entry)
+                    <div class="flex flex-col items-center {{ $position === 1 ? 'sm:order-2' : ($position === 2 ? 'sm:order-1' : 'sm:order-3') }}">
+                        <div class="font-display text-text-primary text-sm font-semibold mb-2 text-center max-w-[140px] truncate">
+                            {{ $entry->user->name ?? '—' }}
+                        </div>
+
+                        <div class="relative w-32 sm:w-36 aspect-[4/5] bg-bg-primary/40 rounded-sm overflow-hidden border border-accent/20">
+                            <canvas class="podium-skin-canvas w-full h-full"
+                                    data-skin-url="{{ $entry ? 'https://mc-heads.net/skin/' . ($entry->user->game_id ?? 'c06f8906-4c8a-4911-9c29-ea1dbd1aab82') : $podiumFallbackSkin }}"></canvas>
+                            @unless($entry)
+                                <span class="absolute inset-0 flex items-center justify-center text-accent/40 font-display text-5xl">?</span>
+                            @endunless
+                        </div>
+
+                        <div class="mt-3 w-24 sm:w-28 flex items-center justify-center font-display text-2xl font-bold text-bg-primary rounded-t-sm
+                                    {{ $position === 1 ? 'h-20 sm:h-24' : ($position === 2 ? 'h-14 sm:h-16' : 'h-10 sm:h-12') }}"
+                             style="background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-secondary) 100%)">
+                            {{ $position }}
+                        </div>
+
+                        @if($entry)
+                            <span class="text-accent/70 text-xs font-mono mt-2">{{ $entry->votes }} {{ __('theme::theme.vote.votes_suffix') }}</span>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
         {{-- ======= TOP VOTEURS ======= --}}
         <div class="card-eldoria p-6" data-aos="fade-up">
             <h2 class="font-display text-accent text-sm tracking-widest uppercase mb-6">{{ __('theme::theme.vote.top_voters_title') }}</h2>
@@ -150,3 +191,7 @@
 @endauth
 
 @endsection
+
+@push('scripts')
+<script type="module" src="{{ theme_asset('dist/vote-podium.js') }}" defer></script>
+@endpush
