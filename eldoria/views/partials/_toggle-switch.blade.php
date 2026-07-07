@@ -5,7 +5,7 @@
                @if(isset($onChange)) @change="{{ $onChange }}" @endif>
         <span class="w-11 h-6 rounded-full bg-bg-primary border border-accent/30
                      peer-checked:bg-accent peer-checked:border-accent transition-colors duration-200"></span>
-        <span class="absolute left-0.5 top-0.5 w-4 h-4 rounded-full bg-text-secondary
+        <span class="absolute left-1 top-1 w-4 h-4 rounded-full bg-text-secondary
                      peer-checked:bg-bg-primary peer-checked:translate-x-5 transition-transform duration-200"></span>
     </span>
 </label>
