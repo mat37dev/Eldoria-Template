@@ -117,30 +117,41 @@
             hideIcons: ['image'],
             uploadImage: true,
             imageAccept: '.jpg,.jpeg,.jpe,.png,.gif,.bmp,.svg,.webp',
+            // Le cœur d'Azuriom gère l'upload via axios (window.axios global posé
+            // par son propre bundle JS), non chargé par notre thème (qui a son
+            // propre layout/build Vite) — réimplémentation minimale en fetch(),
+            // comme le reste du JS custom du thème (voir customizer.js, posts.js,
+            // vote.js). fetch() n'a pas d'équivalent à onUploadProgress : on se
+            // contente d'afficher le message "en cours" une seule fois, sans
+            // pourcentage.
             imageUploadFunction: function (file, onSuccess, onError) {
                 if (file.size > easyMde.options.imageMaxSize) {
                     onError(easyMde.options.errorMessages.fileTooLarge);
                     return;
                 }
 
+                easyMde.updateStatusBar('upload-image', easyMde.options.imageTexts.sbOnDrop.replace('#file_name#', file.name));
+
                 const formData = new FormData();
                 formData.append('file', file);
 
-                axios.post('{{ $imagesUploadUrl }}', formData, {
-                    onUploadProgress: function (progressEvent) {
-                        if (progressEvent.lengthComputable) {
-                            const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total) + '';
-                            easyMde.updateStatusBar('upload-image', easyMde.options.imageTexts.sbProgress.replace('#file_name#', file.name).replace('#progress#', progress));
-                        }
-                    }
+                fetch('{{ $imagesUploadUrl }}', {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content,
+                    },
+                    body: formData,
                 }).then(function (response) {
-                    onSuccess(response.data.location);
-                }).catch(function (error) {
-                    if (error.response) {
-                        onError(error.response.data.message);
-                        return;
-                    }
+                    return response.json().catch(() => null).then(function (data) {
+                        if (!response.ok) {
+                            onError(data?.message || easyMde.options.errorMessages.importError);
+                            return;
+                        }
 
+                        onSuccess(data.location);
+                    });
+                }).catch(function (error) {
                     onError(easyMde.options.errorMessages.importError);
 
                     console.error('Image upload error: ' + error);
