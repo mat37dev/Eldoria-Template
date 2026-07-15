@@ -185,6 +185,11 @@ return [
         'search_placeholder' => 'Search the wiki...',
     ],
 
+    'support' => [
+        'eyebrow' => 'Support',
+        'no_tickets' => "You haven't opened a ticket yet.",
+    ],
+
     'auth' => [
         'login_eyebrow' => 'Portal',
         'login_title' => 'Login',
