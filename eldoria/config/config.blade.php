@@ -35,6 +35,8 @@
                         @enderror
                     </div>
 
+                    <hr class="my-4">
+
                     <h6 class="mb-3">Contenu</h6>
 
                     <div class="mb-3">
@@ -57,23 +59,25 @@
                         @enderror
                     </div>
 
-                    <h6 class="mb-3">Sections visibles sur la page d'accueil</h6>
+                    <hr class="my-4">
 
-                    <div class="form-check form-switch mb-2">
-                        <input type="hidden" name="show_section_shop" value="0">
-                        <input type="checkbox" class="form-check-input" role="switch"
-                               id="showSectionShopInput" name="show_section_shop" value="1"
-                               {{ old('show_section_shop', theme_config('show_section_shop')) === '1' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="showSectionShopInput">Boutique</label>
+                    <h6 class="mb-3">Serveur</h6>
+
+                    <div class="mb-4">
+                        <label for="serverIpDisplayInput" class="form-label">Adresse IP à afficher</label>
+                        <input type="text" class="form-control @error('server_ip_display') is-invalid @enderror"
+                               id="serverIpDisplayInput" name="server_ip_display" placeholder="play.eldoria.fr"
+                               value="{{ old('server_ip_display', theme_config('server_ip_display')) }}">
+                        <div class="form-text">
+                            Utilisée par le bouton de copie rapide et le bouton "Rejoindre" du hero. Laisser vide
+                            pour utiliser l'adresse du serveur configuré dans Azuriom (Serveurs → Afficher sur l'accueil).
+                        </div>
+                        @error('server_ip_display')
+                        <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
+                        @enderror
                     </div>
 
-                    <div class="form-check form-switch mb-4">
-                        <input type="hidden" name="show_section_vote" value="0">
-                        <input type="checkbox" class="form-check-input" role="switch"
-                               id="showSectionVoteInput" name="show_section_vote" value="1"
-                               {{ old('show_section_vote', theme_config('show_section_vote')) === '1' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="showSectionVoteInput">Vote</label>
-                    </div>
+                    <hr class="my-4">
 
                     <h6 class="mb-3">Équipe / Staff</h6>
                     <p class="text-muted small mb-3">Jusqu'à 8 membres. Le pseudo doit être un pseudo Minecraft valide (avatar via minotar.net).</p>
@@ -98,8 +102,19 @@
                             <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
                             @enderror
                         </div>
+                        <div class="col-12 mt-2">
+                            <label for="staff{{ $i }}LinkInput" class="form-label">Lien (Discord, Twitter/X...) #{{ $i }} — optionnel</label>
+                            <input type="url" class="form-control @error("staff_{$i}_link") is-invalid @enderror"
+                                   id="staff{{ $i }}LinkInput" name="staff_{{ $i }}_link" placeholder="https://..."
+                                   value="{{ old("staff_{$i}_link", theme_config("staff_{$i}_link")) }}">
+                            @error("staff_{$i}_link")
+                            <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
+                            @enderror
+                        </div>
                     </div>
                     @endfor
+
+                    <hr class="my-4">
 
                     <h6 class="mb-3">Médias &amp; communauté</h6>
 
@@ -134,6 +149,8 @@
                         <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
                         @enderror
                     </div>
+
+                    <hr class="my-4">
 
                     <h6 class="mb-3">Réseaux sociaux (footer)</h6>
 

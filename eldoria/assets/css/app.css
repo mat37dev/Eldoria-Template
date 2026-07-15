@@ -21,6 +21,99 @@
     }
 }
 
+/* Mode réorganisation de la homepage (admin) — overlay affiché uniquement
+   quand body.reorder-mode est actif (voir customizer.js, onglet Disposition). */
+[data-section-key] {
+    position: relative;
+}
+
+.reorder-overlay {
+    display: none;
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 40;
+    gap: 0.5rem;
+}
+
+body.reorder-mode .reorder-overlay {
+    display: flex;
+}
+
+body.reorder-mode [data-section-key] {
+    outline: 1px dashed color-mix(in srgb, var(--color-accent) 40%, transparent);
+    outline-offset: 4px;
+}
+
+/* Retour visuel instantané au clic sur l'œil : la section se grise, mais sa
+   barre d'outils reste pleinement visible/cliquable pour pouvoir la rétablir. */
+body.reorder-mode [data-section-key].section-manually-hidden {
+    opacity: 0.35;
+}
+
+body.reorder-mode [data-section-key].section-manually-hidden .reorder-overlay {
+    opacity: 1;
+}
+
+/* En mode réorganisation, une section rendue `hidden` par le serveur
+   (visible: false persisté) doit rester affichée — grisée — pour pouvoir
+   être ré-affichée à l'œil. Sans ça elle serait invisible ET immodifiable. */
+body.reorder-mode [data-section-key].hidden {
+    display: block;
+}
+
+/* Hors mode réorganisation, une section masquée à l'œil disparaît
+   immédiatement — cohérent avec ce que le serveur rendra après sauvegarde,
+   sans attendre un rechargement de page. */
+body:not(.reorder-mode) [data-section-key].section-manually-hidden {
+    display: none;
+}
+
+.reorder-overlay button {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-accent);
+    border-radius: 0.25rem;
+    color: var(--color-accent);
+    cursor: pointer;
+}
+
+.reorder-overlay .drag-handle {
+    cursor: grab;
+}
+
+.reorder-overlay .drag-handle:active {
+    cursor: grabbing;
+}
+
+.reorder-overlay button.section-hidden-indicator {
+    opacity: 0.5;
+}
+
+.sortable-ghost {
+    opacity: 0.4;
+}
+
+/* Le drawer reste ouvert et visible pendant le mode réorganisation (backdrop
+   masqué juste au-dessus) — on réserve donc l'espace qu'il occupe pour que
+   les sections (et leurs poignées ancrées à droite) ne se retrouvent pas
+   masquées derrière le panneau. */
+@media (min-width: 640px) {
+    body.reorder-mode {
+        padding-right: 24rem;
+    }
+}
+
+@media (max-width: 639px) {
+    body.reorder-mode {
+        padding-bottom: 80vh;
+    }
+}
+
 :root {
     --color-bg-primary: #0F0D0A;
     --color-bg-secondary: #1A1612;
@@ -46,14 +139,16 @@
 
 @layer components {
     .btn-primary {
-        @apply inline-flex items-center px-6 py-3 bg-accent text-bg-primary font-display font-semibold
+        @apply inline-flex items-center px-6 py-3 text-bg-primary font-display font-semibold
                rounded-sm border border-accent transition-all duration-300
                tracking-wider uppercase text-sm;
+        background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-secondary) 100%);
     }
 
     .btn-primary:hover {
         opacity: 0.9;
     }
+
 
     .card-eldoria {
         @apply bg-bg-secondary rounded-sm transition-all duration-300;
@@ -66,7 +161,18 @@
 
     .section-title {
         @apply font-display text-3xl font-bold text-accent tracking-widest uppercase
-               text-center mb-2;
+               text-center mb-2 relative pb-4;
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4rem;
+        height: 3px;
+        background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-accent-secondary) 100%);
     }
 
     .section-subtitle {
@@ -83,4 +189,48 @@ body::before {
     pointer-events: none;
     z-index: 1;
     opacity: 0.4;
+}
+
+/* Légère pulsation d'attention sur le bouton copie IP du hero, désactivée si
+   l'utilisateur préfère moins de mouvement. */
+@media not (prefers-reduced-motion: reduce) {
+    #btn-ip-copy {
+        animation: ip-copy-glow 2.4s ease-in-out infinite;
+    }
+}
+
+@keyframes ip-copy-glow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 35%, transparent);
+    }
+    50% {
+        box-shadow: 0 0 0 8px color-mix(in srgb, var(--color-accent) 0%, transparent);
+    }
+}
+
+#ip-copy-tooltip {
+    transition: opacity 200ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #ip-copy-tooltip {
+        transition: none;
+    }
+}
+
+/* Accordéon FAQ : transition de la réponse + rotation du chevron,
+   désactivées si l'utilisateur préfère moins de mouvement. */
+.faq-answer-transition {
+    transition: opacity 200ms ease-out;
+}
+
+.faq-chevron {
+    transition: transform 200ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .faq-answer-transition,
+    .faq-chevron {
+        transition: none;
+    }
 }

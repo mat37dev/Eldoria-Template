@@ -1,5 +1,6 @@
 <?php
     $homeServer = \Azuriom\Models\Server::where('home_display', true)->first();
+    $displayIp = theme_config('server_ip_display', '') ?: ($homeServer ? $homeServer->fullAddress() : '');
     $navbarElements = \Azuriom\Models\NavbarElement::orderBy('position')->with('roles')->get()
         ->filter(fn ($element) => $element->hasPermission())
         ->whereNull('parent_id');
@@ -20,10 +21,11 @@
                 @if($homeServer)
                     <div class="mt-4 flex items-center gap-2">
                         <span class="text-text-secondary text-xs uppercase tracking-wider">{{ __('theme::theme.footer.ip_label') }}</span>
-                        <button onclick="navigator.clipboard.writeText('{{ $homeServer->fullAddress() }}')"
+                        <button type="button" id="footer-ip-copy"
+                                data-ip="{{ $displayIp }}"
                                 class="text-accent font-mono text-sm hover:text-accent/80 transition-colors"
                                 title="{{ __('theme::theme.footer.copy_ip') }}">
-                            {{ $homeServer->fullAddress() }}
+                            <span data-ip-label>{{ $displayIp }}</span>
                         </button>
                     </div>
                 @endif

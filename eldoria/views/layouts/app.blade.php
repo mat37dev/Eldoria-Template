@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{ theme_asset('dist/app.css') }}">
     <script type="module" src="{{ theme_asset('dist/app.js') }}"></script>
 
+    @stack('styles')
     @stack('head')
 </head>
 <body class="bg-bg-primary text-text-primary font-body antialiased">
@@ -42,6 +43,7 @@
     @include('partials.particles')
 
     @stack('scripts')
+    @stack('footer-scripts')
 
 </body>
 </html>

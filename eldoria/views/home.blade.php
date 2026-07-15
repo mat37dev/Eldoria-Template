@@ -10,6 +10,35 @@
     preg_match('/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/',
         theme_config('trailer_url', '') ?? '', $trailerMatch);
     $trailerId = $trailerMatch[1] ?? null;
+
+    $defaultHomeLayout = [
+        ['key' => 'stats', 'visible' => true],
+        ['key' => 'join_steps', 'visible' => true, 'title' => '', 'subtitle' => '', 'steps' => [
+            ['title' => '', 'text' => ''],
+            ['title' => '', 'text' => ''],
+            ['title' => '', 'text' => ''],
+        ]],
+        ['key' => 'trailer', 'visible' => true, 'title' => '', 'subtitle' => ''],
+        ['key' => 'news', 'visible' => true],
+        ['key' => 'shop', 'visible' => true],
+        ['key' => 'vote', 'visible' => true],
+        ['key' => 'staff', 'visible' => true],
+        ['key' => 'discord', 'visible' => true],
+    ];
+
+    $expectedKeys = ['stats', 'join_steps', 'trailer', 'news', 'shop', 'vote', 'staff', 'discord'];
+    $decodedLayout = json_decode(theme_config('home_layout', '') ?? '', true);
+
+    $homeLayout = $defaultHomeLayout;
+    if (is_array($decodedLayout)) {
+        $decodedKeys = array_column($decodedLayout, 'key');
+        sort($decodedKeys);
+        $sortedExpected = $expectedKeys;
+        sort($sortedExpected);
+        if ($decodedKeys === $sortedExpected) {
+            $homeLayout = $decodedLayout;
+        }
+    }
 ?>
 
 {{-- ======= HERO ======= --}}
@@ -17,10 +46,12 @@
 
     <?php
         $heroVideoEnabled = theme_config('hero_video_enabled', '0') === '1' && $trailerId !== null;
+        $displayIp = theme_config('server_ip_display', '') ?: ($homeServer ? $homeServer->fullAddress() : '');
     ?>
 
     {{-- Background image --}}
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat {{ $heroVideoEnabled ? 'hidden' : '' }}" id="hero-bg"
+         data-default-image="{{ theme_asset('images/hero-default.svg') }}"
          style="background-image: url('{{ theme_config('hero_image') ?: theme_asset('images/hero-default.svg') }}')">
     </div>
 
@@ -39,6 +70,31 @@
 
     {{-- Contenu hero --}}
     <div class="relative z-10 text-center px-4 max-w-4xl mx-auto pt-16">
+        <div class="relative flex justify-center mb-6 {{ $displayIp !== '' ? '' : 'hidden' }}" data-live-section="ip-copy-badge">
+            <button type="button" id="btn-ip-copy"
+                    data-ip="{{ $displayIp }}"
+                    data-msg1="{{ __('theme::theme.home.ip_copy_1') }}"
+                    data-msg2="{{ __('theme::theme.home.ip_copy_2') }}"
+                    data-msg3="{{ __('theme::theme.home.ip_copy_3') }}"
+                    data-msg4="{{ __('theme::theme.home.ip_copy_4') }}"
+                    data-msg5="{{ __('theme::theme.home.ip_copy_5') }}"
+                    data-msg-combo="{{ __('theme::theme.home.ip_copy_combo_1') }}|{{ __('theme::theme.home.ip_copy_combo_2') }}|{{ __('theme::theme.home.ip_copy_combo_3') }}"
+                    title="{{ __('theme::theme.home.ip_copy_button') }}"
+                    class="relative inline-flex items-center gap-2 px-4 py-2 min-h-[48px] rounded-full
+                           bg-bg-secondary/80 border border-accent/40 text-text-primary text-sm font-mono
+                           hover:border-accent transition-colors">
+                <svg class="w-4 h-4 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+                <span id="ip-copy-value">{{ $displayIp }}</span>
+                <span id="ip-copy-tooltip"
+                      class="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap
+                             px-3 py-1.5 rounded-sm bg-accent text-bg-primary text-xs font-display tracking-wide uppercase
+                             opacity-0"></span>
+            </button>
+        </div>
+
         <p class="text-accent text-sm font-display tracking-[0.4em] uppercase mb-4 opacity-80">
             ✦ {{ __('theme::theme.home.hero_eyebrow') }} ✦
         </p>
@@ -61,21 +117,31 @@
                           data-offline-label="{{ __('theme::theme.home.server_offline') }}"
                           title="{{ __('theme::theme.home.server_online') }}"
                           class="w-3 h-3 rounded-full bg-green-500 flex-shrink-0"></span>
-                    <button onclick="navigator.clipboard.writeText('{{ $homeServer->fullAddress() }}')"
-                            class="btn-primary relative group min-w-[180px] min-h-[48px]" id="btn-join">
+                    <button type="button" id="btn-join"
+                            data-ip="{{ $displayIp }}" data-default-ip="{{ $homeServer->fullAddress() }}"
+                            class="btn-primary relative group min-w-[180px] min-h-[48px]">
                         <span class="absolute inset-0 rounded-sm animate-ping opacity-30 bg-accent"></span>
                         <span class="relative">{{ __('theme::theme.home.join') }}</span>
-                        <span class="relative ml-2 text-xs font-mono opacity-70">{{ $homeServer->fullAddress() }}</span>
+                        <span class="relative ml-2 text-xs font-mono opacity-70" data-ip-label>{{ $displayIp }}</span>
                     </button>
                 </div>
             @endif
 
-            <a href="{{ route('register') }}"
-               class="inline-flex items-center justify-center px-6 py-3 min-h-[48px] border border-accent/40
-                      text-text-primary font-display text-sm tracking-widest uppercase
-                      hover:border-accent hover:text-accent transition-all duration-300 rounded-sm">
-                {{ __('theme::theme.home.register') }}
-            </a>
+            @guest
+                <a href="{{ route('register') }}"
+                   class="inline-flex items-center justify-center px-6 py-3 min-h-[48px] border border-accent/40
+                          text-text-primary font-display text-sm tracking-widest uppercase
+                          hover:border-accent hover:text-accent transition-all duration-300 rounded-sm">
+                    {{ __('theme::theme.home.register') }}
+                </a>
+            @else
+                <a href="{{ route('profile.index') }}"
+                   class="inline-flex items-center justify-center px-6 py-3 min-h-[48px] border border-accent/40
+                          text-text-primary font-display text-sm tracking-widest uppercase
+                          hover:border-accent hover:text-accent transition-all duration-300 rounded-sm">
+                    {{ __('theme::theme.home.my_profile') }}
+                </a>
+            @endguest
         </div>
     </div>
 
@@ -87,238 +153,13 @@
     </div>
 </section>
 
-{{-- ======= STATS BAND ======= --}}
-<section class="relative z-10 bg-bg-secondary border-y border-accent/20 py-8" data-aos="fade-up">
-    <div class="max-w-7xl mx-auto px-4">
-        <div class="flex flex-col sm:flex-row justify-center items-center gap-8 sm:gap-16">
+{{-- ======= SECTIONS RÉORGANISABLES ======= --}}
+@foreach($homeLayout as $sectionData)
+    @include('partials.home.' . str_replace('_', '-', $sectionData['key']), ['sectionData' => $sectionData])
+@endforeach
 
-            @php
-                $onlinePlayers = \Azuriom\Models\Server::where('home_display', true)->get()
-                    ->sum(fn ($server) => $server->getOnlinePlayers());
-
-                $monthlyVotes = class_exists('\Azuriom\Plugin\Vote\Models\Vote')
-                    ? \Azuriom\Plugin\Vote\Models\Vote::where('created_at', '>', now()->startOfMonth())->count()
-                    : 0;
-            @endphp
-
-            <div class="text-center">
-                <div class="font-display text-4xl font-bold text-accent" id="counter-online"
-                     data-target="{{ $onlinePlayers }}">0</div>
-                <div class="text-text-secondary text-xs tracking-widest uppercase mt-1">{{ __('theme::theme.home.stats_online') }}</div>
-            </div>
-
-            <div class="hidden sm:block w-px h-12 bg-accent/20"></div>
-
-            <div class="text-center">
-                <div class="font-display text-4xl font-bold text-accent" id="counter-votes"
-                     data-target="{{ $monthlyVotes }}">0</div>
-                <div class="text-text-secondary text-xs tracking-widest uppercase mt-1">{{ __('theme::theme.home.stats_votes') }}</div>
-            </div>
-
-            <div class="hidden sm:block w-px h-12 bg-accent/20"></div>
-
-            <div class="text-center">
-                <div class="font-display text-4xl font-bold text-accent" id="counter-members"
-                     data-target="{{ \Azuriom\Models\User::count() }}">0</div>
-                <div class="text-text-secondary text-xs tracking-widest uppercase mt-1">{{ __('theme::theme.home.stats_members') }}</div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-{{-- ======= COMMENT NOUS REJOINDRE ======= --}}
-<section class="py-24 px-4 max-w-5xl mx-auto" data-aos="fade-up">
-    <h2 class="section-title">{{ __('theme::theme.home.join_steps_title') }}</h2>
-    <p class="section-subtitle">{{ __('theme::theme.home.join_steps_subtitle') }}</p>
-
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div class="card-eldoria p-6 text-center" data-aos="fade-up" data-aos-delay="0">
-            <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center font-display text-accent font-bold">1</div>
-            <h3 class="font-display text-text-primary font-semibold mb-2">{{ __('theme::theme.home.join_step1_title') }}</h3>
-            <p class="text-text-secondary text-sm">{{ __('theme::theme.home.join_step1_text') }}</p>
-        </div>
-        <div class="card-eldoria p-6 text-center" data-aos="fade-up" data-aos-delay="100">
-            <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center font-display text-accent font-bold">2</div>
-            <h3 class="font-display text-text-primary font-semibold mb-2">{{ __('theme::theme.home.join_step2_title') }}</h3>
-            <p class="text-text-secondary text-sm">{{ __('theme::theme.home.join_step2_text') }}</p>
-        </div>
-        <div class="card-eldoria p-6 text-center" data-aos="fade-up" data-aos-delay="200">
-            <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center font-display text-accent font-bold">3</div>
-            <h3 class="font-display text-text-primary font-semibold mb-2">{{ __('theme::theme.home.join_step3_title') }}</h3>
-            <p class="text-text-secondary text-sm">{{ __('theme::theme.home.join_step3_text') }}</p>
-        </div>
-    </div>
-</section>
-
-{{-- ======= TRAILER ======= --}}
-<section class="py-24 px-4 max-w-5xl mx-auto {{ $trailerId ? '' : 'hidden' }}"
-         data-live-section="trailer" data-aos="fade-up">
-    <h2 class="section-title">{{ __('theme::theme.home.trailer_title') }}</h2>
-    <p class="section-subtitle">{{ __('theme::theme.home.trailer_subtitle') }}</p>
-
-    <div class="card-eldoria overflow-hidden aspect-video">
-        <iframe data-trailer-iframe
-                src="{{ $trailerId ? 'https://www.youtube-nocookie.com/embed/'.$trailerId : '' }}"
-                title="{{ __('theme::theme.home.trailer_iframe_title') }}"
-                class="w-full h-full"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-                loading="lazy"></iframe>
-    </div>
-</section>
-
-{{-- ======= ACTUS ======= --}}
-@php $latestPosts = \Azuriom\Models\Post::published()->with('author')->latest('published_at')->take(3)->get(); @endphp
-@if($latestPosts->isNotEmpty())
-<section class="py-24 px-4 max-w-7xl mx-auto" data-aos="fade-up">
-    <h2 class="section-title">{{ __('theme::theme.home.news_title') }}</h2>
-    <p class="section-subtitle">{{ __('theme::theme.home.news_subtitle') }}</p>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-        @foreach($latestPosts as $post)
-        <div class="card-eldoria overflow-hidden flex flex-col" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-            @if($post->hasImage())
-                <img src="{{ $post->imageUrl() }}" alt="{{ $post->title }}" class="w-full h-32 object-cover">
-            @endif
-            <div class="p-6 flex flex-col flex-1">
-                <h3 class="font-display text-text-primary font-semibold mb-2">
-                    <a href="{{ route('posts.show', $post) }}" class="hover:text-accent transition-colors">{{ $post->title }}</a>
-                </h3>
-                <p class="text-text-secondary text-sm mb-4 flex-1 line-clamp-2">{{ Str::limit(strip_tags($post->content), 120) }}</p>
-                <a href="{{ route('posts.show', $post) }}" class="btn-primary text-xs py-2 px-4 self-start">
-                    {{ __('theme::theme.posts.read_more') }}
-                </a>
-            </div>
-        </div>
-        @endforeach
-    </div>
-
-    <div class="text-center">
-        <a href="{{ route('posts.index') }}" class="btn-primary">
-            {{ __('theme::theme.home.news_see_all') }}
-        </a>
-    </div>
-</section>
-@endif
-
-{{-- ======= SHOP PREVIEW ======= --}}
-@if(class_exists('\Azuriom\Plugin\Shop\Models\Package'))
-<section class="py-24 px-4 max-w-7xl mx-auto {{ theme_config('show_section_shop', '1') === '1' ? '' : 'hidden' }}"
-         data-live-section="shop" data-aos="fade-up">
-    <h2 class="section-title">{{ __('theme::theme.home.shop_title') }}</h2>
-    <p class="section-subtitle">{{ __('theme::theme.home.shop_subtitle') }}</p>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-        @foreach(\Azuriom\Plugin\Shop\Models\Package::enabled()->with('category')->take(3)->get() as $package)
-        <div class="card-eldoria p-6 group" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-            @if($package->hasImage())
-                <img src="{{ $package->imageUrl() }}" alt="{{ $package->name }}"
-                     class="w-full h-40 object-cover rounded-sm mb-4 group-hover:scale-105 transition-transform duration-300">
-            @else
-                <div class="w-full h-40 bg-bg-primary/50 rounded-sm mb-4 flex items-center justify-center">
-                    <span class="text-accent/30 text-4xl font-display">✦</span>
-                </div>
-            @endif
-            <h3 class="font-display text-text-primary font-semibold mb-2">{{ $package->name }}</h3>
-            <p class="text-text-secondary text-sm mb-4 line-clamp-2">{{ $package->short_description }}</p>
-            <div class="flex items-center justify-between">
-                <span class="text-accent font-display font-bold text-lg">{{ format_money($package->getPrice()) }}</span>
-                <a href="{{ route('shop.packages.show', $package) }}" class="btn-primary text-xs py-2 px-4">
-                    {{ __('theme::theme.home.buy') }}
-                </a>
-            </div>
-        </div>
-        @endforeach
-    </div>
-
-    <div class="text-center">
-        <a href="{{ route('shop.home') }}" class="btn-primary">
-            {{ __('theme::theme.home.shop_see_all') }}
-        </a>
-    </div>
-</section>
-@endif
-
-{{-- ======= VOTE ======= --}}
-@if(class_exists('\Azuriom\Plugin\Vote\Models\Site'))
-<section class="py-24 bg-bg-secondary border-y border-accent/10 {{ theme_config('show_section_vote', '1') === '1' ? '' : 'hidden' }}"
-         data-live-section="vote" data-aos="fade-up">
-    <div class="max-w-4xl mx-auto px-4">
-        <h2 class="section-title">{{ __('theme::theme.home.vote_title') }}</h2>
-        <p class="section-subtitle">{{ __('theme::theme.home.vote_subtitle') }}</p>
-
-        <div class="space-y-4">
-            @foreach(\Azuriom\Plugin\Vote\Models\Site::enabled()->get() as $site)
-            <div class="card-eldoria p-4 flex items-center justify-between gap-4" data-aos="fade-right" data-aos-delay="{{ $loop->index * 75 }}">
-                <div class="flex items-center gap-4">
-                    <div class="w-8 h-8 flex items-center justify-center text-accent/40 font-display font-bold">
-                        {{ $loop->iteration }}
-                    </div>
-                    <div>
-                        <div class="font-display text-text-primary text-sm font-semibold">{{ $site->name }}</div>
-                        <div class="text-text-secondary text-xs">{{ __('theme::theme.home.vote_reward_generic') }}</div>
-                    </div>
-                </div>
-                {{-- Le vrai flux de vote (redirection + vérification) est géré sur la page /vote --}}
-                <a href="{{ route('vote.home') }}"
-                   class="btn-primary text-xs py-2 px-4 whitespace-nowrap min-h-[40px]">
-                    ✦ {{ __('theme::theme.home.vote_cta') }}
-                </a>
-            </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-@endif
-
-{{-- ======= ÉQUIPE ======= --}}
-@php
-    $staffMembers = collect(range(1, 8))
-        ->map(fn ($i) => [
-            'name' => theme_config("staff_{$i}_name", ''),
-            'role' => theme_config("staff_{$i}_role", ''),
-        ])
-        ->filter(fn ($member) => trim($member['name']) !== '');
-@endphp
-@if($staffMembers->isNotEmpty())
-<section class="py-24 px-4 max-w-6xl mx-auto" data-aos="fade-up">
-    <h2 class="section-title">{{ __('theme::theme.home.staff_title') }}</h2>
-    <p class="section-subtitle">{{ __('theme::theme.home.staff_subtitle') }}</p>
-
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-        @foreach($staffMembers as $member)
-        <div class="card-eldoria p-4 text-center" data-aos="fade-up" data-aos-delay="{{ $loop->index * 75 }}">
-            <img src="https://minotar.net/avatar/{{ urlencode($member['name']) }}/128"
-                 alt="{{ $member['name'] }}"
-                 class="w-16 h-16 mx-auto rounded-sm mb-3">
-            <div class="font-display text-text-primary text-sm font-semibold">{{ $member['name'] }}</div>
-            @if($member['role'] !== '')
-                <div class="text-accent text-xs uppercase tracking-widest mt-1">{{ $member['role'] }}</div>
-            @endif
-        </div>
-        @endforeach
-    </div>
-</section>
-@endif
-
-{{-- ======= WIDGET DISCORD ======= --}}
-@php $discordServerId = theme_config('discord_server_id', '') ?? ''; @endphp
-<section class="py-24 px-4 {{ $discordServerId !== '' ? '' : 'hidden' }}"
-         data-live-section="discord" data-aos="fade-up">
-    <h2 class="section-title">{{ __('theme::theme.home.discord_title') }}</h2>
-    <p class="section-subtitle">{{ __('theme::theme.home.discord_subtitle') }}</p>
-
-    <div class="max-w-md mx-auto card-eldoria p-4">
-        <iframe data-discord-iframe
-                src="{{ $discordServerId !== '' ? 'https://discord.com/widget?id='.$discordServerId.'&theme=dark' : '' }}"
-                title="{{ __('theme::theme.home.discord_iframe_title') }}"
-                width="100%" height="420"
-                frameborder="0"
-                sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
-                loading="lazy"></iframe>
-    </div>
-</section>
+@auth
+<script>window.eldoriaVoteUsername = @json(auth()->user()->name);</script>
+@endauth
 
 @endsection

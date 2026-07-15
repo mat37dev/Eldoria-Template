@@ -8,6 +8,8 @@ export default defineConfig({
             input: {
                 app: resolve(__dirname, 'assets/js/app.js'),
                 style: resolve(__dirname, 'assets/css/app.css'),
+                profile: resolve(__dirname, 'assets/js/profile.js'),
+                'vote-podium': resolve(__dirname, 'assets/js/vote-podium.js'),
             },
             output: {
                 // Fixed filenames (no content hash): Azuriom themes are not aware of

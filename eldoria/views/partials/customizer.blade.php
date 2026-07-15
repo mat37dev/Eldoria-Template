@@ -10,12 +10,60 @@
 </button>
 
 {{-- Drawer customizer --}}
+<?php
+    // Même logique de repli que home.blade.php : on ne fait jamais confiance à
+    // un home_layout dont la forme ne correspond pas exactement aux 8 clés
+    // attendues (JSON absent/corrompu, ou thème mis à jour depuis).
+    $defaultHomeLayoutForJs = [
+        ['key' => 'stats', 'visible' => true],
+        ['key' => 'join_steps', 'visible' => true, 'title' => '', 'subtitle' => '', 'steps' => [
+            ['title' => '', 'text' => ''],
+            ['title' => '', 'text' => ''],
+            ['title' => '', 'text' => ''],
+        ]],
+        ['key' => 'trailer', 'visible' => true, 'title' => '', 'subtitle' => ''],
+        ['key' => 'news', 'visible' => true],
+        ['key' => 'shop', 'visible' => true],
+        ['key' => 'vote', 'visible' => true],
+        ['key' => 'staff', 'visible' => true],
+        ['key' => 'discord', 'visible' => true],
+    ];
+
+    $expectedLayoutKeys = ['stats', 'join_steps', 'trailer', 'news', 'shop', 'vote', 'staff', 'discord'];
+    $decodedHomeLayoutForJs = json_decode(theme_config('home_layout', '') ?? '', true);
+
+    $homeLayoutForJs = $defaultHomeLayoutForJs;
+    if (is_array($decodedHomeLayoutForJs)) {
+        $decodedLayoutKeys = array_column($decodedHomeLayoutForJs, 'key');
+        sort($decodedLayoutKeys);
+        $sortedExpectedLayoutKeys = $expectedLayoutKeys;
+        sort($sortedExpectedLayoutKeys);
+        if ($decodedLayoutKeys === $sortedExpectedLayoutKeys) {
+            $homeLayoutForJs = $decodedHomeLayoutForJs;
+        }
+    }
+
+    $joinStepsData = collect($homeLayoutForJs)->firstWhere('key', 'join_steps');
+    $trailerSectionData = collect($homeLayoutForJs)->firstWhere('key', 'trailer');
+?>
 <div x-data="customizer({
+        homeLayout: @js($homeLayoutForJs),
+        sectionTextOverrides: {
+            join_steps: @js([
+                'title' => $joinStepsData['title'] ?? '',
+                'subtitle' => $joinStepsData['subtitle'] ?? '',
+                'steps' => $joinStepsData['steps'] ?? [['title' => '', 'text' => ''], ['title' => '', 'text' => ''], ['title' => '', 'text' => '']],
+            ]),
+            trailer: @js([
+                'title' => $trailerSectionData['title'] ?? '',
+                'subtitle' => $trailerSectionData['subtitle'] ?? '',
+            ]),
+        },
         slogan: @js(theme_config('hero_slogan', '')),
+        heroImage: @js(theme_config('hero_image', '') ?? ''),
         heroVideoEnabled: @js(theme_config('hero_video_enabled', '0') === '1'),
-        showShop: @js(theme_config('show_section_shop', '1') === '1'),
-        showVote: @js(theme_config('show_section_vote', '1') === '1'),
         trailerUrl: @js(theme_config('trailer_url', '') ?? ''),
+        serverIpDisplay: @js(theme_config('server_ip_display', '') ?? ''),
         discordId: @js(theme_config('discord_server_id', '') ?? ''),
         footerDiscord: @js(theme_config('footer_discord', '') ?? ''),
         footerTwitter: @js(theme_config('footer_twitter', '') ?? ''),
@@ -23,15 +71,20 @@
      data-save-url="{{ route('admin.themes.config', 'eldoria') }}"
      @open-customizer.window="open = true"
      class="fixed inset-0 z-[100]"
+     {{-- En mode Disposition, le conteneur plein écran ne doit plus intercepter la souris :
+          sans ça, les barres d'outils des sections (drag/œil/crayon) sont inertes même
+          backdrop masqué — le parent fixed inset-0 z-[100] capte tout. Le panneau réactive
+          ses propres événements via pointer-events-auto. --}}
+     :class="activeTab === 'layout' ? 'pointer-events-none' : ''"
      x-show="open"
      x-cloak>
 
-    {{-- Overlay --}}
-    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="open = false"></div>
+    {{-- Overlay — masqué en mode Disposition pour laisser la page interactive derrière le drawer --}}
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="open = false" x-show="activeTab !== 'layout'"></div>
 
     {{-- Panel (desktop: côté droit | mobile: bas) --}}
     <div class="absolute right-0 top-0 bottom-0 w-full sm:w-96 bg-bg-secondary border-l border-accent/20
-                flex flex-col overflow-hidden
+                flex flex-col overflow-hidden pointer-events-auto
                 sm:right-0 sm:top-0 sm:bottom-0
                 max-sm:bottom-0 max-sm:left-0 max-sm:right-0 max-sm:top-auto max-sm:h-[80vh] max-sm:rounded-t-2xl"
          x-transition:enter="transition ease-out duration-300"
@@ -44,11 +97,21 @@
         {{-- Header --}}
         <div class="flex items-center justify-between px-6 py-4 border-b border-accent/20">
             <h3 class="font-display text-accent tracking-widest uppercase text-sm">{{ __('theme::theme.customizer.title') }}</h3>
-            <button @click="open = false" class="text-text-secondary hover:text-text-primary transition-colors">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-            </button>
+            <div class="flex items-center gap-4">
+                <a href="{{ route('admin.themes.config', 'eldoria') }}" target="_blank" rel="noopener"
+                   class="text-text-secondary hover:text-accent transition-colors"
+                   title="{{ __('theme::theme.customizer.admin_link') }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                </a>
+                <button @click="open = false" class="text-text-secondary hover:text-text-primary transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
         </div>
 
         {{-- Tabs --}}
@@ -62,6 +125,11 @@
                     :class="activeTab === 'content' ? 'border-b-2 border-accent text-accent' : 'text-text-secondary hover:text-text-primary'"
                     class="flex-1 py-3 text-xs font-display tracking-widest uppercase transition-colors">
                 {{ __('theme::theme.customizer.tab_content') }}
+            </button>
+            <button @click="enterLayoutTab()"
+                    :class="activeTab === 'layout' ? 'border-b-2 border-accent text-accent' : 'text-text-secondary hover:text-text-primary'"
+                    class="flex-1 py-3 text-xs font-display tracking-widest uppercase transition-colors">
+                {{ __('theme::theme.customizer.tab_layout') }}
             </button>
         </div>
 
@@ -124,19 +192,21 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-3">{{ __('theme::theme.customizer.sections_visible') }}</label>
-                    <div class="space-y-3">
-                        <div class="flex items-center justify-between">
-                            <span class="text-text-primary text-sm">{{ __('theme::theme.customizer.section_shop') }}</span>
-                            <input type="checkbox" x-model="showShop" @change="liveSection('shop', showShop)"
-                                   class="w-4 h-4 accent-[var(--color-accent)]">
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="text-text-primary text-sm">{{ __('theme::theme.customizer.section_vote') }}</span>
-                            <input type="checkbox" x-model="showVote" @change="liveSection('vote', showVote)"
-                                   class="w-4 h-4 accent-[var(--color-accent)]">
-                        </div>
-                    </div>
+                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.hero_image_label') }}</label>
+                    <input type="url" x-model="heroImage" @input.debounce.500ms="liveHeroImage()"
+                           placeholder="{{ __('theme::theme.customizer.hero_image_placeholder') }}"
+                           class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm
+                                  focus:outline-none focus:border-accent/60 min-h-[40px]">
+                    <p class="text-text-secondary text-xs mt-1">{{ __('theme::theme.customizer.hero_image_help') }}</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.server_ip_label') }}</label>
+                    <input type="text" x-model="serverIpDisplay" @input="liveServerIp()"
+                           placeholder="{{ __('theme::theme.customizer.server_ip_placeholder') }}"
+                           class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm
+                                  focus:outline-none focus:border-accent/60 min-h-[40px]">
+                    <p class="text-text-secondary text-xs mt-1">{{ __('theme::theme.customizer.server_ip_help') }}</p>
                 </div>
 
                 <div>
@@ -146,11 +216,9 @@
                            class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm
                                   focus:outline-none focus:border-accent/60 min-h-[40px]">
                     <p class="text-text-secondary text-xs mt-1">{{ __('theme::theme.customizer.trailer_help') }}</p>
-                    <label class="flex items-center justify-between mt-3 cursor-pointer" x-show="trailerUrl">
-                        <span class="text-text-primary text-sm">{{ __('theme::theme.customizer.hero_video_toggle') }}</span>
-                        <input type="checkbox" x-model="heroVideoEnabled" @change="liveHeroVideo()"
-                               class="w-4 h-4 accent-[var(--color-accent)]">
-                    </label>
+                    <div class="mt-3" x-show="trailerUrl">
+                        @include('partials._toggle-switch', ['model' => 'heroVideoEnabled', 'label' => __('theme::theme.customizer.hero_video_toggle'), 'onChange' => 'liveHeroVideo()'])
+                    </div>
                 </div>
 
                 <div>
@@ -182,24 +250,77 @@
                 </div>
 
             </div>
+
+            {{-- TAB DISPOSITION --}}
+            <div x-show="activeTab === 'layout' && !editingSection" class="space-y-6">
+                <p class="text-text-secondary text-sm leading-relaxed">
+                    {{ __('theme::theme.customizer.layout_instructions') }}
+                </p>
+            </div>
+
+            {{-- SOUS-PANNEAU ÉDITION : COMMENT NOUS REJOINDRE --}}
+            <div x-show="activeTab === 'layout' && editingSection === 'join_steps'" class="space-y-4">
+                <button @click="backToLayoutList()" class="text-accent text-xs uppercase tracking-widest mb-2">
+                    ← {{ __('theme::theme.customizer.layout_back') }}
+                </button>
+                <div>
+                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.layout_field_title') }}</label>
+                    <input type="text" x-model="sectionTextOverrides.join_steps.title" @input="liveJoinStepsText()"
+                           class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm min-h-[40px]">
+                </div>
+                <div>
+                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.layout_field_subtitle') }}</label>
+                    <input type="text" x-model="sectionTextOverrides.join_steps.subtitle" @input="liveJoinStepsText()"
+                           class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm min-h-[40px]">
+                </div>
+                <template x-for="(step, index) in sectionTextOverrides.join_steps.steps" :key="index">
+                    <div class="border-t border-accent/10 pt-4">
+                        <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2" x-text="'{{ __('theme::theme.customizer.layout_field_step') }} ' + (index + 1)"></label>
+                        <input type="text" x-model="step.title" @input="liveJoinStepsText()"
+                               class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm min-h-[40px] mb-2">
+                        <textarea x-model="step.text" @input="liveJoinStepsText()" rows="2"
+                                  class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm resize-none"></textarea>
+                    </div>
+                </template>
+            </div>
+
+            {{-- SOUS-PANNEAU ÉDITION : TRAILER --}}
+            <div x-show="activeTab === 'layout' && editingSection === 'trailer'" class="space-y-4">
+                <button @click="backToLayoutList()" class="text-accent text-xs uppercase tracking-widest mb-2">
+                    ← {{ __('theme::theme.customizer.layout_back') }}
+                </button>
+                <div>
+                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.layout_field_title') }}</label>
+                    <input type="text" x-model="sectionTextOverrides.trailer.title" @input="liveTrailerSectionText()"
+                           class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm min-h-[40px]">
+                </div>
+                <div>
+                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.layout_field_subtitle') }}</label>
+                    <input type="text" x-model="sectionTextOverrides.trailer.subtitle" @input="liveTrailerSectionText()"
+                           class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm min-h-[40px]">
+                </div>
+            </div>
         </div>
 
         {{-- Footer actions --}}
-        <div class="px-6 py-4 border-t border-accent/20 flex gap-3">
-            <button @click="cancel()"
-                    class="flex-1 py-2 border border-accent/30 text-text-secondary hover:text-text-primary
-                           text-sm font-display tracking-widest uppercase rounded-sm transition-colors">
-                {{ __('theme::theme.customizer.cancel') }}
-            </button>
-            <button @click="save()"
-                    :disabled="saving"
-                    class="flex-1 py-2 bg-accent text-bg-primary font-display text-sm tracking-widest uppercase
-                           rounded-sm hover:bg-accent/90 transition-all disabled:opacity-50">
-                <span x-show="!saving && !saved && !saveError">{{ __('theme::theme.customizer.save') }}</span>
-                <span x-show="saving">{{ __('theme::theme.customizer.saving') }}</span>
-                <span x-show="saved">{{ __('theme::theme.customizer.saved') }}</span>
-                <span x-show="saveError" class="text-red-600">{{ __('theme::theme.customizer.save_error') }}</span>
-            </button>
+        <div class="px-6 py-4 border-t border-accent/20">
+            <p x-show="saveError" x-cloak class="text-red-400 text-xs mb-3" x-text="saveErrorMessage"></p>
+            <div class="flex gap-3">
+                <button @click="cancel()"
+                        class="flex-1 py-2 border border-accent/30 text-text-secondary hover:text-text-primary
+                               text-sm font-display tracking-widest uppercase rounded-sm transition-colors">
+                    {{ __('theme::theme.customizer.cancel') }}
+                </button>
+                <button @click="save()"
+                        :disabled="saving"
+                        class="flex-1 py-2 bg-accent text-bg-primary font-display text-sm tracking-widest uppercase
+                               rounded-sm hover:bg-accent/90 transition-all disabled:opacity-50">
+                    <span x-show="!saving && !saved && !saveError">{{ __('theme::theme.customizer.save') }}</span>
+                    <span x-show="saving">{{ __('theme::theme.customizer.saving') }}</span>
+                    <span x-show="saved">{{ __('theme::theme.customizer.saved') }}</span>
+                    <span x-show="saveError" class="text-red-600">{{ __('theme::theme.customizer.save_error') }}</span>
+                </button>
+            </div>
         </div>
     </div>
 </div>
