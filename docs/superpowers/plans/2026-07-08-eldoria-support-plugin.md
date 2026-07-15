@@ -575,8 +575,8 @@ use Azuriom\Plugin\Support\Models\Field;
 \$simple = Category::create(['name' => 'Test simple']);
 
 \$champs = Category::create(['name' => 'Test champs']);
-Field::create(['category_id' => \$champs->id, 'name' => 'Résumé', 'description' => 'Résume le problème en une phrase.', 'type' => 'text', 'is_required' => true]);
-Field::create(['category_id' => \$champs->id, 'name' => 'Plateforme', 'description' => 'Java ou Bedrock ?', 'type' => 'dropdown', 'options' => ['Java', 'Bedrock'], 'is_required' => true]);
+\$champs->fields()->create(['name' => 'Résumé', 'description' => 'Résume le problème en une phrase.', 'type' => 'text', 'is_required' => true]);
+\$champs->fields()->create(['name' => 'Plateforme', 'description' => 'Java ou Bedrock ?', 'type' => 'dropdown', 'options' => ['Java', 'Bedrock'], 'is_required' => true]);
 
 echo 'Catégories de test créées: ' . \$simple->id . ', ' . \$champs->id . PHP_EOL;
 "
@@ -833,8 +833,8 @@ NavbarElement::create(['name' => 'Support', 'type' => 'plugin', 'value' => 'supp
 \$general = Category::create(['name' => 'Question générale', 'description' => 'Pour toute question ne concernant pas un bug ou un problème technique.']);
 
 \$bug = Category::create(['name' => 'Signaler un bug', 'description' => 'Décris le problème rencontré en jeu ou sur le site.']);
-Field::create(['category_id' => \$bug->id, 'name' => 'Résumé du bug', 'description' => 'En une phrase, décris ce qui ne fonctionne pas.', 'type' => 'text', 'is_required' => true]);
-Field::create(['category_id' => \$bug->id, 'name' => 'Plateforme', 'description' => 'Sur quelle version joues-tu ?', 'type' => 'dropdown', 'options' => ['Java', 'Bedrock'], 'is_required' => true]);
+\$bug->fields()->create(['name' => 'Résumé du bug', 'description' => 'En une phrase, décris ce qui ne fonctionne pas.', 'type' => 'text', 'is_required' => true]);
+\$bug->fields()->create(['name' => 'Plateforme', 'description' => 'Sur quelle version joues-tu ?', 'type' => 'dropdown', 'options' => ['Java', 'Bedrock'], 'is_required' => true]);
 
 \$user = User::first();
 Auth::login(\$user);
@@ -879,4 +879,5 @@ Aucun commit attendu si aucun fichier du thème n'a été modifié. Si la vérif
 3. Chaque task de vérification (44, 46, 47) crée des catégories/tickets de test **temporaires** via tinker, supprimés avant le commit de la task — seule la Task 48 crée le contenu de démo définitif qui reste en base. Ce n'est pas une omission si une task précédente laisse des traces : la Task 48 Step 1 crée son propre contenu indépendamment, et sa Step 2 est la vérification de référence sur l'état final.
 4. Si le plugin Support s'avère déjà installé sur l'installation de test locale au moment de l'exécution, la Step 1 de la Task 44 est un no-op — vérifier simplement sa présence avant de copier quoi que ce soit.
 5. **Schéma réel de `Category` et `Field`** (vérifié contre les migrations réelles du plugin, `local/azuriom-plugin-support/database/migrations/`) : `support_categories` n'a **pas** de colonne `is_enabled` ni `position` (contrairement au plugin Wiki) — ne jamais les passer à `Category::create()`. `support_fields` n'a pas non plus de colonne `position`, et sa colonne `description` est **`NOT NULL`** (pas nullable malgré le docblock du modèle `Field`) — toujours fournir une valeur non vide à `description` dans `Field::create()`, sous peine d'erreur SQL.
+6. **`category_id` n'est pas fillable sur `Field`** (`$fillable = ['name', 'description', 'type', 'is_required', 'options']`, confirmé en Task 46) : créer toujours les champs de test/démo via la relation — `\$category->fields()->create([...])` (sans la clé `category_id` dans le tableau) — jamais via `Field::create(['category_id' => ..., ...])`, qui laisserait `category_id` silencieusement non renseigné.
 6. **`Auth::login()` requis pour toute création de `Ticket`/`Comment` en tinker** : ces deux modèles utilisent le trait `HasUser`, qui renseigne `author_id` depuis `Auth::id()` dans un événement `creating` — sans session active, la création échouerait silencieusement (author_id null). `author_id` et `closed_at` ne font pas partie du `$fillable` de `Ticket` et doivent donc être renseignés respectivement via `Auth::login()` (avant création) et assignation directe + `save()` (après création), jamais via le tableau `create()`.
