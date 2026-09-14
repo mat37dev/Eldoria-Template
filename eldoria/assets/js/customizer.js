@@ -22,8 +22,8 @@ export function customizerComponent(initial = {}) {
         saveErrorMessage: '',
         activeTab: 'colors',
         sortableInstance: null,
-        accent: getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim() || '#C9A84C',
-        accentSecondary: getComputedStyle(document.documentElement).getPropertyValue('--color-accent-secondary').trim() || '#7B3F2E',
+        accent: getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim() || '#E9A62D',
+        accentSecondary: getComputedStyle(document.documentElement).getPropertyValue('--color-accent-secondary').trim() || '#9D5C38',
         palettes: PALETTES,
 
         // Contenu éditable — initialisé depuis la config serveur (voir customizer.blade.php)

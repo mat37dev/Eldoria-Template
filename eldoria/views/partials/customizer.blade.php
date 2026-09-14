@@ -1,6 +1,6 @@
 {{-- Bouton flottant (x-data requis : Alpine ignore les directives hors composant) --}}
 <button x-data @click="$dispatch('open-customizer')"
-        class="fixed bottom-6 right-6 z-50 w-12 h-12 bg-accent text-bg-primary rounded-full
+        class="fixed bottom-6 right-6 z-50 w-12 h-12 bg-accent text-text-primary rounded-full
                flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
         title="{{ __('theme::theme.customizer.button_title') }}">
     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -313,7 +313,7 @@
                 </button>
                 <button @click="save()"
                         :disabled="saving"
-                        class="flex-1 py-2 bg-accent text-bg-primary font-display text-sm tracking-widest uppercase
+                        class="flex-1 py-2 bg-accent text-text-primary font-display text-sm tracking-widest uppercase
                                rounded-sm hover:bg-accent/90 transition-all disabled:opacity-50">
                     <span x-show="!saving && !saved && !saveError">{{ __('theme::theme.customizer.save') }}</span>
                     <span x-show="saving">{{ __('theme::theme.customizer.saving') }}</span>

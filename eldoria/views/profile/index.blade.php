@@ -59,7 +59,7 @@
                 <form method="POST" action="{{ route('logout') }}" class="flex-1">
                     @csrf
                     <button type="submit"
-                            class="w-full py-3 bg-accent text-bg-primary font-display text-sm tracking-widest uppercase
+                            class="w-full py-3 bg-accent text-text-primary font-display text-sm tracking-widest uppercase
                                    rounded-sm hover:bg-accent/90 transition-all min-h-[48px]">
                         {{ __('theme::theme.profile.logout') }}
                     </button>

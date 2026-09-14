@@ -13,7 +13,7 @@ export function initParticles() {
 
     function getAccentColor() {
         return getComputedStyle(document.documentElement)
-            .getPropertyValue('--color-accent').trim() || '#C9A84C'
+            .getPropertyValue('--color-accent').trim() || '#E9A62D'
     }
 
     function hexToRgb(hex) {
