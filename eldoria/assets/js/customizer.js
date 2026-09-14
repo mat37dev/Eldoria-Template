@@ -269,6 +269,13 @@ export function customizerComponent(initial = {}) {
                 // <main>, qui contient aussi la section hero (avant) et un <script> (après)
                 // en plus des 7 vraies sections. Restreint explicitement aux sections réelles.
                 draggable: '[data-section-key]',
+                // Sur Chrome, le glisser natif (HTML5) délègue l'auto-scroll près du bord
+                // du viewport au navigateur lui-même — peu fiable quand un élément fixed
+                // (notre navbar) chevauche ce bord. `forceAutoScrollFallback` ne touche
+                // que le plugin d'auto-scroll : il le force à utiliser sa propre boucle JS,
+                // sans changer le mécanisme de glisser natif (contrairement à `forceFallback`
+                // sur Sortable lui-même, qui cassait l'affichage pendant le glisser).
+                forceAutoScrollFallback: true,
                 animation: 150,
                 onEnd: () => {},
             })
