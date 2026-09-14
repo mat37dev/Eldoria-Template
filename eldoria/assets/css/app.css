@@ -126,11 +126,17 @@ body:not(.reorder-mode) [data-section-key].section-manually-hidden {
 
 :root {
     --color-bg-primary: #7BC4E8;
+    --color-bg-primary-rgb: 123 196 232;
     --color-bg-secondary: #FFF4D7;
+    --color-bg-secondary-rgb: 255 244 215;
     --color-accent: #E9A62D;
+    --color-accent-rgb: 233 166 45;
     --color-accent-secondary: #9D5C38;
+    --color-accent-secondary-rgb: 157 92 56;
     --color-text-primary: #402314;
+    --color-text-primary-rgb: 64 35 20;
     --color-text-secondary: #765338;
+    --color-text-secondary-rgb: 118 83 56;
 }
 
 @layer base {

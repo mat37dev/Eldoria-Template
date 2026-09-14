@@ -13,6 +13,14 @@ const PALETTES = [
     { name: 'Givre',    accent: '#7EC8D8', secondary: '#3E7A8A' },
 ]
 
+// Tailwind module l'opacité (bg-accent/10, etc., voir tailwind.config.js) via
+// rgb(var(--color-accent-rgb) / <alpha-value>) — le triplet doit donc être
+// recalculé à chaque changement de couleur, en plus du hex lui-même.
+function hexToRgbTriple(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+    return result ? [1, 2, 3].map(i => parseInt(result[i], 16)).join(' ') : '0 0 0'
+}
+
 export function ytVideoId(url) {
     const match = (url || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/)
     return match ? match[1] : null
@@ -51,7 +59,9 @@ export function customizerComponent(initial = {}) {
             this.accent = accent
             this.accentSecondary = secondary
             document.documentElement.style.setProperty('--color-accent', accent)
+            document.documentElement.style.setProperty('--color-accent-rgb', hexToRgbTriple(accent))
             document.documentElement.style.setProperty('--color-accent-secondary', secondary)
+            document.documentElement.style.setProperty('--color-accent-secondary-rgb', hexToRgbTriple(secondary))
         },
 
         applyPalette(palette) {
