@@ -113,7 +113,7 @@
                             @endunless
                         </div>
 
-                        <div class="mt-3 w-24 sm:w-28 flex items-center justify-center font-display text-2xl font-bold text-bg-primary rounded-t-sm
+                        <div class="mt-3 w-24 sm:w-28 flex items-center justify-center font-display text-2xl font-bold text-text-primary rounded-t-sm
                                     {{ $position === 1 ? 'h-20 sm:h-24' : ($position === 2 ? 'h-14 sm:h-16' : 'h-10 sm:h-12') }}"
                              style="background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-secondary) 100%)">
                             {{ $position }}
