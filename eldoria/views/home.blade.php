@@ -51,8 +51,8 @@
 
     {{-- Background image --}}
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat {{ $heroVideoEnabled ? 'hidden' : '' }}" id="hero-bg"
-         data-default-image="{{ theme_asset('images/hero-default.svg') }}"
-         style="background-image: url('{{ theme_config('hero_image') ?: theme_asset('images/hero-default.svg') }}')">
+         data-default-image="{{ theme_asset('images/hero-aldorya.webp') }}"
+         style="background-image: url('{{ theme_config('hero_image') ?: theme_asset('images/hero-aldorya.webp') }}')">
     </div>
 
     {{-- Fond vidéo (trailer YouTube, autoplay muet en boucle) --}}
@@ -65,8 +65,9 @@
                 loading="lazy"></iframe>
     </div>
 
-    {{-- Overlay dégradé --}}
-    <div class="absolute inset-0 bg-gradient-to-b from-bg-primary/60 via-bg-primary/40 to-bg-primary"></div>
+    {{-- Overlay dégradé : assombrit le bas de l'image pour la lisibilité du texte,
+         puis se fond dans le bleu ciel du reste de la page --}}
+    <div class="absolute inset-0 bg-gradient-to-b from-black/10 via-black/5 to-bg-primary"></div>
 
     {{-- Contenu hero --}}
     <div class="relative z-10 text-center px-4 max-w-4xl mx-auto pt-16">
@@ -90,21 +91,23 @@
                 <span id="ip-copy-value">{{ $displayIp }}</span>
                 <span id="ip-copy-tooltip"
                       class="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap
-                             px-3 py-1.5 rounded-sm bg-accent text-bg-primary text-xs font-display tracking-wide uppercase
+                             px-3 py-1.5 rounded-sm bg-accent text-text-primary text-xs font-display tracking-wide uppercase
                              opacity-0"></span>
             </button>
         </div>
 
-        <p class="text-accent text-sm font-display tracking-[0.4em] uppercase mb-4 opacity-80">
+        <p class="text-accent text-sm font-display tracking-[0.4em] uppercase mb-4"
+           style="text-shadow: 0 2px 0 rgba(64,35,20,.45);">
             ✦ {{ __('theme::theme.home.hero_eyebrow') }} ✦
         </p>
 
-        <h1 class="font-display text-5xl md:text-7xl font-black text-text-primary leading-tight mb-6"
-            style="text-shadow: 0 2px 30px rgba(0,0,0,0.8)">
+        <h1 class="font-display text-5xl md:text-7xl font-black text-white leading-tight mb-6"
+            style="text-shadow: 0 4px 0 var(--color-accent-secondary), 0 8px 18px rgba(64,35,20,.35);">
             {{ site_name() }}
         </h1>
 
-        <p class="text-text-secondary text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed" data-live="hero_slogan">
+        <p class="text-white text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed font-semibold"
+           style="text-shadow: 0 2px 0 rgba(64,35,20,.3);" data-live="hero_slogan">
             {{ theme_config('hero_slogan', 'Bienvenue dans le royaume. Rejoignez l\'aventure.') }}
         </p>
 
@@ -129,16 +132,16 @@
 
             @guest
                 <a href="{{ route('register') }}"
-                   class="inline-flex items-center justify-center px-6 py-3 min-h-[48px] border border-accent/40
-                          text-text-primary font-display text-sm tracking-widest uppercase
-                          hover:border-accent hover:text-accent transition-all duration-300 rounded-sm">
+                   class="inline-flex items-center justify-center px-6 py-3 min-h-[48px] border-2 border-white/70
+                          text-white font-display text-sm tracking-widest uppercase rounded-[10px]
+                          hover:border-accent hover:text-accent transition-all duration-300">
                     {{ __('theme::theme.home.register') }}
                 </a>
             @else
                 <a href="{{ route('profile.index') }}"
-                   class="inline-flex items-center justify-center px-6 py-3 min-h-[48px] border border-accent/40
-                          text-text-primary font-display text-sm tracking-widest uppercase
-                          hover:border-accent hover:text-accent transition-all duration-300 rounded-sm">
+                   class="inline-flex items-center justify-center px-6 py-3 min-h-[48px] border-2 border-white/70
+                          text-white font-display text-sm tracking-widest uppercase rounded-[10px]
+                          hover:border-accent hover:text-accent transition-all duration-300">
                     {{ __('theme::theme.home.my_profile') }}
                 </a>
             @endguest
