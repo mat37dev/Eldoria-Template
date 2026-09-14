@@ -1,4 +1,9 @@
-import Sortable from 'sortablejs'
+// Le sous-chemin /modular/sortable.complete.esm.js (plutôt que 'sortablejs' nu, qui
+// résout vers le core sans plugins via le champ "module" du package) est nécessaire
+// pour l'auto-scroll pendant un glisser-déposer : sans lui, remonter une section vers
+// une cible hors écran (au-dessus du viewport) ne fait jamais défiler la page, et le
+// glisser reste bloqué en haut sans rien déplacer.
+import Sortable from 'sortablejs/modular/sortable.complete.esm.js'
 
 const PALETTES = [
     { name: 'Eldoria',  accent: '#E9A62D', secondary: '#9D5C38' },
@@ -259,6 +264,11 @@ export function customizerComponent(initial = {}) {
 
             this.sortableInstance = Sortable.create(container, {
                 handle: '.drag-handle',
+                // Sans ceci, Sortable traite TOUS les enfants directs du conteneur comme
+                // des éléments triables (comportement par défaut) — ici le conteneur est
+                // <main>, qui contient aussi la section hero (avant) et un <script> (après)
+                // en plus des 7 vraies sections. Restreint explicitement aux sections réelles.
+                draggable: '[data-section-key]',
                 animation: 150,
                 onEnd: () => {},
             })
