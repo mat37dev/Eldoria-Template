@@ -21,7 +21,7 @@
     @endif
 
     <div class="card-eldoria p-8 mb-8">
-        <div class="prose prose-invert text-text-secondary text-sm max-w-none mb-6">
+        <div class="prose text-text-secondary text-sm max-w-none mb-6">
             {!! $post->content !!}
         </div>
 

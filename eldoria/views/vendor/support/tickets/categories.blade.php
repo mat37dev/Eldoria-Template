@@ -11,7 +11,7 @@
 
     @if($infoText !== null)
         <div class="max-w-3xl mx-auto mb-8">
-            <div class="card-eldoria p-6 prose prose-invert prose-a:text-accent max-w-none text-text-secondary text-sm">
+            <div class="card-eldoria p-6 prose prose-a:text-accent max-w-none text-text-secondary text-sm">
                 {{ $infoText }}
             </div>
         </div>

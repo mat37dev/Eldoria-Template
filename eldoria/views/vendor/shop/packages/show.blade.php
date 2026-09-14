@@ -19,7 +19,7 @@
             </div>
         @endif
 
-        <div class="prose prose-invert text-text-secondary text-sm max-w-none mb-6">
+        <div class="prose text-text-secondary text-sm max-w-none mb-6">
             {!! $package->description !!}
         </div>
 

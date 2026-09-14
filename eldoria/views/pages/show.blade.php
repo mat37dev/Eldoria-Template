@@ -11,7 +11,7 @@
     </div>
 
     <div class="max-w-3xl mx-auto">
-        <div class="card-eldoria p-8 prose prose-invert max-w-none
+        <div class="card-eldoria p-8 prose max-w-none
                     prose-headings:font-display prose-headings:text-accent
                     prose-a:text-accent prose-a:no-underline hover:prose-a:underline
                     prose-strong:text-text-primary

@@ -53,7 +53,7 @@
                              x-transition:leave="faq-answer-transition"
                              x-transition:leave-start="opacity-100"
                              x-transition:leave-end="opacity-0"
-                             class="px-6 pb-6 prose prose-invert prose-a:text-accent max-w-none text-text-secondary text-sm">
+                             class="px-6 pb-6 prose prose-a:text-accent max-w-none text-text-secondary text-sm">
                             {!! $question->answer !!}
                         </div>
                     </div>

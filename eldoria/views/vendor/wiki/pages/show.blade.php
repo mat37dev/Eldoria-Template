@@ -33,7 +33,7 @@
         </div>
 
         <div class="lg:col-span-3">
-            <div class="card-eldoria p-8 prose prose-invert prose-headings:font-display prose-headings:text-accent prose-a:text-accent max-w-none">
+            <div class="card-eldoria p-8 prose prose-headings:font-display prose-headings:text-accent prose-a:text-accent max-w-none">
                 {!! $page->content !!}
             </div>
         </div>

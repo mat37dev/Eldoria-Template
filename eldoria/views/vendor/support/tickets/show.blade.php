@@ -28,7 +28,7 @@
                         <p class="text-text-secondary text-xs mb-2">
                             @lang('messages.comments.author', ['user' => e($comment->author->name), 'date' => format_date($comment->created_at, true)])
                         </p>
-                        <div class="prose prose-invert prose-a:text-accent max-w-none text-text-primary text-sm">
+                        <div class="prose prose-a:text-accent max-w-none text-text-primary text-sm">
                             {{ $comment->parseContent() }}
                         </div>
                     </div>
