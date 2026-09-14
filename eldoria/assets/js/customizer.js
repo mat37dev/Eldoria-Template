@@ -269,6 +269,13 @@ export function customizerComponent(initial = {}) {
                 // <main>, qui contient aussi la section hero (avant) et un <script> (après)
                 // en plus des 7 vraies sections. Restreint explicitement aux sections réelles.
                 draggable: '[data-section-key]',
+                // Sans ceci, Sortable utilise le drag-and-drop natif HTML5 sur Chrome/Firefox,
+                // et son plugin d'auto-scroll délègue alors à l'auto-scroll natif du navigateur
+                // plutôt qu'à sa propre boucle JS — ce natif ne se déclenche pas de façon fiable
+                // quand un élément en position fixed (notre navbar) chevauche le bord du viewport.
+                // forceFallback force Sortable à gérer le glisser lui-même (souris/pointeur),
+                // ce qui active systématiquement sa propre boucle d'auto-scroll, fiable.
+                forceFallback: true,
                 animation: 150,
                 onEnd: () => {},
             })
