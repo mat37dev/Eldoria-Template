@@ -1,11 +1,11 @@
 import Sortable from 'sortablejs'
 
 const PALETTES = [
-    { name: 'Eldoria',       accent: '#C9A84C', secondary: '#7B3F2E' },
-    { name: 'Forêt Sombre',  accent: '#4A7C59', secondary: '#2D4A1E' },
-    { name: 'Abysses',       accent: '#3A6EA8', secondary: '#1A3A5C' },
-    { name: 'Volcan',        accent: '#C0392B', secondary: '#7D2B1A' },
-    { name: 'Givre',         accent: '#7EC8D8', secondary: '#2A5A6E' },
+    { name: 'Eldoria',  accent: '#E9A62D', secondary: '#9D5C38' },
+    { name: 'Prairie',  accent: '#6FAF52', secondary: '#3E7A34' },
+    { name: 'Océan',    accent: '#3AA0D8', secondary: '#1E6FA8' },
+    { name: 'Braise',   accent: '#E2683A', secondary: '#A8431F' },
+    { name: 'Givre',    accent: '#7EC8D8', secondary: '#3E7A8A' },
 ]
 
 export function ytVideoId(url) {

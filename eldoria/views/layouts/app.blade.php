@@ -9,8 +9,8 @@
     {{-- Injection des CSS custom properties depuis les settings sauvegardés --}}
     <style>
         :root {
-            --color-accent: {{ theme_config('color_accent', '#C9A84C') }};
-            --color-accent-secondary: {{ theme_config('color_accent_secondary', '#7B3F2E') }};
+            --color-accent: {{ theme_config('color_accent', '#E9A62D') }};
+            --color-accent-secondary: {{ theme_config('color_accent_secondary', '#9D5C38') }};
         }
     </style>
 
