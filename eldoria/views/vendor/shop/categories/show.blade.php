@@ -5,7 +5,7 @@
 @section('content')
 <div class="pt-24 pb-16">
     <div class="text-center py-16 px-4">
-        <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">✦ {{ __('theme::theme.shop.hero_eyebrow') }} ✦</p>
+        <p class="section-eyebrow">✦ {{ __('theme::theme.shop.hero_eyebrow') }} ✦</p>
         <h1 class="section-title">{{ $category->name }}</h1>
     </div>
 
@@ -44,7 +44,7 @@
                                 @if($package->isDiscounted())
                                     <del class="text-text-secondary text-xs font-normal">{{ shop_format_amount($package->getOriginalPrice()) }}</del>
                                 @endif
-                                <span class="text-accent font-display font-bold text-lg">{{ shop_format_amount($package->getPrice()) }}</span>
+                                <span class="text-text-primary font-display font-bold text-lg">{{ shop_format_amount($package->getPrice()) }}</span>
                             </span>
                             <a href="{{ route('shop.packages.show', $package) }}" class="btn-primary text-xs py-2 px-4">
                                 {{ __('theme::theme.shop.view') }}

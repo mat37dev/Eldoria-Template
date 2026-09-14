@@ -25,7 +25,7 @@
 @section('content')
 <div class="pt-24 pb-16 px-4">
     <div class="text-center py-16">
-        <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">✦ {{ __('theme::theme.faq.eyebrow') }} ✦</p>
+        <p class="section-eyebrow">✦ {{ __('theme::theme.faq.eyebrow') }} ✦</p>
         <h1 class="section-title">{{ __('theme::theme.faq.title') }}</h1>
     </div>
 

@@ -260,7 +260,7 @@
 
             {{-- SOUS-PANNEAU ÉDITION : COMMENT NOUS REJOINDRE --}}
             <div x-show="activeTab === 'layout' && editingSection === 'join_steps'" class="space-y-4">
-                <button @click="backToLayoutList()" class="text-accent text-xs uppercase tracking-widest mb-2">
+                <button @click="backToLayoutList()" class="text-text-primary text-xs uppercase tracking-widest mb-2">
                     ← {{ __('theme::theme.customizer.layout_back') }}
                 </button>
                 <div>
@@ -286,7 +286,7 @@
 
             {{-- SOUS-PANNEAU ÉDITION : TRAILER --}}
             <div x-show="activeTab === 'layout' && editingSection === 'trailer'" class="space-y-4">
-                <button @click="backToLayoutList()" class="text-accent text-xs uppercase tracking-widest mb-2">
+                <button @click="backToLayoutList()" class="text-text-primary text-xs uppercase tracking-widest mb-2">
                     ← {{ __('theme::theme.customizer.layout_back') }}
                 </button>
                 <div>

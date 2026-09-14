@@ -23,7 +23,7 @@
             <h3 class="font-display text-text-primary font-semibold mb-2">{{ $package->name }}</h3>
             <p class="text-text-secondary text-sm mb-4 line-clamp-2">{{ $package->short_description }}</p>
             <div class="flex items-center justify-between">
-                <span class="text-accent font-display font-bold text-lg">{{ format_money($package->getPrice()) }}</span>
+                <span class="text-text-primary font-display font-bold text-lg">{{ format_money($package->getPrice()) }}</span>
                 <a href="{{ route('shop.packages.show', $package) }}" class="btn-primary text-xs py-2 px-4">
                     {{ __('theme::theme.home.buy') }}
                 </a>

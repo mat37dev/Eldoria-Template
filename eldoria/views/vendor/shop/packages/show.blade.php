@@ -6,7 +6,7 @@
 <div class="pt-24 pb-16 max-w-3xl mx-auto px-4">
 
     <div class="mb-8">
-        <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">
+        <p class="section-eyebrow">
             {{ $package->category->name ?? __('theme::theme.shop.category_fallback') }}
         </p>
         <h1 class="font-display text-3xl md:text-4xl font-bold text-text-primary">{{ $package->name }}</h1>
@@ -28,7 +28,7 @@
                 @if($package->isDiscounted())
                     <del class="text-text-secondary text-sm font-normal">{{ shop_format_amount($package->getOriginalPrice()) }}</del>
                 @endif
-                <span class="text-accent font-display font-bold text-2xl">{{ shop_format_amount($package->getPrice()) }}</span>
+                <span class="text-text-primary font-display font-bold text-2xl">{{ shop_format_amount($package->getPrice()) }}</span>
             </span>
 
             @if($shopUser === null)

@@ -5,7 +5,7 @@
 @section('content')
 <div class="pt-24 pb-16 px-4">
     <div class="text-center py-16">
-        <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">✦ {{ __('theme::theme.support.eyebrow') }} ✦</p>
+        <p class="section-eyebrow">✦ {{ __('theme::theme.support.eyebrow') }} ✦</p>
         <h1 class="section-title">{{ trans('support::messages.tickets.open') }}</h1>
     </div>
 

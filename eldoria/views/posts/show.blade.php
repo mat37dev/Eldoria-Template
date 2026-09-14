@@ -45,7 +45,7 @@
     </div>
 
     <section id="comments" class="space-y-4 mb-8">
-        <h2 class="font-display text-accent text-sm tracking-widest uppercase">{{ __('theme::theme.posts.comments_title') }}</h2>
+        <h2 class="font-display text-text-primary text-sm tracking-widest uppercase">{{ __('theme::theme.posts.comments_title') }}</h2>
 
         @foreach($post->comments as $comment)
             <div class="card-eldoria p-4 flex gap-3" data-comment-id="{{ $comment->id }}">
@@ -73,7 +73,7 @@
 
     @can('create', \Azuriom\Models\Comment::class)
         <div class="card-eldoria p-6">
-            <h3 class="font-display text-accent text-sm tracking-widest uppercase mb-4">{{ __('theme::theme.posts.comment_form_title') }}</h3>
+            <h3 class="font-display text-text-primary text-sm tracking-widest uppercase mb-4">{{ __('theme::theme.posts.comment_form_title') }}</h3>
             <form action="{{ route('posts.comments.store', $post) }}" method="POST">
                 @csrf
                 <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2" for="content">

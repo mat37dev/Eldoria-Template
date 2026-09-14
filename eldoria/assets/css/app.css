@@ -188,8 +188,13 @@ body:not(.reorder-mode) [data-section-key].section-manually-hidden {
         border-color: var(--color-accent);
     }
 
+    /* text-primary (pas text-accent) : le doré n'offre qu'un contraste ~1.1:1 sur le
+       fond bleu ciel et ~1.9:1 sur les cartes claires (mesuré) — bien en dessous du
+       minimum lisible (4.5:1 recommandé). Le doré reste réservé aux éléments qui
+       n'ont pas besoin d'être "lus" comme du texte : trait sous le titre, ✦, boutons,
+       liens au survol, icônes. */
     .section-title {
-        @apply font-display text-3xl font-bold text-accent tracking-widest uppercase
+        @apply font-display text-3xl font-bold text-text-primary tracking-widest uppercase
                text-center mb-2 relative pb-4;
     }
 
@@ -206,6 +211,14 @@ body:not(.reorder-mode) [data-section-key].section-manually-hidden {
 
     .section-subtitle {
         @apply text-text-secondary text-center mb-12 tracking-wide;
+    }
+
+    /* Eyebrow ("✦ LABEL ✦" au-dessus des titres) : même correctif de contraste que
+       .section-title, centralisé ici pour remplacer les ~16 occurrences inline
+       identiques qui existaient dans les vues (voir commit qui a introduit cette
+       classe pour le détail). */
+    .section-eyebrow {
+        @apply text-text-primary text-xs font-display tracking-[0.4em] uppercase mb-2;
     }
 }
 

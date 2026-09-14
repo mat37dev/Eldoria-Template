@@ -18,7 +18,7 @@
             @endphp
 
             <div class="text-center">
-                <div class="font-display text-4xl font-bold text-accent" id="counter-online"
+                <div class="font-display text-4xl font-bold text-text-primary" id="counter-online"
                      data-target="{{ $onlinePlayers }}">0</div>
                 <div class="text-text-secondary text-xs tracking-widest uppercase mt-1">{{ __('theme::theme.home.stats_online') }}</div>
             </div>
@@ -26,7 +26,7 @@
             <div class="hidden sm:block w-px h-12 bg-accent/20"></div>
 
             <div class="text-center">
-                <div class="font-display text-4xl font-bold text-accent" id="counter-votes"
+                <div class="font-display text-4xl font-bold text-text-primary" id="counter-votes"
                      data-target="{{ $monthlyVotes }}">0</div>
                 <div class="text-text-secondary text-xs tracking-widest uppercase mt-1">{{ __('theme::theme.home.stats_votes') }}</div>
             </div>
@@ -34,7 +34,7 @@
             <div class="hidden sm:block w-px h-12 bg-accent/20"></div>
 
             <div class="text-center">
-                <div class="font-display text-4xl font-bold text-accent" id="counter-members"
+                <div class="font-display text-4xl font-bold text-text-primary" id="counter-members"
                      data-target="{{ \Azuriom\Models\User::count() }}">0</div>
                 <div class="text-text-secondary text-xs tracking-widest uppercase mt-1">{{ __('theme::theme.home.stats_members') }}</div>
             </div>

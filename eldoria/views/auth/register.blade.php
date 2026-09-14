@@ -7,7 +7,7 @@
     <div class="w-full max-w-md">
 
         <div class="text-center mb-8">
-            <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">✦ {{ __('theme::theme.auth.register_eyebrow') }} ✦</p>
+            <p class="section-eyebrow">✦ {{ __('theme::theme.auth.register_eyebrow') }} ✦</p>
             <h1 class="font-display text-3xl font-bold text-text-primary">{{ __('theme::theme.auth.register_title') }}</h1>
         </div>
 

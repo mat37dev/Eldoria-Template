@@ -5,7 +5,7 @@
 @section('content')
 <div class="pt-24 pb-16">
     <div class="text-center py-16 px-4">
-        <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">✦ {{ __('theme::theme.vote.hero_eyebrow') }} ✦</p>
+        <p class="section-eyebrow">✦ {{ __('theme::theme.vote.hero_eyebrow') }} ✦</p>
         <h1 class="section-title">{{ __('theme::theme.vote.title') }}</h1>
         <p class="section-subtitle">{{ __('theme::theme.vote.subtitle') }}</p>
     </div>
@@ -76,7 +76,7 @@
         <div class="card-eldoria p-6" id="vote-goal" data-aos="fade-up">
             <div class="flex justify-between items-center mb-3">
                 <span class="font-display text-text-primary text-sm tracking-widest uppercase">{{ __('theme::theme.vote.goal_title') }}</span>
-                <span class="text-accent font-display font-bold text-xl">{{ $goalProgress }} / {{ $goalTarget }}</span>
+                <span class="text-text-primary font-display font-bold text-xl">{{ $goalProgress }} / {{ $goalTarget }}</span>
             </div>
             <div class="w-full bg-bg-primary rounded-full h-2 overflow-hidden">
                 <div class="h-full bg-accent rounded-full transition-all duration-1000 ease-out"
@@ -96,7 +96,7 @@
             ];
         ?>
         <div class="card-eldoria p-6 sm:p-8" data-aos="fade-up">
-            <h2 class="font-display text-accent text-sm tracking-widest uppercase mb-8 text-center">{{ __('theme::theme.vote.podium_title') }}</h2>
+            <h2 class="font-display text-text-primary text-sm tracking-widest uppercase mb-8 text-center">{{ __('theme::theme.vote.podium_title') }}</h2>
 
             <div class="flex flex-col sm:flex-row sm:items-end justify-center gap-6 sm:gap-8">
                 @foreach($podiumEntries as $position => $entry)
@@ -129,7 +129,7 @@
 
         {{-- ======= TOP VOTEURS ======= --}}
         <div class="card-eldoria p-6" data-aos="fade-up">
-            <h2 class="font-display text-accent text-sm tracking-widest uppercase mb-6">{{ __('theme::theme.vote.top_voters_title') }}</h2>
+            <h2 class="font-display text-text-primary text-sm tracking-widest uppercase mb-6">{{ __('theme::theme.vote.top_voters_title') }}</h2>
 
             @if($votes->isEmpty())
                 <p class="text-text-secondary text-sm">{{ __('theme::theme.vote.no_votes_yet') }}</p>
@@ -170,7 +170,7 @@
         {{-- ======= RÉCOMPENSES ======= --}}
         @if($displayRewards && $rewards->isNotEmpty())
         <div class="card-eldoria p-6" data-aos="fade-up">
-            <h2 class="font-display text-accent text-sm tracking-widest uppercase mb-6">{{ __('theme::theme.vote.rewards_title') }}</h2>
+            <h2 class="font-display text-text-primary text-sm tracking-widest uppercase mb-6">{{ __('theme::theme.vote.rewards_title') }}</h2>
             <div class="space-y-3">
                 @foreach($rewards as $reward)
                     <div class="flex items-center justify-between gap-4">

@@ -7,7 +7,7 @@
     <div class="max-w-3xl mx-auto space-y-6">
 
         <div class="text-center mb-8">
-            <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">✦ {{ __('theme::theme.profile.eyebrow') }} ✦</p>
+            <p class="section-eyebrow">✦ {{ __('theme::theme.profile.eyebrow') }} ✦</p>
             <h1 class="font-display text-3xl font-bold text-text-primary">{{ __('theme::theme.profile.title') }}</h1>
         </div>
 
@@ -68,7 +68,7 @@
         </div>
 
         <div class="card-eldoria p-8">
-            <h2 class="font-display text-accent text-sm tracking-widest uppercase mb-6 text-center">
+            <h2 class="font-display text-text-primary text-sm tracking-widest uppercase mb-6 text-center">
                 {{ __('theme::theme.profile.skin_3d_title') }}
             </h2>
             <div class="flex justify-center">

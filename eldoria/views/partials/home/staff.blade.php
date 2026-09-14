@@ -40,7 +40,7 @@
                 @endif
             </div>
             @if($member['role'] !== '')
-                <div class="text-accent text-xs uppercase tracking-widest mt-1">{{ $member['role'] }}</div>
+                <div class="text-text-primary text-xs uppercase tracking-widest mt-1">{{ $member['role'] }}</div>
             @endif
         </div>
         @endforeach
