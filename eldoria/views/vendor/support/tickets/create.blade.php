@@ -14,10 +14,36 @@
     <div class="text-center py-16">
         <p class="section-eyebrow">✦ {{ __('theme::theme.support.eyebrow') }} ✦</p>
         <h1 class="section-title">{{ $category->name }}</h1>
+
+        <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-4 text-text-secondary text-xs uppercase tracking-widest">
+            <span class="inline-flex items-center gap-2">
+                <span aria-hidden="true">⏱</span> {{ __('theme::theme.support.reassurance_response') }}
+            </span>
+            <span class="inline-flex items-center gap-2">
+                <span aria-hidden="true">🛡</span> {{ __('theme::theme.support.reassurance_team') }}
+            </span>
+            <span class="inline-flex items-center gap-2">
+                <span aria-hidden="true">📎</span> {{ __('theme::theme.support.reassurance_attachments') }}
+            </span>
+        </div>
     </div>
 
     <div class="max-w-2xl mx-auto">
         <div class="card-eldoria p-8">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 border-2 border-accent/40"
+                     style="background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-secondary) 100%)">
+                    <svg class="w-7 h-7 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 17.25h.007v.008H12v-.008z" />
+                    </svg>
+                </div>
+                <a href="{{ route('support.tickets.create') }}"
+                   class="text-text-secondary text-xs uppercase tracking-widest hover:text-text-primary transition-colors">
+                    ← {{ __('theme::theme.support.back_to_categories') }}
+                </a>
+            </div>
+
             <form action="{{ route('support.category.tickets.store', $category) }}" method="POST" class="space-y-6">
                 @csrf
 

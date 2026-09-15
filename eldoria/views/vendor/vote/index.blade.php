@@ -8,6 +8,28 @@
         <p class="section-eyebrow">✦ {{ __('theme::theme.vote.hero_eyebrow') }} ✦</p>
         <h1 class="section-title">{{ __('theme::theme.vote.title') }}</h1>
         <p class="section-subtitle">{{ __('theme::theme.vote.subtitle') }}</p>
+
+        @if($displayRewards && $rewards->isNotEmpty())
+            <div class="flex flex-wrap items-center justify-center gap-2 -mt-6" data-aos="fade-up">
+                <span class="text-text-secondary text-xs uppercase tracking-widest mr-1">
+                    {{ __('theme::theme.vote.rewards_teaser_label') }}
+                </span>
+                @foreach($rewards->take(3) as $reward)
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-accent/40 bg-bg-secondary text-text-primary text-xs font-display">
+                        @if($reward->image)
+                            <img src="{{ $reward->imageUrl() }}" alt="" class="w-4 h-4 rounded-full object-cover">
+                        @else
+                            <span aria-hidden="true">🎁</span>
+                        @endif
+                        {{ $reward->name }}
+                    </span>
+                @endforeach
+                <a href="#vote-rewards"
+                   class="text-text-primary text-xs font-display uppercase tracking-wide underline underline-offset-4 decoration-accent/50 hover:decoration-accent transition-colors ml-1">
+                    {{ __('theme::theme.vote.rewards_teaser_link') }}
+                </a>
+            </div>
+        @endif
     </div>
 
     <div class="max-w-3xl mx-auto px-4 space-y-6">
@@ -45,14 +67,20 @@
                        data-vote-id="{{ $site->id }}"
                        data-vote-url="{{ route('vote.vote', $site) }}"
                        @auth data-vote-time="{{ $site->getNextVoteTime($user, $request)?->valueOf() }}" @endauth
-                       class="card-eldoria p-4 flex items-center justify-between gap-4 hover:translate-x-1 transition-transform duration-200">
+                       class="card-eldoria p-4 flex items-center justify-between gap-4 group hover:translate-x-1 transition-transform duration-200">
                         <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 flex items-center justify-center border border-accent/30 rounded-sm font-display font-bold text-sm text-accent">
+                            <div class="w-10 h-10 flex items-center justify-center border border-accent/30 rounded-sm font-display font-bold text-sm text-accent
+                                        group-hover:scale-110 transition-transform duration-200">
                                 ✦
                             </div>
                             <div class="font-display text-text-primary font-semibold">{{ $site->name }}</div>
                         </div>
-                        <span class="vote-timer text-accent/70 text-xs font-mono whitespace-nowrap"></span>
+                        <span class="vote-action inline-flex items-center justify-center min-w-[100px] px-4 py-2 rounded-full
+                                     text-xs font-display font-bold uppercase tracking-wide whitespace-nowrap
+                                     bg-accent text-text-primary">
+                            <span class="vote-timer font-mono normal-case tracking-normal"></span>
+                            <span class="vote-cta">{{ __('theme::theme.vote.vote_cta') }} →</span>
+                        </span>
                     </a>
                 @empty
                     <div class="text-center py-8 text-text-secondary">
@@ -169,7 +197,7 @@
 
         {{-- ======= RÉCOMPENSES ======= --}}
         @if($displayRewards && $rewards->isNotEmpty())
-        <div class="card-eldoria p-6" data-aos="fade-up">
+        <div class="card-eldoria p-6 scroll-mt-24" id="vote-rewards" data-aos="fade-up">
             <h2 class="font-display text-text-primary text-sm tracking-widest uppercase mb-6">{{ __('theme::theme.vote.rewards_title') }}</h2>
             <div class="space-y-3">
                 @foreach($rewards as $reward)

@@ -173,6 +173,9 @@ return [
         'votes_suffix' => 'votes',
         'user_votes_count' => 'You have voted :count time(s) this month.',
         'rewards_title' => 'Possible rewards',
+        'vote_cta' => 'Vote',
+        'rewards_teaser_label' => 'Rewards to earn:',
+        'rewards_teaser_link' => 'See all ↓',
     ],
 
     'faq' => [
@@ -188,6 +191,10 @@ return [
     'support' => [
         'eyebrow' => 'Support',
         'no_tickets' => "You haven't opened a ticket yet.",
+        'reassurance_response' => 'Response within 24h',
+        'reassurance_team' => 'Verified team',
+        'reassurance_attachments' => 'Screenshots welcome',
+        'back_to_categories' => 'Back to categories',
     ],
 
     'auth' => [

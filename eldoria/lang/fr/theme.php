@@ -173,6 +173,9 @@ return [
         'votes_suffix' => 'votes',
         'user_votes_count' => 'Tu as voté :count fois ce mois-ci.',
         'rewards_title' => 'Récompenses possibles',
+        'vote_cta' => 'Voter',
+        'rewards_teaser_label' => 'Récompenses à gagner :',
+        'rewards_teaser_link' => 'Voir tout ↓',
     ],
 
     'faq' => [
@@ -188,6 +191,10 @@ return [
     'support' => [
         'eyebrow' => 'Assistance',
         'no_tickets' => "Vous n'avez pas encore ouvert de ticket.",
+        'reassurance_response' => 'Réponse sous 24h',
+        'reassurance_team' => 'Équipe vérifiée',
+        'reassurance_attachments' => "Captures d'écran acceptées",
+        'back_to_categories' => 'Retour aux catégories',
     ],
 
     'auth' => [
