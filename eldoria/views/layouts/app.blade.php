@@ -6,6 +6,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ site_name() }} — @yield('title', __('theme::theme.nav.home')) </title>
 
+    {{-- favicon() gère déjà l'icône configurée en Admin > Général (avec repli sur
+         le logo Azuriom par défaut) — même logique que site_logo() dans la navbar. --}}
+    <link rel="icon" href="{{ favicon() }}">
+
     {{-- Injection des CSS custom properties depuis les settings sauvegardés.
          Le triplet RGB (--color-accent-rgb) est calculé à côté du hex : c'est lui
          que Tailwind utilise pour moduler l'opacité (bg-accent/10, etc., voir
