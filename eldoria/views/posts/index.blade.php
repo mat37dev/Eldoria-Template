@@ -15,7 +15,7 @@
             <div class="flex gap-2">
                 <input type="search" id="postsSearchInput" name="q" value="{{ $search ?? '' }}"
                        placeholder="{{ __('theme::theme.posts.search_placeholder') }}"
-                       class="flex-1 bg-bg-primary border border-accent/20 rounded-sm px-4 py-3 text-text-primary text-sm min-h-[48px]">
+                       class="flex-1 bg-bg-secondary border border-accent/20 rounded-sm px-4 py-3 text-text-primary text-sm min-h-[48px]">
                 <button type="submit" class="btn-primary min-h-[48px] px-4">🔍</button>
             </div>
         </form>

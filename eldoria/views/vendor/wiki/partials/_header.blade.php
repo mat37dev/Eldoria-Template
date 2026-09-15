@@ -5,7 +5,7 @@
     <form action="{{ route('wiki.search') }}" method="GET" role="search" class="max-w-md mx-auto mt-8 flex gap-2">
         <input type="search" name="q" value="{{ $search ?? '' }}" required
                placeholder="{{ __('theme::theme.wiki.search_placeholder') }}"
-               class="flex-1 bg-bg-primary border border-accent/20 rounded-sm px-4 py-3 text-text-primary text-sm min-h-[48px]
+               class="flex-1 bg-bg-secondary border border-accent/20 rounded-sm px-4 py-3 text-text-primary text-sm min-h-[48px]
                       focus:outline-none focus:border-accent/60">
         <button type="submit" class="btn-primary min-h-[48px] px-4">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -122,6 +122,10 @@
                 2 => $votes->get(2),
                 3 => $votes->get(3),
             ];
+            // En mode hors-ligne (game()->id() === 'mc-offline'), game_id est un UUID
+            // fabriqué localement qui n'existe pas côté Mojang — mc-heads.net ne peut
+            // jamais en tirer le vrai skin. Dans ce mode l'API accepte le pseudo.
+            $isOfflineGame = game()->id() === 'mc-offline';
         ?>
         <div class="card-eldoria p-6 sm:p-8" data-aos="fade-up">
             <h2 class="font-display text-text-primary text-sm tracking-widest uppercase mb-8 text-center">{{ __('theme::theme.vote.podium_title') }}</h2>
@@ -135,7 +139,7 @@
 
                         <div class="relative w-32 sm:w-36 aspect-[4/5] bg-bg-primary/40 rounded-sm overflow-hidden border border-accent/20">
                             <canvas class="podium-skin-canvas w-full h-full"
-                                    data-skin-url="{{ $entry ? 'https://mc-heads.net/skin/' . ($entry->user->game_id ?? 'c06f8906-4c8a-4911-9c29-ea1dbd1aab82') : $podiumFallbackSkin }}"></canvas>
+                                    data-skin-url="{{ $entry ? 'https://mc-heads.net/skin/' . ($isOfflineGame ? ($entry->user?->name ?? 'MHF_Steve') : ($entry->user?->game_id ?? 'c06f8906-4c8a-4911-9c29-ea1dbd1aab82')) : $podiumFallbackSkin }}"></canvas>
                             @unless($entry)
                                 <span class="absolute inset-0 flex items-center justify-center text-accent/40 font-display text-5xl">?</span>
                             @endunless

@@ -71,9 +71,19 @@
             <h2 class="font-display text-text-primary text-sm tracking-widest uppercase mb-6 text-center">
                 {{ __('theme::theme.profile.skin_3d_title') }}
             </h2>
+            @php
+                // En mode hors-ligne (pas de compte Mojang vérifié, cf. game()->id()
+                // === 'mc-offline'), game_id est un UUID fabriqué localement
+                // (algorithme standard "OfflinePlayer:pseudo") qui n'existe pas côté
+                // Mojang : mc-heads.net ne peut jamais retrouver le vrai skin via cet
+                // identifiant. Dans ce mode l'API accepte directement le pseudo.
+                $skinIdentifier = game()->id() === 'mc-offline'
+                    ? auth()->user()->name
+                    : (auth()->user()->game_id ?? 'c06f8906-4c8a-4911-9c29-ea1dbd1aab82');
+            @endphp
             <div class="flex justify-center">
                 <canvas id="skin-viewer-canvas"
-                        data-skin-url="https://mc-heads.net/skin/{{ auth()->user()->game_id ?? 'c06f8906-4c8a-4911-9c29-ea1dbd1aab82' }}"
+                        data-skin-url="https://mc-heads.net/skin/{{ $skinIdentifier }}"
                         width="300" height="400"></canvas>
             </div>
         </div>
