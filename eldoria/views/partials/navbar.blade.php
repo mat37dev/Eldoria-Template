@@ -40,8 +40,7 @@
                     </span>
                     <a href="{{ route('profile.index') }}"
                        class="flex items-center gap-2 text-white/90 hover:text-accent text-sm font-bold transition-colors">
-                        <img src="{{ auth()->user()->getAvatar(32) }}" alt="{{ auth()->user()->name }}"
-                             class="w-6 h-6 rounded-sm flex-shrink-0">
+                        @include('partials._avatar', ['user' => auth()->user(), 'size' => 32, 'class' => 'w-6 h-6 rounded-sm flex-shrink-0'])
                         {{ auth()->user()->name }}
                     </a>
                     <form method="POST" action="{{ route('logout') }}" class="inline">
@@ -92,8 +91,7 @@
             @auth
                 <div class="flex items-center justify-between">
                     <a href="{{ route('profile.index') }}" class="flex items-center gap-2 text-white/90 hover:text-accent text-sm font-bold transition-colors">
-                        <img src="{{ auth()->user()->getAvatar(32) }}" alt="{{ auth()->user()->name }}"
-                             class="w-6 h-6 rounded-sm flex-shrink-0">
+                        @include('partials._avatar', ['user' => auth()->user(), 'size' => 32, 'class' => 'w-6 h-6 rounded-sm flex-shrink-0'])
                         {{ auth()->user()->name }}
                     </a>
                     <span class="text-accent font-display font-semibold text-sm">

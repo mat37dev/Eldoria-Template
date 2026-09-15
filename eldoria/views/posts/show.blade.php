@@ -49,7 +49,7 @@
 
         @foreach($post->comments as $comment)
             <div class="card-eldoria p-4 flex gap-3" data-comment-id="{{ $comment->id }}">
-                <img src="{{ $comment->author->getAvatar() }}" alt="{{ $comment->author->name }}" class="w-10 h-10 rounded-sm flex-shrink-0">
+                @include('partials._avatar', ['user' => $comment->author, 'size' => 64, 'class' => 'w-10 h-10 rounded-sm flex-shrink-0'])
                 <div class="flex-1 min-w-0">
                     <div class="flex items-center justify-between gap-2">
                         <p class="text-text-secondary text-xs">

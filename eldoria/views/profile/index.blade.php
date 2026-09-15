@@ -15,8 +15,7 @@
         <div class="card-eldoria p-8">
             <div class="flex items-start gap-4 mb-8 pb-8 border-b border-accent/10">
                 <div x-data="{ editing: false }" class="flex-shrink-0">
-                    <img src="{{ auth()->user()->getAvatar(64) }}" alt="{{ auth()->user()->name }}"
-                         class="w-16 h-16 rounded-sm">
+                    @include('partials._avatar', ['user' => auth()->user(), 'size' => 64, 'class' => 'w-16 h-16 rounded-sm'])
 
                     @if($canUploadAvatar || $hasAvatar)
                         <button type="button" @click="editing = !editing"
@@ -253,16 +252,19 @@
         {{-- ======= SKIN 3D ======= --}}
         <div class="card-eldoria p-8">
             @php
+                // minotar.net (pas mc-heads.net) : vérifié directement contre le skin
+                // officiel Mojang (hash identique), alors que mc-heads.net renvoyait un
+                // skin par défaut pour de vrais comptes premium (faux négatif silencieux).
                 $skinIdentifier = game()->id() === 'mc-offline'
-                    ? auth()->user()->name
-                    : (auth()->user()->game_id ?? 'c06f8906-4c8a-4911-9c29-ea1dbd1aab82');
+                    ? rawurlencode(auth()->user()->name)
+                    : (auth()->user()->game_id ?? 'MHF_Steve');
             @endphp
             <h2 class="font-display text-text-primary text-sm tracking-widest uppercase mb-6 text-center">
                 {{ __('theme::theme.profile.skin_3d_title') }}
             </h2>
             <div class="flex justify-center">
                 <canvas id="skin-viewer-canvas"
-                        data-skin-url="https://mc-heads.net/skin/{{ $skinIdentifier }}"
+                        data-skin-url="https://minotar.net/skin/{{ $skinIdentifier }}"
                         width="300" height="400"></canvas>
             </div>
         </div>

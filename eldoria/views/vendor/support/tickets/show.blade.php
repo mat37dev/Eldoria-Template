@@ -23,7 +23,7 @@
         <div class="space-y-4">
             @foreach($ticket->comments as $comment)
                 <div class="card-eldoria p-6 flex gap-4">
-                    <img src="{{ $comment->author->getAvatar(48) }}" alt="{{ $comment->author->name }}" class="w-12 h-12 rounded-sm flex-shrink-0">
+                    @include('partials._avatar', ['user' => $comment->author, 'size' => 48, 'class' => 'w-12 h-12 rounded-sm flex-shrink-0'])
                     <div class="flex-1 min-w-0">
                         <p class="text-text-secondary text-xs mb-2">
                             @lang('messages.comments.author', ['user' => e($comment->author->name), 'date' => format_date($comment->created_at, true)])

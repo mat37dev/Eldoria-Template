@@ -123,8 +123,9 @@
                 3 => $votes->get(3),
             ];
             // En mode hors-ligne (game()->id() === 'mc-offline'), game_id est un UUID
-            // fabriqué localement qui n'existe pas côté Mojang — mc-heads.net ne peut
-            // jamais en tirer le vrai skin. Dans ce mode l'API accepte le pseudo.
+            // fabriqué localement qui n'existe pas côté Mojang. minotar.net (pas
+            // mc-heads.net, vérifié faux négatif silencieux sur de vrais comptes
+            // premium) accepte aussi bien le pseudo que l'UUID.
             $isOfflineGame = game()->id() === 'mc-offline';
         ?>
         <div class="card-eldoria p-6 sm:p-8" data-aos="fade-up">
@@ -139,7 +140,7 @@
 
                         <div class="relative w-32 sm:w-36 aspect-[4/5] bg-bg-primary/40 rounded-sm overflow-hidden border border-accent/20">
                             <canvas class="podium-skin-canvas w-full h-full"
-                                    data-skin-url="{{ $entry ? 'https://mc-heads.net/skin/' . ($isOfflineGame ? ($entry->user?->name ?? 'MHF_Steve') : ($entry->user?->game_id ?? 'c06f8906-4c8a-4911-9c29-ea1dbd1aab82')) : $podiumFallbackSkin }}"></canvas>
+                                    data-skin-url="{{ $entry ? 'https://minotar.net/skin/' . ($isOfflineGame ? rawurlencode($entry->user?->name ?? 'MHF_Steve') : ($entry->user?->game_id ?? 'MHF_Steve')) : $podiumFallbackSkin }}"></canvas>
                             @unless($entry)
                                 <span class="absolute inset-0 flex items-center justify-center text-accent/40 font-display text-5xl">?</span>
                             @endunless
@@ -179,8 +180,7 @@
                                     @endswitch
                                 </span>
                                 @if($vote->user)
-                                    <img src="{{ $vote->user->getAvatar(24) }}" alt="{{ $vote->user->name }}"
-                                         class="w-6 h-6 rounded-sm flex-shrink-0">
+                                    @include('partials._avatar', ['user' => $vote->user, 'size' => 24, 'class' => 'w-6 h-6 rounded-sm flex-shrink-0'])
                                 @endif
                                 <span class="text-text-primary text-sm">{{ $vote->user->name ?? __('theme::theme.vote.unknown_user') }}</span>
                             </div>
