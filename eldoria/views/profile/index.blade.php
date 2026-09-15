@@ -335,7 +335,7 @@
                 @if($statsSpent !== null)
                     <div class="flex items-center justify-between sm:flex-col sm:items-start gap-1 p-3 bg-bg-primary/40 rounded-sm">
                         <span class="text-text-secondary uppercase tracking-widest text-xs">{{ __('theme::theme.profile.stats_spent') }}</span>
-                        <span class="text-text-primary font-display font-bold text-xl">{{ format_money($statsSpent) }}</span>
+                        <span class="text-text-primary font-display font-bold text-xl">{{ shop_format_amount($statsSpent) }}</span>
                     </div>
                 @endif
             </div>
