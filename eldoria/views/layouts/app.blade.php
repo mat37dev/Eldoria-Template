@@ -40,6 +40,8 @@
 
     @include('partials.navbar')
 
+    @include('elements.session-alerts')
+
     <main>
         @yield('content')
     </main>

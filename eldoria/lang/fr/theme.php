@@ -2,6 +2,10 @@
 
 return [
 
+    'common' => [
+        'close' => 'Fermer',
+    ],
+
     'nav' => [
         'login' => 'Connexion',
         'register' => "S'inscrire",
@@ -229,6 +233,54 @@ return [
         'change_password' => 'Changer le mot de passe',
         'logout' => 'Se déconnecter',
         'skin_3d_title' => 'Skin 3D',
+
+        'save' => 'Enregistrer',
+        'edit' => 'Modifier',
+
+        'name_label' => "Nom d'utilisateur",
+        'name_edit_title' => 'Modifier mon pseudo',
+
+        'email_edit_title' => "Modifier l'email",
+        'email_confirm_password_label' => 'Mot de passe actuel',
+        'verify_email_text' => "Votre adresse e-mail n'est pas encore vérifiée.",
+        'verify_email_button' => "Renvoyer l'email de vérification",
+        'verify_email_sent' => 'Email de vérification envoyé !',
+
+        'password_title' => 'Mot de passe',
+        'password_current_label' => 'Mot de passe actuel',
+        'password_new_label' => 'Nouveau mot de passe',
+        'password_confirm_label' => 'Confirmer le nouveau mot de passe',
+
+        'avatar_title' => 'Avatar personnalisé',
+        'avatar_help' => 'Image carrée, JPG/PNG/GIF, 2 Mo max.',
+        'avatar_upload_button' => 'Changer mon avatar',
+        'avatar_delete_button' => "Revenir au skin Minecraft",
+
+        'twofa_title' => 'Double authentification (2FA)',
+        'twofa_enabled' => 'Activée sur ce compte.',
+        'twofa_disabled' => 'Non activée — protège ton compte contre le vol de mot de passe.',
+        'twofa_manage_button' => 'Gérer la 2FA',
+
+        'discord_title' => 'Compte Discord',
+        'discord_linked' => 'Lié à :name',
+        'discord_not_linked' => 'Aucun compte Discord lié.',
+        'discord_link_button' => 'Lier mon Discord',
+        'discord_unlink_button' => 'Délier',
+
+        'transfer_title' => 'Envoyer des rubis',
+        'transfer_recipient_label' => 'Destinataire',
+        'transfer_recipient_placeholder' => "Pseudo du joueur",
+        'transfer_amount_label' => 'Montant',
+        'transfer_submit' => 'Envoyer',
+
+        'stats_title' => 'Mes statistiques',
+        'stats_votes_month' => 'Votes ce mois-ci',
+        'stats_tickets' => 'Tickets ouverts',
+        'stats_spent' => 'Total dépensé',
+
+        'delete_title' => 'Zone dangereuse',
+        'delete_warning' => 'La suppression de ton compte est définitive et irréversible.',
+        'delete_button' => 'Supprimer mon compte',
     ],
 
     'errors' => [

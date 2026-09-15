@@ -2,6 +2,10 @@
 
 return [
 
+    'common' => [
+        'close' => 'Close',
+    ],
+
     'nav' => [
         'login' => 'Login',
         'register' => 'Register',
@@ -229,6 +233,54 @@ return [
         'change_password' => 'Change password',
         'logout' => 'Log out',
         'skin_3d_title' => '3D Skin',
+
+        'save' => 'Save',
+        'edit' => 'Edit',
+
+        'name_label' => 'Username',
+        'name_edit_title' => 'Edit my username',
+
+        'email_edit_title' => 'Edit my email',
+        'email_confirm_password_label' => 'Current password',
+        'verify_email_text' => 'Your email address is not verified yet.',
+        'verify_email_button' => 'Resend verification email',
+        'verify_email_sent' => 'Verification email sent!',
+
+        'password_title' => 'Password',
+        'password_current_label' => 'Current password',
+        'password_new_label' => 'New password',
+        'password_confirm_label' => 'Confirm new password',
+
+        'avatar_title' => 'Custom avatar',
+        'avatar_help' => 'Square image, JPG/PNG/GIF, 2 MB max.',
+        'avatar_upload_button' => 'Change my avatar',
+        'avatar_delete_button' => 'Revert to Minecraft skin',
+
+        'twofa_title' => 'Two-factor authentication (2FA)',
+        'twofa_enabled' => 'Enabled on this account.',
+        'twofa_disabled' => 'Not enabled — protects your account from password theft.',
+        'twofa_manage_button' => 'Manage 2FA',
+
+        'discord_title' => 'Discord account',
+        'discord_linked' => 'Linked to :name',
+        'discord_not_linked' => 'No Discord account linked.',
+        'discord_link_button' => 'Link my Discord',
+        'discord_unlink_button' => 'Unlink',
+
+        'transfer_title' => 'Send coins',
+        'transfer_recipient_label' => 'Recipient',
+        'transfer_recipient_placeholder' => "Player's username",
+        'transfer_amount_label' => 'Amount',
+        'transfer_submit' => 'Send',
+
+        'stats_title' => 'My stats',
+        'stats_votes_month' => 'Votes this month',
+        'stats_tickets' => 'Tickets opened',
+        'stats_spent' => 'Total spent',
+
+        'delete_title' => 'Danger zone',
+        'delete_warning' => 'Deleting your account is permanent and irreversible.',
+        'delete_button' => 'Delete my account',
     ],
 
     'errors' => [
