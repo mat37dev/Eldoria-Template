@@ -46,7 +46,7 @@ return [
         'hero_image_placeholder' => 'https://...',
         'hero_image_help' => 'Leave empty to use the theme\'s default image.',
         'server_ip_label' => 'Displayed IP address',
-        'server_ip_placeholder' => 'play.eldoria.fr',
+        'server_ip_placeholder' => 'play.azuriom.fr',
         'server_ip_help' => "Leave empty to use the Azuriom server's technical address.",
         'trailer_label' => 'YouTube trailer',
         'trailer_placeholder' => 'https://youtu.be/...',
