@@ -47,12 +47,18 @@
     <?php
         $heroVideoEnabled = theme_config('hero_video_enabled', '0') === '1' && $trailerId !== null;
         $displayIp = theme_config('server_ip_display', '') ?: ($homeServer ? $homeServer->fullAddress() : '');
+
+        // Priorité : image de hero du customizer (spécifique au thème) > image
+        // d'arrière-plan renseignée dans Admin > Général (setting('background'),
+        // sinon totalement ignorée par le thème) > image par défaut du thème.
+        $heroImage = theme_config('hero_image')
+            ?: (setting('background') ? image_url(setting('background')) : theme_asset('images/hero-aldorya.webp'));
     ?>
 
     {{-- Background image --}}
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat {{ $heroVideoEnabled ? 'hidden' : '' }}" id="hero-bg"
          data-default-image="{{ theme_asset('images/hero-aldorya.webp') }}"
-         style="background-image: url('{{ theme_config('hero_image') ?: theme_asset('images/hero-aldorya.webp') }}')">
+         style="background-image: url('{{ $heroImage }}')">
     </div>
 
     {{-- Fond vidéo (trailer YouTube, autoplay muet en boucle) --}}
