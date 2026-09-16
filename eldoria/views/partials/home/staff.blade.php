@@ -15,8 +15,8 @@
             @include('partials.home._reorder-toolbar')
         @endif
     @endauth
-    <h2 class="section-title">{{ __('theme::theme.home.staff_title') }}</h2>
-    <p class="section-subtitle">{{ __('theme::theme.home.staff_subtitle') }}</p>
+    <h2 class="section-title" data-default-text="{{ __('theme::theme.home.staff_title') }}">{{ ($sectionData['title'] ?? '') ?: __('theme::theme.home.staff_title') }}</h2>
+    <p class="section-subtitle" data-default-text="{{ __('theme::theme.home.staff_subtitle') }}">{{ ($sectionData['subtitle'] ?? '') ?: __('theme::theme.home.staff_subtitle') }}</p>
 
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
         @foreach($staffMembers as $member)

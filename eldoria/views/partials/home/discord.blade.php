@@ -6,8 +6,8 @@
             @include('partials.home._reorder-toolbar')
         @endif
     @endauth
-    <h2 class="section-title">{{ __('theme::theme.home.discord_title') }}</h2>
-    <p class="section-subtitle">{{ __('theme::theme.home.discord_subtitle') }}</p>
+    <h2 class="section-title" data-default-text="{{ __('theme::theme.home.discord_title') }}">{{ ($sectionData['title'] ?? '') ?: __('theme::theme.home.discord_title') }}</h2>
+    <p class="section-subtitle" data-default-text="{{ __('theme::theme.home.discord_subtitle') }}">{{ ($sectionData['subtitle'] ?? '') ?: __('theme::theme.home.discord_subtitle') }}</p>
 
     <div class="max-w-md mx-auto card-eldoria p-4">
         <iframe data-discord-iframe

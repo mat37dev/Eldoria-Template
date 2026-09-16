@@ -5,6 +5,11 @@
 // glisser reste bloqué en haut sans rien déplacer.
 import Sortable from 'sortablejs/modular/sortable.complete.esm.js'
 
+// Sections n'ayant qu'un titre + sous-titre éditables (contrairement à
+// "join_steps", qui a en plus ses 3 étapes) — partagent le même sous-panneau
+// d'édition générique dans customizer.blade.php et la même logique ici.
+const SIMPLE_TEXT_SECTIONS = ['trailer', 'news', 'shop', 'vote', 'staff', 'discord']
+
 const PALETTES = [
     { name: 'Eldoria',  accent: '#E9A62D', secondary: '#9D5C38' },
     { name: 'Prairie',  accent: '#6FAF52', secondary: '#3E7A34' },
@@ -44,7 +49,7 @@ export function customizerComponent(initial = {}) {
         editingSection: null,
         sectionTextOverrides: initial.sectionTextOverrides ?? {
             join_steps: { title: '', subtitle: '', steps: [{ title: '', text: '' }, { title: '', text: '' }, { title: '', text: '' }] },
-            trailer: { title: '', subtitle: '' },
+            ...Object.fromEntries(SIMPLE_TEXT_SECTIONS.map((key) => [key, { title: '', subtitle: '' }])),
         },
         slogan: initial.slogan ?? '',
         heroImage: initial.heroImage ?? '',
@@ -154,9 +159,9 @@ export function customizerComponent(initial = {}) {
                     entry.steps = this.sectionTextOverrides.join_steps.steps
                 }
 
-                if (key === 'trailer') {
-                    entry.title = this.sectionTextOverrides.trailer.title
-                    entry.subtitle = this.sectionTextOverrides.trailer.subtitle
+                if (SIMPLE_TEXT_SECTIONS.includes(key)) {
+                    entry.title = this.sectionTextOverrides[key].title
+                    entry.subtitle = this.sectionTextOverrides[key].subtitle
                 }
 
                 return entry
@@ -336,9 +341,11 @@ export function customizerComponent(initial = {}) {
             })
         },
 
-        liveTrailerSectionText() {
-            const o = this.sectionTextOverrides.trailer
-            const section = document.querySelector('[data-section-key="trailer"]')
+        // Partagé par toutes les sections "simples" (titre + sous-titre uniquement) :
+        // trailer, news, shop, vote, staff, discord — voir SIMPLE_TEXT_SECTIONS.
+        liveSectionText(key) {
+            const o = this.sectionTextOverrides[key]
+            const section = document.querySelector(`[data-section-key="${key}"]`)
             if (!section) return
 
             const titleEl = section.querySelector('.section-title')

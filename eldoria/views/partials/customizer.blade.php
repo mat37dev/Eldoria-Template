@@ -22,11 +22,11 @@
             ['title' => '', 'text' => ''],
         ]],
         ['key' => 'trailer', 'visible' => true, 'title' => '', 'subtitle' => ''],
-        ['key' => 'news', 'visible' => true],
-        ['key' => 'shop', 'visible' => true],
-        ['key' => 'vote', 'visible' => true],
-        ['key' => 'staff', 'visible' => true],
-        ['key' => 'discord', 'visible' => true],
+        ['key' => 'news', 'visible' => true, 'title' => '', 'subtitle' => ''],
+        ['key' => 'shop', 'visible' => true, 'title' => '', 'subtitle' => ''],
+        ['key' => 'vote', 'visible' => true, 'title' => '', 'subtitle' => ''],
+        ['key' => 'staff', 'visible' => true, 'title' => '', 'subtitle' => ''],
+        ['key' => 'discord', 'visible' => true, 'title' => '', 'subtitle' => ''],
     ];
 
     $expectedLayoutKeys = ['stats', 'join_steps', 'trailer', 'news', 'shop', 'vote', 'staff', 'discord'];
@@ -44,7 +44,15 @@
     }
 
     $joinStepsData = collect($homeLayoutForJs)->firstWhere('key', 'join_steps');
-    $trailerSectionData = collect($homeLayoutForJs)->firstWhere('key', 'trailer');
+
+    // Sections n'ayant qu'un titre + sous-titre éditables — voir SIMPLE_TEXT_SECTIONS
+    // dans customizer.js, qui doit lister exactement les mêmes clés.
+    $simpleTextSectionKeys = ['trailer', 'news', 'shop', 'vote', 'staff', 'discord'];
+    $simpleSectionTextOverrides = collect($simpleTextSectionKeys)->mapWithKeys(function (string $key) use ($homeLayoutForJs) {
+        $data = collect($homeLayoutForJs)->firstWhere('key', $key);
+
+        return [$key => ['title' => $data['title'] ?? '', 'subtitle' => $data['subtitle'] ?? '']];
+    })->all();
 ?>
 <div x-data="customizer({
         homeLayout: @js($homeLayoutForJs),
@@ -54,10 +62,7 @@
                 'subtitle' => $joinStepsData['subtitle'] ?? '',
                 'steps' => $joinStepsData['steps'] ?? [['title' => '', 'text' => ''], ['title' => '', 'text' => ''], ['title' => '', 'text' => '']],
             ]),
-            trailer: @js([
-                'title' => $trailerSectionData['title'] ?? '',
-                'subtitle' => $trailerSectionData['subtitle'] ?? '',
-            ]),
+            ...@js($simpleSectionTextOverrides),
         },
         slogan: @js(theme_config('hero_slogan', '')),
         heroImage: @js(theme_config('hero_image', '') ?? ''),
@@ -284,21 +289,28 @@
                 </template>
             </div>
 
-            {{-- SOUS-PANNEAU ÉDITION : TRAILER --}}
-            <div x-show="activeTab === 'layout' && editingSection === 'trailer'" class="space-y-4">
+            {{-- SOUS-PANNEAU ÉDITION GÉNÉRIQUE : sections titre + sous-titre uniquement
+                 (trailer, news, shop, vote, staff, discord — voir SIMPLE_TEXT_SECTIONS
+                 dans customizer.js). "join_steps" garde son panneau dédié ci-dessus
+                 car il a en plus ses 3 étapes. --}}
+            <div x-show="activeTab === 'layout' && ['trailer', 'news', 'shop', 'vote', 'staff', 'discord'].includes(editingSection)" class="space-y-4">
                 <button @click="backToLayoutList()" class="text-text-primary text-xs uppercase tracking-widest mb-2">
                     ← {{ __('theme::theme.customizer.layout_back') }}
                 </button>
-                <div>
-                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.layout_field_title') }}</label>
-                    <input type="text" x-model="sectionTextOverrides.trailer.title" @input="liveTrailerSectionText()"
-                           class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm min-h-[40px]">
-                </div>
-                <div>
-                    <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.layout_field_subtitle') }}</label>
-                    <input type="text" x-model="sectionTextOverrides.trailer.subtitle" @input="liveTrailerSectionText()"
-                           class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm min-h-[40px]">
-                </div>
+                <template x-if="editingSection">
+                    <div>
+                        <div>
+                            <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.layout_field_title') }}</label>
+                            <input type="text" x-model="sectionTextOverrides[editingSection].title" @input="liveSectionText(editingSection)"
+                                   class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm min-h-[40px]">
+                        </div>
+                        <div class="mt-4">
+                            <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2">{{ __('theme::theme.customizer.layout_field_subtitle') }}</label>
+                            <input type="text" x-model="sectionTextOverrides[editingSection].subtitle" @input="liveSectionText(editingSection)"
+                                   class="w-full bg-bg-primary border border-accent/20 rounded-sm px-3 py-2 text-text-primary text-sm min-h-[40px]">
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
 

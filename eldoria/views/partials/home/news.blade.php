@@ -7,8 +7,8 @@
             @include('partials.home._reorder-toolbar')
         @endif
     @endauth
-    <h2 class="section-title">{{ __('theme::theme.home.news_title') }}</h2>
-    <p class="section-subtitle">{{ __('theme::theme.home.news_subtitle') }}</p>
+    <h2 class="section-title" data-default-text="{{ __('theme::theme.home.news_title') }}">{{ ($sectionData['title'] ?? '') ?: __('theme::theme.home.news_title') }}</h2>
+    <p class="section-subtitle" data-default-text="{{ __('theme::theme.home.news_subtitle') }}">{{ ($sectionData['subtitle'] ?? '') ?: __('theme::theme.home.news_subtitle') }}</p>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
         @foreach($latestPosts as $post)
