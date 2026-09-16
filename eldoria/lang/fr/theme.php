@@ -2,6 +2,10 @@
 
 return [
 
+    'common' => [
+        'close' => 'Fermer',
+    ],
+
     'nav' => [
         'login' => 'Connexion',
         'register' => "S'inscrire",
@@ -24,14 +28,26 @@ return [
         'title' => 'Personnaliser',
         'tab_colors' => 'Couleurs',
         'tab_content' => 'Contenu',
+        'tab_layout' => 'Disposition',
+        'layout_instructions' => 'Glissez une section grâce à la poignée pour la réordonner, cliquez sur l\'œil pour la masquer/afficher, ou sur le crayon (disponible sur certaines sections) pour éditer son texte.',
+        'layout_drag_title' => 'Déplacer cette section',
+        'layout_toggle_title' => 'Afficher/masquer cette section',
+        'layout_edit_title' => 'Éditer le texte de cette section',
+        'layout_back' => 'Retour',
+        'layout_field_title' => 'Titre',
+        'layout_field_subtitle' => 'Sous-titre',
+        'layout_field_step' => 'Étape',
         'palettes' => 'Palettes',
         'accent_primary' => 'Accent principal',
         'accent_secondary' => 'Accent secondaire',
         'hero_slogan' => 'Slogan hero',
         'hero_slogan_placeholder' => 'Bienvenue dans le royaume de...',
-        'sections_visible' => 'Sections visibles',
-        'section_shop' => 'Boutique',
-        'section_vote' => 'Vote',
+        'hero_image_label' => 'Image de fond du hero (URL)',
+        'hero_image_placeholder' => 'https://...',
+        'hero_image_help' => "Laisser vide pour utiliser l'image par défaut du thème.",
+        'server_ip_label' => 'Adresse IP affichée',
+        'server_ip_placeholder' => 'play.eldoria.fr',
+        'server_ip_help' => "Laisser vide pour utiliser l'adresse technique du serveur Azuriom.",
         'trailer_label' => 'Trailer YouTube',
         'trailer_placeholder' => 'https://youtu.be/...',
         'trailer_help' => "Lien YouTube du trailer — affiché sur l'accueil.",
@@ -48,12 +64,14 @@ return [
         'saving' => 'Sauvegarde...',
         'saved' => '✓ Sauvegardé',
         'save_error' => '✕ Erreur',
+        'admin_link' => "Aller à l'admin",
     ],
 
     'home' => [
         'hero_eyebrow' => 'Serveur Minecraft',
         'join' => 'Rejoindre',
         'register' => "S'inscrire",
+        'my_profile' => 'Mon profil',
         'stats_online' => 'Joueurs en ligne',
         'stats_votes' => 'Votes ce mois',
         'stats_members' => 'Membres',
@@ -84,8 +102,18 @@ return [
         'join_step3_text' => "Colle l'IP, valide, et retrouve-nous en jeu !",
         'staff_title' => 'Notre équipe',
         'staff_subtitle' => 'Les aventuriers qui veillent sur le royaume',
+        'staff_link_title' => 'Voir le profil de :name',
         'server_online' => 'En ligne',
         'server_offline' => 'Hors ligne',
+        'ip_copy_button' => "Copier l'adresse du serveur",
+        'ip_copy_1' => 'IP copiée !',
+        'ip_copy_2' => 'Double copie !',
+        'ip_copy_3' => 'Triple copie !',
+        'ip_copy_4' => 'Quadra copie !',
+        'ip_copy_5' => 'PENTA COPIE !',
+        'ip_copy_combo_1' => 'Domination !',
+        'ip_copy_combo_2' => 'Massacre !',
+        'ip_copy_combo_3' => 'Légendaire !',
     ],
 
     'shop' => [
@@ -142,12 +170,39 @@ return [
         'no_sites' => 'Aucun site de vote disponible pour le moment.',
         'server_select_prompt' => 'Sur quel serveur veux-tu recevoir ta récompense ?',
         'goal_title' => 'Objectif du mois',
+        'podium_title' => 'Le podium du mois',
         'top_voters_title' => 'Top Voteurs du Mois',
         'no_votes_yet' => "Personne n'a encore voté ce mois-ci — sois le premier !",
         'unknown_user' => 'Inconnu',
         'votes_suffix' => 'votes',
         'user_votes_count' => 'Tu as voté :count fois ce mois-ci.',
         'rewards_title' => 'Récompenses possibles',
+        'vote_cta' => 'Voter',
+        'rewards_teaser_label' => 'Récompenses à gagner :',
+        'rewards_teaser_link' => 'Voir tout ↓',
+    ],
+
+    'faq' => [
+        'eyebrow' => 'Aide',
+        'title' => 'Foire aux questions',
+    ],
+
+    'wiki' => [
+        'eyebrow' => 'Documentation',
+        'search_placeholder' => 'Rechercher dans le wiki...',
+    ],
+
+    'changelog' => [
+        'eyebrow' => 'Mises à jour',
+    ],
+
+    'support' => [
+        'eyebrow' => 'Assistance',
+        'no_tickets' => "Vous n'avez pas encore ouvert de ticket.",
+        'reassurance_response' => 'Réponse sous 24h',
+        'reassurance_team' => 'Équipe vérifiée',
+        'reassurance_attachments' => "Captures d'écran acceptées",
+        'back_to_categories' => 'Retour aux catégories',
     ],
 
     'auth' => [
@@ -175,8 +230,61 @@ return [
         'eyebrow' => 'Compte',
         'title' => 'Mon Profil',
         'member_since' => 'Membre depuis',
+        'last_login_label' => 'Dernière connexion',
+        'last_login_never' => 'Jamais',
+        'balance_label' => 'Solde',
+        'email_unverified' => 'Adresse e-mail non vérifiée',
         'change_password' => 'Changer le mot de passe',
         'logout' => 'Se déconnecter',
+        'skin_3d_title' => 'Skin 3D',
+
+        'save' => 'Enregistrer',
+        'edit' => 'Modifier',
+
+        'name_label' => "Nom d'utilisateur",
+        'name_edit_title' => 'Modifier mon pseudo',
+
+        'email_edit_title' => "Modifier l'email",
+        'email_confirm_password_label' => 'Mot de passe actuel',
+        'verify_email_text' => "Votre adresse e-mail n'est pas encore vérifiée.",
+        'verify_email_button' => "Renvoyer l'email de vérification",
+        'verify_email_sent' => 'Email de vérification envoyé !',
+
+        'password_title' => 'Mot de passe',
+        'password_current_label' => 'Mot de passe actuel',
+        'password_new_label' => 'Nouveau mot de passe',
+        'password_confirm_label' => 'Confirmer le nouveau mot de passe',
+
+        'avatar_title' => 'Avatar personnalisé',
+        'avatar_help' => 'Image carrée, JPG/PNG/GIF, 2 Mo max.',
+        'avatar_upload_button' => 'Changer mon avatar',
+        'avatar_delete_button' => "Revenir au skin Minecraft",
+
+        'twofa_title' => 'Double authentification (2FA)',
+        'twofa_enabled' => 'Activée sur ce compte.',
+        'twofa_disabled' => 'Non activée — protège ton compte contre le vol de mot de passe.',
+        'twofa_manage_button' => 'Gérer la 2FA',
+
+        'discord_title' => 'Compte Discord',
+        'discord_linked' => 'Lié à :name',
+        'discord_not_linked' => 'Aucun compte Discord lié.',
+        'discord_link_button' => 'Lier mon Discord',
+        'discord_unlink_button' => 'Délier',
+
+        'transfer_title' => 'Envoyer des rubis',
+        'transfer_recipient_label' => 'Destinataire',
+        'transfer_recipient_placeholder' => "Pseudo du joueur",
+        'transfer_amount_label' => 'Montant',
+        'transfer_submit' => 'Envoyer',
+
+        'stats_title' => 'Mes statistiques',
+        'stats_votes_month' => 'Votes ce mois-ci',
+        'stats_tickets' => 'Tickets ouverts',
+        'stats_spent' => 'Total dépensé',
+
+        'delete_title' => 'Zone dangereuse',
+        'delete_warning' => 'La suppression de ton compte est définitive et irréversible.',
+        'delete_button' => 'Supprimer mon compte',
     ],
 
     'errors' => [

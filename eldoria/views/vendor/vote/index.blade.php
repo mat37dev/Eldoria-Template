@@ -5,9 +5,31 @@
 @section('content')
 <div class="pt-24 pb-16">
     <div class="text-center py-16 px-4">
-        <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">✦ {{ __('theme::theme.vote.hero_eyebrow') }} ✦</p>
+        <p class="section-eyebrow">✦ {{ __('theme::theme.vote.hero_eyebrow') }} ✦</p>
         <h1 class="section-title">{{ __('theme::theme.vote.title') }}</h1>
         <p class="section-subtitle">{{ __('theme::theme.vote.subtitle') }}</p>
+
+        @if($displayRewards && $rewards->isNotEmpty())
+            <div class="flex flex-wrap items-center justify-center gap-2 -mt-6" data-aos="fade-up">
+                <span class="text-text-secondary text-xs uppercase tracking-widest mr-1">
+                    {{ __('theme::theme.vote.rewards_teaser_label') }}
+                </span>
+                @foreach($rewards->take(3) as $reward)
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-accent/40 bg-bg-secondary text-text-primary text-xs font-display">
+                        @if($reward->image)
+                            <img src="{{ $reward->imageUrl() }}" alt="" class="w-4 h-4 rounded-full object-cover">
+                        @else
+                            <span aria-hidden="true">🎁</span>
+                        @endif
+                        {{ $reward->name }}
+                    </span>
+                @endforeach
+                <a href="#vote-rewards"
+                   class="text-text-primary text-xs font-display uppercase tracking-wide underline underline-offset-4 decoration-accent/50 hover:decoration-accent transition-colors ml-1">
+                    {{ __('theme::theme.vote.rewards_teaser_link') }}
+                </a>
+            </div>
+        @endif
     </div>
 
     <div class="max-w-3xl mx-auto px-4 space-y-6">
@@ -45,14 +67,20 @@
                        data-vote-id="{{ $site->id }}"
                        data-vote-url="{{ route('vote.vote', $site) }}"
                        @auth data-vote-time="{{ $site->getNextVoteTime($user, $request)?->valueOf() }}" @endauth
-                       class="card-eldoria p-4 flex items-center justify-between gap-4 hover:translate-x-1 transition-transform duration-200">
+                       class="card-eldoria p-4 flex items-center justify-between gap-4 group hover:translate-x-1 transition-transform duration-200">
                         <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 flex items-center justify-center border border-accent/30 rounded-sm font-display font-bold text-sm text-accent">
+                            <div class="w-10 h-10 flex items-center justify-center border border-accent/30 rounded-sm font-display font-bold text-sm text-accent
+                                        group-hover:scale-110 transition-transform duration-200">
                                 ✦
                             </div>
                             <div class="font-display text-text-primary font-semibold">{{ $site->name }}</div>
                         </div>
-                        <span class="vote-timer text-accent/70 text-xs font-mono whitespace-nowrap"></span>
+                        <span class="vote-action inline-flex items-center justify-center min-w-[100px] px-4 py-2 rounded-full
+                                     text-xs font-display font-bold uppercase tracking-wide whitespace-nowrap
+                                     bg-accent text-text-primary">
+                            <span class="vote-timer font-mono normal-case tracking-normal"></span>
+                            <span class="vote-cta">{{ __('theme::theme.vote.vote_cta') }} →</span>
+                        </span>
                     </a>
                 @empty
                     <div class="text-center py-8 text-text-secondary">
@@ -76,7 +104,7 @@
         <div class="card-eldoria p-6" id="vote-goal" data-aos="fade-up">
             <div class="flex justify-between items-center mb-3">
                 <span class="font-display text-text-primary text-sm tracking-widest uppercase">{{ __('theme::theme.vote.goal_title') }}</span>
-                <span class="text-accent font-display font-bold text-xl">{{ $goalProgress }} / {{ $goalTarget }}</span>
+                <span class="text-text-primary font-display font-bold text-xl">{{ $goalProgress }} / {{ $goalTarget }}</span>
             </div>
             <div class="w-full bg-bg-primary rounded-full h-2 overflow-hidden">
                 <div class="h-full bg-accent rounded-full transition-all duration-1000 ease-out"
@@ -86,9 +114,55 @@
         </div>
         @endif
 
+        {{-- ======= PODIUM DES 3 MEILLEURS VOTANTS ======= --}}
+        <?php
+            $podiumFallbackSkin = theme_asset('images/skin-placeholder.png');
+            $podiumEntries = [
+                1 => $votes->get(1),
+                2 => $votes->get(2),
+                3 => $votes->get(3),
+            ];
+            // En mode hors-ligne (game()->id() === 'mc-offline'), game_id est un UUID
+            // fabriqué localement qui n'existe pas côté Mojang. minotar.net (pas
+            // mc-heads.net, vérifié faux négatif silencieux sur de vrais comptes
+            // premium) accepte aussi bien le pseudo que l'UUID.
+            $isOfflineGame = game()->id() === 'mc-offline';
+        ?>
+        <div class="card-eldoria p-6 sm:p-8" data-aos="fade-up">
+            <h2 class="font-display text-text-primary text-sm tracking-widest uppercase mb-8 text-center">{{ __('theme::theme.vote.podium_title') }}</h2>
+
+            <div class="flex flex-col sm:flex-row sm:items-end justify-center gap-6 sm:gap-8">
+                @foreach($podiumEntries as $position => $entry)
+                    <div class="flex flex-col items-center {{ $position === 1 ? 'sm:order-2' : ($position === 2 ? 'sm:order-1' : 'sm:order-3') }}">
+                        <div class="font-display text-text-primary text-sm font-semibold mb-2 text-center max-w-[140px] truncate">
+                            {{ $entry->user->name ?? '—' }}
+                        </div>
+
+                        <div class="relative w-32 sm:w-36 aspect-[4/5] bg-bg-primary/40 rounded-sm overflow-hidden border border-accent/20">
+                            <canvas class="podium-skin-canvas w-full h-full"
+                                    data-skin-url="{{ $entry ? 'https://minotar.net/skin/' . ($isOfflineGame ? rawurlencode($entry->user?->name ?? 'MHF_Steve') : ($entry->user?->game_id ?? 'MHF_Steve')) : $podiumFallbackSkin }}"></canvas>
+                            @unless($entry)
+                                <span class="absolute inset-0 flex items-center justify-center text-accent/40 font-display text-5xl">?</span>
+                            @endunless
+                        </div>
+
+                        <div class="mt-3 w-24 sm:w-28 flex items-center justify-center font-display text-2xl font-bold text-text-primary rounded-t-sm
+                                    {{ $position === 1 ? 'h-20 sm:h-24' : ($position === 2 ? 'h-14 sm:h-16' : 'h-10 sm:h-12') }}"
+                             style="background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-secondary) 100%)">
+                            {{ $position }}
+                        </div>
+
+                        @if($entry)
+                            <span class="text-accent/70 text-xs font-mono mt-2">{{ $entry->votes }} {{ __('theme::theme.vote.votes_suffix') }}</span>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
         {{-- ======= TOP VOTEURS ======= --}}
         <div class="card-eldoria p-6" data-aos="fade-up">
-            <h2 class="font-display text-accent text-sm tracking-widest uppercase mb-6">{{ __('theme::theme.vote.top_voters_title') }}</h2>
+            <h2 class="font-display text-text-primary text-sm tracking-widest uppercase mb-6">{{ __('theme::theme.vote.top_voters_title') }}</h2>
 
             @if($votes->isEmpty())
                 <p class="text-text-secondary text-sm">{{ __('theme::theme.vote.no_votes_yet') }}</p>
@@ -97,7 +171,17 @@
                     @foreach($votes as $vote)
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-3">
-                                <span class="font-display text-text-secondary text-sm w-5">{{ $loop->iteration }}.</span>
+                                <span class="font-display text-text-secondary text-sm w-5">
+                                    @switch($loop->index)
+                                        @case(0) 🥇 @break
+                                        @case(1) 🥈 @break
+                                        @case(2) 🥉 @break
+                                        @default {{ $loop->iteration }}.
+                                    @endswitch
+                                </span>
+                                @if($vote->user)
+                                    @include('partials._avatar', ['user' => $vote->user, 'size' => 24, 'class' => 'w-6 h-6 rounded-sm flex-shrink-0'])
+                                @endif
                                 <span class="text-text-primary text-sm">{{ $vote->user->name ?? __('theme::theme.vote.unknown_user') }}</span>
                             </div>
                             <span class="text-accent font-display font-bold text-sm">{{ $vote->votes }} {{ __('theme::theme.vote.votes_suffix') }}</span>
@@ -117,8 +201,8 @@
 
         {{-- ======= RÉCOMPENSES ======= --}}
         @if($displayRewards && $rewards->isNotEmpty())
-        <div class="card-eldoria p-6" data-aos="fade-up">
-            <h2 class="font-display text-accent text-sm tracking-widest uppercase mb-6">{{ __('theme::theme.vote.rewards_title') }}</h2>
+        <div class="card-eldoria p-6 scroll-mt-24" id="vote-rewards" data-aos="fade-up">
+            <h2 class="font-display text-text-primary text-sm tracking-widest uppercase mb-6">{{ __('theme::theme.vote.rewards_title') }}</h2>
             <div class="space-y-3">
                 @foreach($rewards as $reward)
                     <div class="flex items-center justify-between gap-4">
@@ -143,3 +227,7 @@
 @endauth
 
 @endsection
+
+@push('scripts')
+<script type="module" src="{{ theme_asset('dist/vote-podium.js') }}" defer></script>
+@endpush

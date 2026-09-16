@@ -37,11 +37,14 @@
     @if($shopUser !== null)
         <div class="card-eldoria p-4 space-y-3">
             <div class="flex items-center gap-3">
-                <img src="{{ $shopUser->getAvatar(48) }}" alt="{{ $shopUser->name }}" class="w-10 h-10 rounded-sm">
+                @include('partials._avatar', ['user' => $shopUser, 'size' => 48, 'class' => 'w-10 h-10 rounded-sm'])
                 <div>
                     <div class="font-display text-text-primary text-sm font-semibold">{{ $shopUser->name }}</div>
                     @if(use_site_money())
-                        <div class="text-text-secondary text-xs">{{ format_money($shopUser->money) }}</div>
+                        <div class="flex items-center gap-1 text-text-secondary text-xs">
+                            <img src="{{ theme_asset('images/coin-rubis.png') }}" alt="" class="w-3.5 h-3.5">
+                            {{ format_money($shopUser->money) }}
+                        </div>
                     @endif
                 </div>
             </div>
@@ -75,7 +78,7 @@
     {{-- Objectif du mois --}}
     @if($goal >= 0)
         <div class="card-eldoria p-4">
-            <div class="text-accent text-xs font-display tracking-widest uppercase mb-3">{{ __('theme::theme.shop.sidebar_goal') }}</div>
+            <div class="text-text-primary text-xs font-display tracking-widest uppercase mb-3">{{ __('theme::theme.shop.sidebar_goal') }}</div>
             <div class="w-full bg-bg-primary rounded-full h-2 overflow-hidden mb-2">
                 <div class="h-full bg-accent rounded-full" style="width: {{ min($goal, 100) }}%"></div>
             </div>
@@ -86,9 +89,9 @@
     {{-- Meilleur acheteur --}}
     @if($topCustomer !== null)
         <div class="card-eldoria p-4">
-            <div class="text-accent text-xs font-display tracking-widest uppercase mb-3">{{ __('theme::theme.shop.sidebar_top_customer') }}</div>
+            <div class="text-text-primary text-xs font-display tracking-widest uppercase mb-3">🏆 {{ __('theme::theme.shop.sidebar_top_customer') }}</div>
             <div class="flex items-center gap-3">
-                <img src="{{ $topCustomer->user->getAvatar(48) }}" alt="{{ $topCustomer->user->name }}" class="w-10 h-10 rounded-sm">
+                @include('partials._avatar', ['user' => $topCustomer->user, 'size' => 48, 'class' => 'w-10 h-10 rounded-sm'])
                 <div>
                     <div class="text-text-primary text-sm font-semibold">{{ $topCustomer->user->name }}</div>
                     @if($displaySidebarAmount)
@@ -102,10 +105,10 @@
     {{-- Achats récents --}}
     @if($recentPayments !== null)
         <div class="card-eldoria overflow-hidden">
-            <div class="text-accent text-xs font-display tracking-widest uppercase px-4 pt-4 pb-2">{{ __('theme::theme.shop.sidebar_recent_purchases') }}</div>
+            <div class="text-text-primary text-xs font-display tracking-widest uppercase px-4 pt-4 pb-2">{{ __('theme::theme.shop.sidebar_recent_purchases') }}</div>
             @forelse($recentPayments as $payment)
                 <div class="flex items-center gap-3 px-4 py-2 border-t border-accent/10">
-                    <img src="{{ $payment->user->getAvatar(32) }}" alt="{{ $payment->user->name }}" class="w-6 h-6 rounded-sm">
+                    @include('partials._avatar', ['user' => $payment->user, 'size' => 32, 'class' => 'w-6 h-6 rounded-sm'])
                     <div class="text-xs text-text-secondary">
                         <span class="text-text-primary">{{ $payment->user->name }}</span>
                         @if($displaySidebarAmount)

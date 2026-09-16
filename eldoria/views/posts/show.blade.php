@@ -21,7 +21,7 @@
     @endif
 
     <div class="card-eldoria p-8 mb-8">
-        <div class="prose prose-invert text-text-secondary text-sm max-w-none mb-6">
+        <div class="prose text-text-secondary text-sm max-w-none mb-6">
             {!! $post->content !!}
         </div>
 
@@ -45,11 +45,11 @@
     </div>
 
     <section id="comments" class="space-y-4 mb-8">
-        <h2 class="font-display text-accent text-sm tracking-widest uppercase">{{ __('theme::theme.posts.comments_title') }}</h2>
+        <h2 class="font-display text-text-primary text-sm tracking-widest uppercase">{{ __('theme::theme.posts.comments_title') }}</h2>
 
         @foreach($post->comments as $comment)
             <div class="card-eldoria p-4 flex gap-3" data-comment-id="{{ $comment->id }}">
-                <img src="{{ $comment->author->getAvatar() }}" alt="{{ $comment->author->name }}" class="w-10 h-10 rounded-sm flex-shrink-0">
+                @include('partials._avatar', ['user' => $comment->author, 'size' => 64, 'class' => 'w-10 h-10 rounded-sm flex-shrink-0'])
                 <div class="flex-1 min-w-0">
                     <div class="flex items-center justify-between gap-2">
                         <p class="text-text-secondary text-xs">
@@ -73,7 +73,7 @@
 
     @can('create', \Azuriom\Models\Comment::class)
         <div class="card-eldoria p-6">
-            <h3 class="font-display text-accent text-sm tracking-widest uppercase mb-4">{{ __('theme::theme.posts.comment_form_title') }}</h3>
+            <h3 class="font-display text-text-primary text-sm tracking-widest uppercase mb-4">{{ __('theme::theme.posts.comment_form_title') }}</h3>
             <form action="{{ route('posts.comments.store', $post) }}" method="POST">
                 @csrf
                 <label class="block text-xs text-text-secondary uppercase tracking-widest mb-2" for="content">

@@ -6,7 +6,7 @@
 <div class="pt-24 pb-16 max-w-3xl mx-auto px-4">
 
     <div class="text-center py-12">
-        <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">✦ {{ __('theme::theme.shop.hero_eyebrow') }} ✦</p>
+        <p class="section-eyebrow">✦ {{ __('theme::theme.shop.hero_eyebrow') }} ✦</p>
         <h1 class="section-title">{{ __('theme::theme.shop.cart_title') }}</h1>
     </div>
 
@@ -58,7 +58,7 @@
 
         {{-- Coupons --}}
         <div class="card-eldoria p-6 mb-8">
-            <h3 class="font-display text-accent text-sm tracking-widest uppercase mb-4">{{ __('theme::theme.shop.coupon_title') }}</h3>
+            <h3 class="font-display text-text-primary text-sm tracking-widest uppercase mb-4">{{ __('theme::theme.shop.coupon_title') }}</h3>
 
             <form action="{{ route('shop.cart.coupons.add') }}" method="POST" class="flex gap-3 mb-4">
                 @csrf

@@ -19,15 +19,131 @@
     #hero-bg {
         display: block !important;
     }
+
+    .btn-primary,
+    .card-eldoria {
+        transition: none !important;
+    }
+
+    .btn-primary:hover,
+    .card-eldoria:hover {
+        transform: none !important;
+    }
+}
+
+/* Mode réorganisation de la homepage (admin) — overlay affiché uniquement
+   quand body.reorder-mode est actif (voir customizer.js, onglet Disposition). */
+[data-section-key] {
+    position: relative;
+}
+
+.reorder-overlay {
+    display: none;
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 40;
+    gap: 0.5rem;
+}
+
+body.reorder-mode .reorder-overlay {
+    display: flex;
+}
+
+body.reorder-mode [data-section-key] {
+    outline: 1px dashed color-mix(in srgb, var(--color-accent) 40%, transparent);
+    outline-offset: 4px;
+}
+
+/* Retour visuel instantané au clic sur l'œil : la section se grise, mais sa
+   barre d'outils reste pleinement visible/cliquable pour pouvoir la rétablir. */
+body.reorder-mode [data-section-key].section-manually-hidden {
+    opacity: 0.35;
+}
+
+body.reorder-mode [data-section-key].section-manually-hidden .reorder-overlay {
+    opacity: 1;
+}
+
+/* En mode réorganisation, une section rendue `hidden` par le serveur
+   (visible: false persisté) doit rester affichée — grisée — pour pouvoir
+   être ré-affichée à l'œil. Sans ça elle serait invisible ET immodifiable. */
+body.reorder-mode [data-section-key].hidden {
+    display: block;
+}
+
+/* Hors mode réorganisation, une section masquée à l'œil disparaît
+   immédiatement — cohérent avec ce que le serveur rendra après sauvegarde,
+   sans attendre un rechargement de page. */
+body:not(.reorder-mode) [data-section-key].section-manually-hidden {
+    display: none;
+}
+
+.reorder-overlay button {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-accent);
+    border-radius: 0.25rem;
+    color: var(--color-accent);
+    cursor: pointer;
+}
+
+.reorder-overlay .drag-handle {
+    cursor: grab;
+}
+
+.reorder-overlay .drag-handle:active {
+    cursor: grabbing;
+}
+
+.reorder-overlay button.section-hidden-indicator {
+    opacity: 0.5;
+}
+
+.sortable-ghost {
+    opacity: 0.4;
+}
+
+/* Pastille CTA "Voter →" sur chaque site de vote (vote/index.blade.php) : bascule
+   vers le décompte de cooldown dès que vote.js peuple .vote-timer (voteUpdateLink),
+   et revient au CTA quand le décompte est vidé — sans changement au JS existant. */
+.vote-action .vote-timer:not(:empty) ~ .vote-cta {
+    display: none;
+}
+
+/* Le drawer reste ouvert et visible pendant le mode réorganisation (backdrop
+   masqué juste au-dessus) — on réserve donc l'espace qu'il occupe pour que
+   les sections (et leurs poignées ancrées à droite) ne se retrouvent pas
+   masquées derrière le panneau. */
+@media (min-width: 640px) {
+    body.reorder-mode {
+        padding-right: 24rem;
+    }
+}
+
+@media (max-width: 639px) {
+    body.reorder-mode {
+        padding-bottom: 80vh;
+    }
 }
 
 :root {
-    --color-bg-primary: #0F0D0A;
-    --color-bg-secondary: #1A1612;
-    --color-accent: #C9A84C;
-    --color-accent-secondary: #7B3F2E;
-    --color-text-primary: #E8DCC8;
-    --color-text-secondary: #8A7A62;
+    --color-bg-primary: #7BC4E8;
+    --color-bg-primary-rgb: 123 196 232;
+    --color-bg-secondary: #FFF4D7;
+    --color-bg-secondary-rgb: 255 244 215;
+    --color-accent: #E9A62D;
+    --color-accent-rgb: 233 166 45;
+    --color-accent-secondary: #9D5C38;
+    --color-accent-secondary-rgb: 157 92 56;
+    --color-text-primary: #402314;
+    --color-text-primary-rgb: 64 35 20;
+    --color-text-secondary: #765338;
+    --color-text-secondary-rgb: 118 83 56;
 }
 
 @layer base {
@@ -46,41 +162,113 @@
 
 @layer components {
     .btn-primary {
-        @apply inline-flex items-center px-6 py-3 bg-accent text-bg-primary font-display font-semibold
-               rounded-sm border border-accent transition-all duration-300
-               tracking-wider uppercase text-sm;
+        @apply inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[48px]
+               font-display font-bold tracking-wider uppercase text-sm rounded-[10px]
+               transition-all duration-200;
+        color: var(--color-text-primary);
+        background: linear-gradient(180deg, var(--color-accent) 0%, color-mix(in srgb, var(--color-accent) 70%, var(--color-accent-secondary) 30%) 100%);
+        box-shadow:
+            inset 0 -4px color-mix(in srgb, var(--color-accent-secondary) 70%, black 25%),
+            0 4px 0 color-mix(in srgb, var(--color-accent-secondary) 50%, black 15%);
     }
 
     .btn-primary:hover {
-        opacity: 0.9;
+        transform: translateY(-3px);
+        filter: brightness(1.06);
     }
 
+    .btn-primary:active {
+        transform: translateY(0);
+        filter: brightness(0.97);
+    }
+
+
     .card-eldoria {
-        @apply bg-bg-secondary rounded-sm transition-all duration-300;
-        border: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent);
+        @apply rounded-xl transition-all duration-300;
+        background: color-mix(in srgb, var(--color-bg-secondary) 92%, white 8%);
+        border: 3px solid color-mix(in srgb, var(--color-accent) 55%, transparent);
+        box-shadow: 0 4px 0 color-mix(in srgb, var(--color-accent-secondary) 35%, transparent);
     }
 
     .card-eldoria:hover {
-        border-color: color-mix(in srgb, var(--color-accent) 60%, transparent);
+        transform: translateY(-2px);
+        border-color: var(--color-accent);
     }
 
+    /* text-primary (pas text-accent) : le doré n'offre qu'un contraste ~1.1:1 sur le
+       fond bleu ciel et ~1.9:1 sur les cartes claires (mesuré) — bien en dessous du
+       minimum lisible (4.5:1 recommandé). Le doré reste réservé aux éléments qui
+       n'ont pas besoin d'être "lus" comme du texte : trait sous le titre, ✦, boutons,
+       liens au survol, icônes. */
     .section-title {
-        @apply font-display text-3xl font-bold text-accent tracking-widest uppercase
-               text-center mb-2;
+        @apply font-display text-3xl font-bold text-text-primary tracking-widest uppercase
+               text-center mb-2 relative pb-4;
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4rem;
+        height: 3px;
+        background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-accent-secondary) 100%);
     }
 
     .section-subtitle {
         @apply text-text-secondary text-center mb-12 tracking-wide;
     }
+
+    /* Eyebrow ("✦ LABEL ✦" au-dessus des titres) : même correctif de contraste que
+       .section-title, centralisé ici pour remplacer les ~16 occurrences inline
+       identiques qui existaient dans les vues (voir commit qui a introduit cette
+       classe pour le détail). */
+    .section-eyebrow {
+        @apply text-text-primary text-xs font-display tracking-[0.4em] uppercase mb-2;
+    }
 }
 
-/* Grain overlay subtil */
-body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0.4;
+/* Légère pulsation d'attention sur le bouton copie IP du hero, désactivée si
+   l'utilisateur préfère moins de mouvement. */
+@media not (prefers-reduced-motion: reduce) {
+    #btn-ip-copy {
+        animation: ip-copy-glow 2.4s ease-in-out infinite;
+    }
+}
+
+@keyframes ip-copy-glow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 35%, transparent);
+    }
+    50% {
+        box-shadow: 0 0 0 8px color-mix(in srgb, var(--color-accent) 0%, transparent);
+    }
+}
+
+#ip-copy-tooltip {
+    transition: opacity 200ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #ip-copy-tooltip {
+        transition: none;
+    }
+}
+
+/* Accordéon FAQ : transition de la réponse + rotation du chevron,
+   désactivées si l'utilisateur préfère moins de mouvement. */
+.faq-answer-transition {
+    transition: opacity 200ms ease-out;
+}
+
+.faq-chevron {
+    transition: transform 200ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .faq-answer-transition,
+    .faq-chevron {
+        transition: none;
+    }
 }

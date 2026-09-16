@@ -2,6 +2,10 @@
 
 return [
 
+    'common' => [
+        'close' => 'Close',
+    ],
+
     'nav' => [
         'login' => 'Login',
         'register' => 'Register',
@@ -24,14 +28,26 @@ return [
         'title' => 'Customize',
         'tab_colors' => 'Colors',
         'tab_content' => 'Content',
+        'tab_layout' => 'Layout',
+        'layout_instructions' => 'Drag a section using the handle to reorder it, click the eye to show/hide it, or the pencil (available on some sections) to edit its text.',
+        'layout_drag_title' => 'Move this section',
+        'layout_toggle_title' => 'Show/hide this section',
+        'layout_edit_title' => 'Edit this section\'s text',
+        'layout_back' => 'Back',
+        'layout_field_title' => 'Title',
+        'layout_field_subtitle' => 'Subtitle',
+        'layout_field_step' => 'Step',
         'palettes' => 'Palettes',
         'accent_primary' => 'Primary accent',
         'accent_secondary' => 'Secondary accent',
         'hero_slogan' => 'Hero slogan',
         'hero_slogan_placeholder' => 'Welcome to the realm of...',
-        'sections_visible' => 'Visible sections',
-        'section_shop' => 'Shop',
-        'section_vote' => 'Vote',
+        'hero_image_label' => 'Hero background image (URL)',
+        'hero_image_placeholder' => 'https://...',
+        'hero_image_help' => 'Leave empty to use the theme\'s default image.',
+        'server_ip_label' => 'Displayed IP address',
+        'server_ip_placeholder' => 'play.eldoria.fr',
+        'server_ip_help' => "Leave empty to use the Azuriom server's technical address.",
         'trailer_label' => 'YouTube trailer',
         'trailer_placeholder' => 'https://youtu.be/...',
         'trailer_help' => 'YouTube link for the trailer — shown on the homepage.',
@@ -48,12 +64,14 @@ return [
         'saving' => 'Saving...',
         'saved' => '✓ Saved',
         'save_error' => '✕ Error',
+        'admin_link' => 'Go to admin panel',
     ],
 
     'home' => [
         'hero_eyebrow' => 'Minecraft Server',
         'join' => 'Join',
         'register' => 'Register',
+        'my_profile' => 'My profile',
         'stats_online' => 'Players online',
         'stats_votes' => 'Votes this month',
         'stats_members' => 'Members',
@@ -84,8 +102,18 @@ return [
         'join_step3_text' => 'Paste the IP, confirm, and see you in-game!',
         'staff_title' => 'Our team',
         'staff_subtitle' => 'The adventurers watching over the realm',
+        'staff_link_title' => "View :name's profile",
         'server_online' => 'Online',
         'server_offline' => 'Offline',
+        'ip_copy_button' => 'Copy the server address',
+        'ip_copy_1' => 'IP copied!',
+        'ip_copy_2' => 'Double copy!',
+        'ip_copy_3' => 'Triple copy!',
+        'ip_copy_4' => 'Quadra copy!',
+        'ip_copy_5' => 'PENTA COPY!',
+        'ip_copy_combo_1' => 'Dominating!',
+        'ip_copy_combo_2' => 'Rampage!',
+        'ip_copy_combo_3' => 'Legendary!',
     ],
 
     'shop' => [
@@ -142,12 +170,39 @@ return [
         'no_sites' => 'No vote site available for now.',
         'server_select_prompt' => 'Which server do you want to receive your reward on?',
         'goal_title' => 'Monthly goal',
+        'podium_title' => "This month's podium",
         'top_voters_title' => 'Top Voters of the Month',
         'no_votes_yet' => 'No one has voted yet this month — be the first!',
         'unknown_user' => 'Unknown',
         'votes_suffix' => 'votes',
         'user_votes_count' => 'You have voted :count time(s) this month.',
         'rewards_title' => 'Possible rewards',
+        'vote_cta' => 'Vote',
+        'rewards_teaser_label' => 'Rewards to earn:',
+        'rewards_teaser_link' => 'See all ↓',
+    ],
+
+    'faq' => [
+        'eyebrow' => 'Help',
+        'title' => 'Frequently Asked Questions',
+    ],
+
+    'wiki' => [
+        'eyebrow' => 'Documentation',
+        'search_placeholder' => 'Search the wiki...',
+    ],
+
+    'changelog' => [
+        'eyebrow' => 'Updates',
+    ],
+
+    'support' => [
+        'eyebrow' => 'Support',
+        'no_tickets' => "You haven't opened a ticket yet.",
+        'reassurance_response' => 'Response within 24h',
+        'reassurance_team' => 'Verified team',
+        'reassurance_attachments' => 'Screenshots welcome',
+        'back_to_categories' => 'Back to categories',
     ],
 
     'auth' => [
@@ -175,8 +230,61 @@ return [
         'eyebrow' => 'Account',
         'title' => 'My Profile',
         'member_since' => 'Member since',
+        'last_login_label' => 'Last login',
+        'last_login_never' => 'Never',
+        'balance_label' => 'Balance',
+        'email_unverified' => 'Email address not verified',
         'change_password' => 'Change password',
         'logout' => 'Log out',
+        'skin_3d_title' => '3D Skin',
+
+        'save' => 'Save',
+        'edit' => 'Edit',
+
+        'name_label' => 'Username',
+        'name_edit_title' => 'Edit my username',
+
+        'email_edit_title' => 'Edit my email',
+        'email_confirm_password_label' => 'Current password',
+        'verify_email_text' => 'Your email address is not verified yet.',
+        'verify_email_button' => 'Resend verification email',
+        'verify_email_sent' => 'Verification email sent!',
+
+        'password_title' => 'Password',
+        'password_current_label' => 'Current password',
+        'password_new_label' => 'New password',
+        'password_confirm_label' => 'Confirm new password',
+
+        'avatar_title' => 'Custom avatar',
+        'avatar_help' => 'Square image, JPG/PNG/GIF, 2 MB max.',
+        'avatar_upload_button' => 'Change my avatar',
+        'avatar_delete_button' => 'Revert to Minecraft skin',
+
+        'twofa_title' => 'Two-factor authentication (2FA)',
+        'twofa_enabled' => 'Enabled on this account.',
+        'twofa_disabled' => 'Not enabled — protects your account from password theft.',
+        'twofa_manage_button' => 'Manage 2FA',
+
+        'discord_title' => 'Discord account',
+        'discord_linked' => 'Linked to :name',
+        'discord_not_linked' => 'No Discord account linked.',
+        'discord_link_button' => 'Link my Discord',
+        'discord_unlink_button' => 'Unlink',
+
+        'transfer_title' => 'Send coins',
+        'transfer_recipient_label' => 'Recipient',
+        'transfer_recipient_placeholder' => "Player's username",
+        'transfer_amount_label' => 'Amount',
+        'transfer_submit' => 'Send',
+
+        'stats_title' => 'My stats',
+        'stats_votes_month' => 'Votes this month',
+        'stats_tickets' => 'Tickets opened',
+        'stats_spent' => 'Total spent',
+
+        'delete_title' => 'Danger zone',
+        'delete_warning' => 'Deleting your account is permanent and irreversible.',
+        'delete_button' => 'Delete my account',
     ],
 
     'errors' => [

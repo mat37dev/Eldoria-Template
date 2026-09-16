@@ -6,11 +6,27 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ site_name() }} — @yield('title', __('theme::theme.nav.home')) </title>
 
-    {{-- Injection des CSS custom properties depuis les settings sauvegardés --}}
+    {{-- favicon() gère déjà l'icône configurée en Admin > Général (avec repli sur
+         le logo Azuriom par défaut) — même logique que site_logo() dans la navbar. --}}
+    <link rel="icon" href="{{ favicon() }}">
+
+    {{-- Injection des CSS custom properties depuis les settings sauvegardés.
+         Le triplet RGB (--color-accent-rgb) est calculé à côté du hex : c'est lui
+         que Tailwind utilise pour moduler l'opacité (bg-accent/10, etc., voir
+         tailwind.config.js) — un var() pointant vers une chaîne hex ne le permet pas. --}}
+    <?php
+        $accentHex = ltrim(theme_config('color_accent', '#E9A62D'), '#');
+        $accentSecondaryHex = ltrim(theme_config('color_accent_secondary', '#9D5C38'), '#');
+        $toRgbTriple = fn (string $hex) => strlen($hex) === 6
+            ? implode(' ', array_map('hexdec', str_split($hex, 2)))
+            : '0 0 0';
+    ?>
     <style>
         :root {
-            --color-accent: {{ theme_config('color_accent', '#C9A84C') }};
-            --color-accent-secondary: {{ theme_config('color_accent_secondary', '#7B3F2E') }};
+            --color-accent: #{{ $accentHex }};
+            --color-accent-rgb: {{ $toRgbTriple($accentHex) }};
+            --color-accent-secondary: #{{ $accentSecondaryHex }};
+            --color-accent-secondary-rgb: {{ $toRgbTriple($accentSecondaryHex) }};
         }
     </style>
 
@@ -21,11 +37,14 @@
     <link rel="stylesheet" href="{{ theme_asset('dist/app.css') }}">
     <script type="module" src="{{ theme_asset('dist/app.js') }}"></script>
 
+    @stack('styles')
     @stack('head')
 </head>
 <body class="bg-bg-primary text-text-primary font-body antialiased">
 
     @include('partials.navbar')
+
+    @include('elements.session-alerts')
 
     <main>
         @yield('content')
@@ -42,6 +61,7 @@
     @include('partials.particles')
 
     @stack('scripts')
+    @stack('footer-scripts')
 
 </body>
 </html>

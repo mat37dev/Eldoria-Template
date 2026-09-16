@@ -6,7 +6,7 @@
 <div class="pt-24 pb-16 max-w-3xl mx-auto px-4">
 
     <div class="mb-8">
-        <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">
+        <p class="section-eyebrow">
             {{ $package->category->name ?? __('theme::theme.shop.category_fallback') }}
         </p>
         <h1 class="font-display text-3xl md:text-4xl font-bold text-text-primary">{{ $package->name }}</h1>
@@ -14,20 +14,21 @@
 
     <div class="card-eldoria p-8">
         @if($package->hasImage())
-            <img src="{{ $package->imageUrl() }}" alt="{{ $package->name }}"
-                 class="w-full h-56 object-cover rounded-sm mb-6">
+            <div class="w-full h-56 rounded-sm overflow-hidden mb-6 border border-accent/10 bg-bg-primary/30 flex items-center justify-center">
+                <img src="{{ $package->imageUrl() }}" alt="{{ $package->name }}" class="w-full h-full object-contain p-8">
+            </div>
         @endif
 
-        <div class="prose prose-invert text-text-secondary text-sm max-w-none mb-6">
+        <div class="prose text-text-secondary text-sm max-w-none mb-6">
             {!! $package->description !!}
         </div>
 
         <div class="flex items-center justify-between pt-6 border-t border-accent/10">
-            <span class="text-accent font-display font-bold text-2xl">
+            <span class="inline-flex flex-col items-start gap-1 px-4 py-2 rounded-full bg-accent/10 border border-accent/20">
                 @if($package->isDiscounted())
-                    <del class="text-text-secondary text-base font-normal block">{{ shop_format_amount($package->getOriginalPrice()) }}</del>
+                    <del class="text-text-secondary text-sm font-normal">{{ shop_format_amount($package->getOriginalPrice()) }}</del>
                 @endif
-                {{ shop_format_amount($package->getPrice()) }}
+                <span class="text-text-primary font-display font-bold text-2xl">{{ shop_format_amount($package->getPrice()) }}</span>
             </span>
 
             @if($shopUser === null)

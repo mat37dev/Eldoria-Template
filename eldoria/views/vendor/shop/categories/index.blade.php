@@ -5,7 +5,7 @@
 @section('content')
 <div class="pt-24 pb-16">
     <div class="text-center py-16 px-4">
-        <p class="text-accent text-xs font-display tracking-[0.4em] uppercase mb-2">✦ {{ __('theme::theme.shop.hero_eyebrow') }} ✦</p>
+        <p class="section-eyebrow">✦ {{ __('theme::theme.shop.hero_eyebrow') }} ✦</p>
         <h1 class="section-title">{{ __('theme::theme.shop.title') }}</h1>
         <p class="section-subtitle">{{ __('theme::theme.shop.subtitle') }}</p>
     </div>
