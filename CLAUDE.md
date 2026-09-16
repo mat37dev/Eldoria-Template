@@ -83,12 +83,19 @@ Le customizer modifie uniquement `--color-accent` et `--color-accent-secondary`.
 - **Tailwind** : les couleurs Tailwind sont mappées sur les CSS vars (`bg-accent` = `var(--color-accent)`)
 - Taille tactile minimale des boutons : **48px**
 
-## Plugins supportés (v1)
+## Plugins supportés
 
-1. **Shop** (priorité 1) — catégories, produit, panier
-2. **Vote** (priorité 2) — liste sites, statut voté, top voteurs
+Étendu au-delà du périmètre v1 initial (Shop + Vote) au fil du restyle Aldorya —
+tous les plugins ci-dessous ont désormais des vues dédiées dans `views/vendor/{id}/` :
 
-Hors scope v1 : Whitelist, News, Maintenance, autres jeux.
+1. **Shop** — catégories, produit, panier, code promo, historique des paiements/abonnements, sélection du moyen de paiement
+2. **Vote** — liste sites, statut voté, top voteurs, podium, récompenses
+3. **Support** — catégories de tickets, ouverture, fil de discussion
+4. **FAQ**
+5. **Wiki** — pages, recherche
+6. **Changelog** (plugin tiers gratuit, https://market.azuriom.com/resources/53) — liste des mises à jour par catégorie
+
+Hors scope : Whitelist, News, Maintenance, autres jeux.
 
 > **Il n'existe pas de plugin "Forum" officiel chez Azuriom** (vérifié sur les dépôts GitHub officiels : Shop, Vote, Support, FAQ, Wiki, CloudflareSupport, DedipassPayment — pas de Forum). Le thème ne doit pas prétendre le supporter.
 

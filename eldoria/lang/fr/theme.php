@@ -192,6 +192,10 @@ return [
         'search_placeholder' => 'Rechercher dans le wiki...',
     ],
 
+    'changelog' => [
+        'eyebrow' => 'Mises à jour',
+    ],
+
     'support' => [
         'eyebrow' => 'Assistance',
         'no_tickets' => "Vous n'avez pas encore ouvert de ticket.",
