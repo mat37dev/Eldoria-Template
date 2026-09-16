@@ -143,11 +143,11 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
                 <div class="flex items-center justify-between sm:flex-col sm:items-start gap-1 p-3 bg-bg-primary/40 rounded-sm">
                     <span class="text-text-secondary uppercase tracking-widest text-xs">{{ __('theme::theme.profile.member_since') }}</span>
-                    <span class="text-text-primary">{{ auth()->user()->created_at->format('d/m/Y') }}</span>
+                    <span class="text-text-primary">{{ format_date(auth()->user()->created_at) }}</span>
                 </div>
                 <div class="flex items-center justify-between sm:flex-col sm:items-start gap-1 p-3 bg-bg-primary/40 rounded-sm">
                     <span class="text-text-secondary uppercase tracking-widest text-xs">{{ __('theme::theme.profile.last_login_label') }}</span>
-                    <span class="text-text-primary">{{ auth()->user()->last_login_at ? auth()->user()->last_login_at->format('d/m/Y à H:i') : __('theme::theme.profile.last_login_never') }}</span>
+                    <span class="text-text-primary">{{ auth()->user()->last_login_at ? format_date(auth()->user()->last_login_at, true) : __('theme::theme.profile.last_login_never') }}</span>
                 </div>
                 <div class="flex items-center justify-between sm:flex-col sm:items-start gap-1 p-3 bg-bg-primary/40 rounded-sm">
                     <span class="text-text-secondary uppercase tracking-widest text-xs">{{ __('theme::theme.profile.balance_label') }}</span>

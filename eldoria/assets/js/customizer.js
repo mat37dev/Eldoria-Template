@@ -10,12 +10,14 @@ import Sortable from 'sortablejs/modular/sortable.complete.esm.js'
 // d'édition générique dans customizer.blade.php et la même logique ici.
 const SIMPLE_TEXT_SECTIONS = ['trailer', 'news', 'shop', 'vote', 'staff', 'discord']
 
+// Les noms affichés viennent de initial.paletteNames (lang/{locale}/theme.php,
+// clé customizer.palette_names) et non d'ici, pour suivre la langue du site.
 const PALETTES = [
-    { name: 'Eldoria',  accent: '#E9A62D', secondary: '#9D5C38' },
-    { name: 'Prairie',  accent: '#6FAF52', secondary: '#3E7A34' },
-    { name: 'Océan',    accent: '#3AA0D8', secondary: '#1E6FA8' },
-    { name: 'Braise',   accent: '#E2683A', secondary: '#A8431F' },
-    { name: 'Givre',    accent: '#7EC8D8', secondary: '#3E7A8A' },
+    { key: 'eldoria', accent: '#E9A62D', secondary: '#9D5C38' },
+    { key: 'prairie', accent: '#6FAF52', secondary: '#3E7A34' },
+    { key: 'ocean',   accent: '#3AA0D8', secondary: '#1E6FA8' },
+    { key: 'braise',  accent: '#E2683A', secondary: '#A8431F' },
+    { key: 'givre',   accent: '#7EC8D8', secondary: '#3E7A8A' },
 ]
 
 // Tailwind module l'opacité (bg-accent/10, etc., voir tailwind.config.js) via
@@ -47,7 +49,7 @@ export function customizerComponent(initial = {}) {
         sortableInstance: null,
         accent: getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim() || '#E9A62D',
         accentSecondary: getComputedStyle(document.documentElement).getPropertyValue('--color-accent-secondary').trim() || '#9D5C38',
-        palettes: PALETTES,
+        palettes: PALETTES.map((p) => ({ ...p, name: (initial.paletteNames || {})[p.key] || p.key })),
 
         // Contenu éditable — initialisé depuis la config serveur (voir customizer.blade.php)
         homeLayout: initial.homeLayout ?? [],

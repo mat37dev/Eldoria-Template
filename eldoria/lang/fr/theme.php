@@ -38,6 +38,13 @@ return [
         'layout_field_subtitle' => 'Sous-titre',
         'layout_field_step' => 'Étape',
         'palettes' => 'Palettes',
+        'palette_names' => [
+            'eldoria' => 'Eldoria',
+            'prairie' => 'Prairie',
+            'ocean' => 'Océan',
+            'braise' => 'Braise',
+            'givre' => 'Givre',
+        ],
         'accent_primary' => 'Accent principal',
         'accent_secondary' => 'Accent secondaire',
         'hero_slogan' => 'Slogan hero',

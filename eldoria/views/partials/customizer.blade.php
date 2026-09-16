@@ -55,6 +55,7 @@
     })->all();
 ?>
 <div x-data="customizer({
+        paletteNames: @js(__('theme::theme.customizer.palette_names')),
         homeLayout: @js($homeLayoutForJs),
         sectionTextOverrides: {
             join_steps: @js([
@@ -148,7 +149,7 @@
                 <div>
                     <label class="block text-xs text-text-secondary uppercase tracking-widest mb-3">{{ __('theme::theme.customizer.palettes') }}</label>
                     <div class="grid grid-cols-3 gap-3">
-                        <template x-for="palette in palettes" :key="palette.name">
+                        <template x-for="palette in palettes" :key="palette.key">
                             <button @click="applyPalette(palette)"
                                     class="relative p-3 rounded-sm border border-accent/20 hover:border-accent/60 transition-all text-center">
                                 <div class="flex gap-1 justify-center mb-2">
