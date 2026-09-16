@@ -41,7 +41,10 @@
                 <div>
                     <div class="font-display text-text-primary text-sm font-semibold">{{ $shopUser->name }}</div>
                     @if(use_site_money())
-                        <div class="text-text-secondary text-xs">{{ format_money($shopUser->money) }}</div>
+                        <div class="flex items-center gap-1 text-text-secondary text-xs">
+                            <img src="{{ theme_asset('images/coin-rubis.png') }}" alt="" class="w-3.5 h-3.5">
+                            {{ format_money($shopUser->money) }}
+                        </div>
                     @endif
                 </div>
             </div>

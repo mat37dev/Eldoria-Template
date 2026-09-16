@@ -151,7 +151,10 @@
                 </div>
                 <div class="flex items-center justify-between sm:flex-col sm:items-start gap-1 p-3 bg-bg-primary/40 rounded-sm">
                     <span class="text-text-secondary uppercase tracking-widest text-xs">{{ __('theme::theme.profile.balance_label') }}</span>
-                    <span class="text-accent font-display font-bold">{{ format_money(auth()->user()->money) }}</span>
+                    <span class="flex items-center gap-1.5 text-accent font-display font-bold">
+                        <img src="{{ theme_asset('images/coin-rubis.png') }}" alt="" class="w-4 h-4">
+                        {{ format_money(auth()->user()->money) }}
+                    </span>
                 </div>
             </div>
 

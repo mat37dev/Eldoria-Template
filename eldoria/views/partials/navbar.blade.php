@@ -35,7 +35,8 @@
             {{-- Actions desktop --}}
             <div class="hidden md:flex items-center gap-4">
                 @auth
-                    <span class="text-accent font-display font-semibold text-sm">
+                    <span class="flex items-center gap-1.5 text-accent font-display font-semibold text-sm">
+                        <img src="{{ theme_asset('images/coin-rubis.png') }}" alt="" class="w-4 h-4">
                         {{ format_money(auth()->user()->money) }}
                     </span>
                     <a href="{{ route('profile.index') }}"
@@ -94,7 +95,8 @@
                         @include('partials._avatar', ['user' => auth()->user(), 'size' => 32, 'class' => 'w-6 h-6 rounded-sm flex-shrink-0'])
                         {{ auth()->user()->name }}
                     </a>
-                    <span class="text-accent font-display font-semibold text-sm">
+                    <span class="flex items-center gap-1.5 text-accent font-display font-semibold text-sm">
+                        <img src="{{ theme_asset('images/coin-rubis.png') }}" alt="" class="w-4 h-4">
                         {{ format_money(auth()->user()->money) }}
                     </span>
                 </div>
