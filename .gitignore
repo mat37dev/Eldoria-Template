@@ -1,2 +1,7 @@
 local/
 .idea/
+
+# Outillage IA : fichiers locaux uniquement, jamais publiés
+CLAUDE.md
+.claude/
+docs/superpowers/
