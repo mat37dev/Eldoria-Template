@@ -5,8 +5,8 @@
             @include('partials.home._reorder-toolbar')
         @endif
     @endauth
-    <h2 class="section-title" data-default-text="{{ __('theme::theme.home.join_steps_title') }}">{{ $sectionData['title'] ?: __('theme::theme.home.join_steps_title') }}</h2>
-    <p class="section-subtitle" data-default-text="{{ __('theme::theme.home.join_steps_subtitle') }}">{{ $sectionData['subtitle'] ?: __('theme::theme.home.join_steps_subtitle') }}</p>
+    <h2 class="section-title" data-default-text="{{ __('theme::theme.home.join_steps_title') }}">{{ ($sectionData['title'] ?? '') ?: __('theme::theme.home.join_steps_title') }}</h2>
+    <p class="section-subtitle" data-default-text="{{ __('theme::theme.home.join_steps_subtitle') }}">{{ ($sectionData['subtitle'] ?? '') ?: __('theme::theme.home.join_steps_subtitle') }}</p>
 
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div class="card-eldoria p-6 text-center" data-aos="fade-up" data-aos-delay="0">

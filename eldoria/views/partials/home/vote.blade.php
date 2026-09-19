@@ -7,8 +7,8 @@
         @endif
     @endauth
     <div class="max-w-4xl mx-auto px-4">
-        <h2 class="section-title">{{ __('theme::theme.home.vote_title') }}</h2>
-        <p class="section-subtitle">{{ __('theme::theme.home.vote_subtitle') }}</p>
+        <h2 class="section-title" data-default-text="{{ __('theme::theme.home.vote_title') }}">{{ ($sectionData['title'] ?? '') ?: __('theme::theme.home.vote_title') }}</h2>
+        <p class="section-subtitle" data-default-text="{{ __('theme::theme.home.vote_subtitle') }}">{{ ($sectionData['subtitle'] ?? '') ?: __('theme::theme.home.vote_subtitle') }}</p>
 
         <div class="space-y-4">
             @foreach(\Azuriom\Plugin\Vote\Models\Site::enabled()->get() as $site)

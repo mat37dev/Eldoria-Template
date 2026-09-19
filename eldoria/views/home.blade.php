@@ -19,11 +19,11 @@
             ['title' => '', 'text' => ''],
         ]],
         ['key' => 'trailer', 'visible' => true, 'title' => '', 'subtitle' => ''],
-        ['key' => 'news', 'visible' => true],
-        ['key' => 'shop', 'visible' => true],
-        ['key' => 'vote', 'visible' => true],
-        ['key' => 'staff', 'visible' => true],
-        ['key' => 'discord', 'visible' => true],
+        ['key' => 'news', 'visible' => true, 'title' => '', 'subtitle' => ''],
+        ['key' => 'shop', 'visible' => true, 'title' => '', 'subtitle' => ''],
+        ['key' => 'vote', 'visible' => true, 'title' => '', 'subtitle' => ''],
+        ['key' => 'staff', 'visible' => true, 'title' => '', 'subtitle' => ''],
+        ['key' => 'discord', 'visible' => true, 'title' => '', 'subtitle' => ''],
     ];
 
     $expectedKeys = ['stats', 'join_steps', 'trailer', 'news', 'shop', 'vote', 'staff', 'discord'];

@@ -20,6 +20,13 @@
         $toRgbTriple = fn (string $hex) => strlen($hex) === 6
             ? implode(' ', array_map('hexdec', str_split($hex, 2)))
             : '0 0 0';
+
+        // Image d'ambiance partagée par toutes les pages sauf l'accueil (qui a son
+        // propre hero plein écran) : même ordre de priorité que le hero d'accueil
+        // (image du customizer > image d'arrière-plan de l'admin général > image
+        // par défaut du thème), pour rester cohérent avec un seul réglage à la fois.
+        $siteBackgroundImage = theme_config('hero_image')
+            ?: (setting('background') ? image_url(setting('background')) : theme_asset('images/hero-aldorya.webp'));
     ?>
     <style>
         :root {
@@ -27,6 +34,7 @@
             --color-accent-rgb: {{ $toRgbTriple($accentHex) }};
             --color-accent-secondary: #{{ $accentSecondaryHex }};
             --color-accent-secondary-rgb: {{ $toRgbTriple($accentSecondaryHex) }};
+            --site-bg-image: url('{{ $siteBackgroundImage }}');
         }
     </style>
 
@@ -40,7 +48,7 @@
     @stack('styles')
     @stack('head')
 </head>
-<body class="bg-bg-primary text-text-primary font-body antialiased">
+<body class="bg-bg-primary text-text-primary font-body antialiased{{ request()->routeIs('home') ? '' : ' site-bg' }}">
 
     @include('partials.navbar')
 

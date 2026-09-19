@@ -6,8 +6,8 @@
             @include('partials.home._reorder-toolbar')
         @endif
     @endauth
-    <h2 class="section-title">{{ __('theme::theme.home.shop_title') }}</h2>
-    <p class="section-subtitle">{{ __('theme::theme.home.shop_subtitle') }}</p>
+    <h2 class="section-title" data-default-text="{{ __('theme::theme.home.shop_title') }}">{{ ($sectionData['title'] ?? '') ?: __('theme::theme.home.shop_title') }}</h2>
+    <p class="section-subtitle" data-default-text="{{ __('theme::theme.home.shop_subtitle') }}">{{ ($sectionData['subtitle'] ?? '') ?: __('theme::theme.home.shop_subtitle') }}</p>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
         @foreach(\Azuriom\Plugin\Shop\Models\Package::enabled()->with('category')->take(3)->get() as $package)

@@ -1,5 +1,7 @@
 <div class="reorder-overlay">
-    @if(in_array($sectionData['key'] ?? '', ['join_steps', 'trailer']))
+    {{-- Toutes les sections ont un titre/sous-titre éditable, sauf "stats" qui
+         n'affiche que des chiffres. --}}
+    @if(($sectionData['key'] ?? '') !== 'stats')
         <button type="button" class="edit-text-toggle" title="{{ __('theme::theme.customizer.layout_edit_title') }}">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

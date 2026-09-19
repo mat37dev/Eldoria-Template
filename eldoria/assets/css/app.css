@@ -151,6 +151,35 @@ body:not(.reorder-mode) [data-section-key].section-manually-hidden {
         @apply bg-bg-primary text-text-primary font-body;
     }
 
+    /* Image d'ambiance fixe derrière les pages (hors accueil, qui garde son propre
+       hero) — voir --site-bg-image injectée dans layouts/app.blade.php. Dégradé
+       vers le bleu ciel du thème pour que le texte et les cartes restent lisibles :
+       quasi-plein en haut (sous la navbar) et en bas (avant le footer), l'image
+       n'affleurant vraiment qu'au centre de la page. */
+    body.site-bg {
+        background-image:
+            linear-gradient(
+                180deg,
+                color-mix(in srgb, var(--color-bg-primary) 92%, transparent) 0%,
+                color-mix(in srgb, var(--color-bg-primary) 55%, transparent) 30%,
+                color-mix(in srgb, var(--color-bg-primary) 55%, transparent) 70%,
+                var(--color-bg-primary) 100%
+            ),
+            var(--site-bg-image);
+        background-size: cover;
+        background-position: center top;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    /* background-attachment: fixed est peu fiable/coûteux sur mobile (notamment
+       iOS Safari) — on retombe simplement sur un défilement normal. */
+    @media (max-width: 768px) {
+        body.site-bg {
+            background-attachment: scroll;
+        }
+    }
+
     h1, h2, h3, h4, h5, h6 {
         @apply font-display text-text-primary;
     }

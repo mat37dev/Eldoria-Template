@@ -5,12 +5,19 @@
 // glisser reste bloqué en haut sans rien déplacer.
 import Sortable from 'sortablejs/modular/sortable.complete.esm.js'
 
+// Sections n'ayant qu'un titre + sous-titre éditables (contrairement à
+// "join_steps", qui a en plus ses 3 étapes) — partagent le même sous-panneau
+// d'édition générique dans customizer.blade.php et la même logique ici.
+const SIMPLE_TEXT_SECTIONS = ['trailer', 'news', 'shop', 'vote', 'staff', 'discord']
+
+// Les noms affichés viennent de initial.paletteNames (lang/{locale}/theme.php,
+// clé customizer.palette_names) et non d'ici, pour suivre la langue du site.
 const PALETTES = [
-    { name: 'Eldoria',  accent: '#E9A62D', secondary: '#9D5C38' },
-    { name: 'Prairie',  accent: '#6FAF52', secondary: '#3E7A34' },
-    { name: 'Océan',    accent: '#3AA0D8', secondary: '#1E6FA8' },
-    { name: 'Braise',   accent: '#E2683A', secondary: '#A8431F' },
-    { name: 'Givre',    accent: '#7EC8D8', secondary: '#3E7A8A' },
+    { key: 'eldoria', accent: '#E9A62D', secondary: '#9D5C38' },
+    { key: 'prairie', accent: '#6FAF52', secondary: '#3E7A34' },
+    { key: 'ocean',   accent: '#3AA0D8', secondary: '#1E6FA8' },
+    { key: 'braise',  accent: '#E2683A', secondary: '#A8431F' },
+    { key: 'givre',   accent: '#7EC8D8', secondary: '#3E7A8A' },
 ]
 
 // Tailwind module l'opacité (bg-accent/10, etc., voir tailwind.config.js) via
@@ -27,6 +34,11 @@ export function ytVideoId(url) {
 }
 
 export function customizerComponent(initial = {}) {
+    const initialSectionTextOverrides = initial.sectionTextOverrides ?? {
+        join_steps: { title: '', subtitle: '', steps: [{ title: '', text: '' }, { title: '', text: '' }, { title: '', text: '' }] },
+        ...Object.fromEntries(SIMPLE_TEXT_SECTIONS.map((key) => [key, { title: '', subtitle: '' }])),
+    }
+
     return {
         open: false,
         saving: false,
@@ -37,15 +49,15 @@ export function customizerComponent(initial = {}) {
         sortableInstance: null,
         accent: getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim() || '#E9A62D',
         accentSecondary: getComputedStyle(document.documentElement).getPropertyValue('--color-accent-secondary').trim() || '#9D5C38',
-        palettes: PALETTES,
+        palettes: PALETTES.map((p) => ({ ...p, name: (initial.paletteNames || {})[p.key] || p.key })),
 
         // Contenu éditable — initialisé depuis la config serveur (voir customizer.blade.php)
         homeLayout: initial.homeLayout ?? [],
         editingSection: null,
-        sectionTextOverrides: initial.sectionTextOverrides ?? {
-            join_steps: { title: '', subtitle: '', steps: [{ title: '', text: '' }, { title: '', text: '' }, { title: '', text: '' }] },
-            trailer: { title: '', subtitle: '' },
-        },
+        sectionTextOverrides: initialSectionTextOverrides,
+        // Instantané du dernier état sauvegardé (serveur), pour pouvoir annuler
+        // proprement une saisie en cours dans un sous-panneau de section — voir cancel().
+        sectionTextOverridesSaved: JSON.parse(JSON.stringify(initialSectionTextOverrides)),
         slogan: initial.slogan ?? '',
         heroImage: initial.heroImage ?? '',
         trailerUrl: initial.trailerUrl ?? '',
@@ -154,9 +166,9 @@ export function customizerComponent(initial = {}) {
                     entry.steps = this.sectionTextOverrides.join_steps.steps
                 }
 
-                if (key === 'trailer') {
-                    entry.title = this.sectionTextOverrides.trailer.title
-                    entry.subtitle = this.sectionTextOverrides.trailer.subtitle
+                if (SIMPLE_TEXT_SECTIONS.includes(key)) {
+                    entry.title = this.sectionTextOverrides[key].title
+                    entry.subtitle = this.sectionTextOverrides[key].subtitle
                 }
 
                 return entry
@@ -214,6 +226,18 @@ export function customizerComponent(initial = {}) {
 
                 this.saved = true
                 setTimeout(() => { this.saved = false }, 3000)
+
+                // Ce qui vient d'être sauvegardé devient le nouvel état de référence
+                // pour un futur "Annuler".
+                this.sectionTextOverridesSaved = JSON.parse(JSON.stringify(this.sectionTextOverrides))
+
+                // Depuis le sous-panneau d'édition d'une section : revenir à la liste
+                // des sections plutôt que de laisser l'admin sur un formulaire déjà
+                // sauvegardé — évite d'avoir à rouvrir le drawer et re-naviguer vers
+                // l'onglet Sections pour en éditer une autre.
+                if (this.editingSection !== null) {
+                    this.backToLayoutList()
+                }
             } catch (e) {
                 this.saveError = true
                 this.saveErrorMessage = e.message || 'Erreur inconnue'
@@ -225,7 +249,26 @@ export function customizerComponent(initial = {}) {
         },
 
         cancel() {
-            // Recharger la page pour revenir à l'état sauvegardé
+            // Depuis le sous-panneau d'édition d'une section : on annule la saisie en
+            // cours (retour au dernier état sauvegardé, y compris sur la page) puis on
+            // revient à la liste des sections — sans recharger, les autres réglages
+            // (couleurs, contenu) ne sont pas concernés par ce sous-panneau.
+            if (this.editingSection !== null) {
+                const key = this.editingSection
+                this.sectionTextOverrides[key] = JSON.parse(JSON.stringify(this.sectionTextOverridesSaved[key]))
+
+                if (key === 'join_steps') {
+                    this.liveJoinStepsText()
+                } else {
+                    this.liveSectionText(key)
+                }
+
+                this.backToLayoutList()
+                return
+            }
+
+            // Sinon, recharger la page pour revenir à l'état sauvegardé (annule les
+            // aperçus en direct des autres champs — couleurs, slogan, etc.).
             window.location.reload()
         },
 
@@ -336,9 +379,11 @@ export function customizerComponent(initial = {}) {
             })
         },
 
-        liveTrailerSectionText() {
-            const o = this.sectionTextOverrides.trailer
-            const section = document.querySelector('[data-section-key="trailer"]')
+        // Partagé par toutes les sections "simples" (titre + sous-titre uniquement) :
+        // trailer, news, shop, vote, staff, discord — voir SIMPLE_TEXT_SECTIONS.
+        liveSectionText(key) {
+            const o = this.sectionTextOverrides[key]
+            const section = document.querySelector(`[data-section-key="${key}"]`)
             if (!section) return
 
             const titleEl = section.querySelector('.section-title')
